@@ -22,3 +22,4 @@ php artisan make:seeder UserRolesSeeder
 php artisan make:model  UserHasRole --migration
 php artisan make:seeder UserHasRolesSeeder
 
+disable registration options (in route)
