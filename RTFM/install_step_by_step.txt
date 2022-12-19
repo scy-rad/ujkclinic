@@ -16,3 +16,9 @@ Write localization translate in /lang/pl.json (In future can get more from there
 Change config/filesystems.php "local" on "public" (line 16)
 
 
+php artisan make:seeder UserSeeder
+php artisan make:model  UserRole --migration
+php artisan make:seeder UserRolesSeeder
+php artisan make:model  UserHasRole --migration
+php artisan make:seeder UserHasRolesSeeder
+
