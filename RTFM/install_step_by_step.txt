@@ -1,0 +1,7 @@
+git clone https://github.com/scy-rad/ujkclinic.git .
+(move .git)
+composer create-project laravel/laravel .
+(re-move .git)
+create database
+write database connection parameters to .env
+######################### end of clear installation
