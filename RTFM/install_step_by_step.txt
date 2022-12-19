@@ -5,3 +5,14 @@ composer create-project laravel/laravel .
 create database
 write database connection parameters to .env
 ######################### end of clear installation
+
+AUTHENTICATION INSTALL:
+composer require laravel/breeze
+php artisan breeze:install --dark
+
+Change localization in /config/app.php from en to pl
+Write localization translate in /lang/pl.json (In future can get more from there: from: https://github.com/Laravel-Lang/lang/tree/main/locales/pl)
+
+Change config/filesystems.php "local" on "public" (line 16)
+
+
