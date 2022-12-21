@@ -15,6 +15,7 @@ Write localization translate in /lang/pl.json (In future can get more from there
 
 Change config/filesystems.php "local" on "public" (line 16)
 
+###################################################
 
 php artisan make:seeder UserSeeder
 php artisan make:model  UserRole --migration
@@ -23,3 +24,18 @@ php artisan make:model  UserHasRole --migration
 php artisan make:seeder UserHasRolesSeeder
 
 disable registration options (in route)
+
+###################################################
+
+php artisan make:model  Center --migration
+php artisan make:model  ScenarioType --migration
+php artisan make:model  Scenario --migration
+
+php artisan make:seeder CenterSeeder
+php artisan make:seeder ScenarioTypeSeeder
+php artisan make:seeder ScenarioSeeder
+
+php artisan make:controller ScenarioController --resource
+
+apply CRUD functionality for Scenarios (create, read, update, delete)
+###################################################

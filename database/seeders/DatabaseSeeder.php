@@ -27,6 +27,10 @@ class DatabaseSeeder extends Seeder
           UsersSeeder::class,
           UserRolesSeeder::class,
           UserHasRolesSeeder::class,
+          CenterSeeder::class,
+          ScenarioTypesSeeder::class,
+          ScenariosSeeder::class,
+          
       ]);
 
     }
