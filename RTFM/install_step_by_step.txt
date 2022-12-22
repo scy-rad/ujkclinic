@@ -39,3 +39,14 @@ php artisan make:controller ScenarioController --resource
 
 apply CRUD functionality for Scenarios (create, read, update, delete)
 ###################################################
+
+php artisan make:model actor -cr
+php artisan make:model actor_type -m
+php artisan make:model ActorRolePlan -m
+php artisan make:migration create_actors
+
+php artisan make:seeder ActorsSeeder
+php artisan make:seeder ActorTypesSeeder
+
+apply CRUD functionality for Actors (create, read, update, delete) - without index view
+###################################################

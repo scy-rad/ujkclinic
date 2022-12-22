@@ -10,4 +10,8 @@
 </div>
 </form>
 
+<div class="col-4">
+  <a href="{{ url()->previous() }}"><button class="btn btn-secondary ml-3">Powrót</button></a>
+</div>
+
 @endsection

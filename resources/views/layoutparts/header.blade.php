@@ -8,7 +8,7 @@
               <!-- container-fluid -->
 @endguest
               <!-- Branding Image -->
-              <a class="navbar-brand" href="{_{ route('home') }_}">
+              <a class="navbar-brand" href="{{ route('dashboard') }}">
                 <img src="{{ asset('css/img/cmcsm_logo_short.png') }}" width="50px">
               </a>
 

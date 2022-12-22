@@ -41,6 +41,8 @@ class ScenarioController extends Controller
         'scenario_name' => 'required',
         'scenario_main_problem' => 'required',
         'scenario_description' => 'required',
+        'scenario_for_students' => 'required',
+        'scenario_for_leader' => 'required',
         ]);
 
       Scenario::create($request->post());
@@ -58,7 +60,9 @@ class ScenarioController extends Controller
      */
     public function show(Scenario $scenario)
     {
-      return view('scenario.show',compact('scenario'));
+      $ret['actors']    =  $scenario->actors;
+
+      return view('scenario.show',compact('scenario'),$ret);
     }
 
     /**
@@ -82,15 +86,20 @@ class ScenarioController extends Controller
     public function update(Request $request, Scenario $scenario)
     {
       $request->validate([
+        'scenario_code' => 'required',
+        'scenario_name' => 'required',
         'scenario_main_problem' => 'required',
         'scenario_description' => 'required',
+        'scenario_for_students' => 'required',
+        'scenario_for_leader' => 'required',
       ]);
     
       $scenario->fill($request->post())->save();
 
       \Illuminate\Support\Facades\Session::flash('success', 'Scenario has been updated successfully'); 
 
-      return view('scenario.show',compact('scenario'));
+      $ret['actors']    =  $scenario->actors;
+      return view('scenario.show',compact('scenario'),$ret);
     }
 
     /**

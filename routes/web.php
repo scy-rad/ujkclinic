@@ -30,5 +30,6 @@ Route::middleware('auth')->group(function () {
 
 
 Route::resource('/scenario', App\Http\Controllers\ScenarioController::class);
+Route::resource('/actor', App\Http\Controllers\ActorController::class);
 
 require __DIR__.'/auth.php';

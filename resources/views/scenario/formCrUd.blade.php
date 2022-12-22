@@ -73,4 +73,26 @@
       @enderror
     </div>
   </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12">
+    <div class="form-group">
+      <label for="scenario_for_students">Opis dla studentów:</label><br>
+      <input type="text" name="scenario_for_students" class="form-control" placeholder="Opis scenriusza" value="@isset($scenario){!!$scenario->scenario_for_students!!}@endisset">
+      @error('scenario_for_students')
+      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+      @enderror
+    </div>
+  </div>
+
+
+  <div class="col-xs-12 col-sm-12 col-md-12">
+    <div class="form-group">
+      <label for="scenario_for_leader">Opis dla instruktora:</label><br>
+      <input type="text" name="scenario_for_leader" class="form-control" placeholder="Opis scenriusza" value="@isset($scenario){!!$scenario->scenario_for_leader!!}@endisset">
+      @error('scenario_for_leader')
+      <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
+      @enderror
+    </div>
+  </div>
+
 </div>
