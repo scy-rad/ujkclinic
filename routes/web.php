@@ -31,5 +31,11 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('/scenario', App\Http\Controllers\ScenarioController::class);
 Route::resource('/actor', App\Http\Controllers\ActorController::class);
+// Route::resource('/laboratorynorms', App\Http\Controllers\LaboratoryNormController::class);  // change to index only
+
+
+Route::get('/laboratorynorms', [App\Http\Controllers\LaboratoryNormController::class, 'index'])->name('laboratorynorms.index');
+Route::post('/laboratorynormajx', [App\Http\Controllers\LaboratoryNormController::class, 'updateajax'])->name('laboratorynorms.updateajax');
+Route::get('/laboratorynormajx', [App\Http\Controllers\LaboratoryNormController::class, 'getajax'])->name('laboratorynorms.getajax');
 
 require __DIR__.'/auth.php';

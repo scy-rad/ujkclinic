@@ -50,3 +50,18 @@ php artisan make:seeder ActorTypesSeeder
 
 apply CRUD functionality for Actors (create, read, update, delete) - without index view
 ###################################################
+
+php artisan make:model LaboratoryTestGroup -m
+
+php artisan make:model LaboratoryTest -cr
+php artisan make:migration create_laboratory_tests_table
+
+php artisan make:model LaboratoryTestNorm -m
+
+php artisan make:seeder LaboratoryNormsSeeder
+
+apply CRUD functionality for LaboratoryTests (create, read, update, delete) with CRUD functionality for LaboratoryTestGroups and LaboratoryTestNorms
+ - enable only index view + AJAX CreateUpdate (without Delete)
+###################################################
+
+

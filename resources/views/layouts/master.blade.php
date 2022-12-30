@@ -22,6 +22,6 @@
 @include('layoutparts.footer')
 
 @include('layoutparts.scripts')
-      
+@yield('add_scripts')      
 </body>
 </html>

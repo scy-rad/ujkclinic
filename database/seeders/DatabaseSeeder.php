@@ -36,6 +36,8 @@ class DatabaseSeeder extends Seeder
           ActorRolePlansSeeder::class,
           ActorsSeeder::class,
 
+          LaboratoryNormsSeeder::class,
+
       ]);
 
     }
