@@ -31,11 +31,45 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('/scenario', App\Http\Controllers\ScenarioController::class);
 Route::resource('/actor', App\Http\Controllers\ActorController::class);
-// Route::resource('/laboratorynorms', App\Http\Controllers\LaboratoryNormController::class);  // change to index only
-
 
 Route::get('/laboratorynorms', [App\Http\Controllers\LaboratoryNormController::class, 'index'])->name('laboratorynorms.index');
 Route::post('/laboratorynormajx', [App\Http\Controllers\LaboratoryNormController::class, 'updateajax'])->name('laboratorynorms.updateajax');
 Route::get('/laboratorynormajx', [App\Http\Controllers\LaboratoryNormController::class, 'getajax'])->name('laboratorynorms.getajax');
+
+
+
+
+/////////////////////////////////////////////////////////
+//   U S E R
+/////////////////////////////////////////////////////////
+
+
+
+
+Route::get('mainprofile', [
+  'uses' => 'App\Http\Controllers\UserController@mainprofile',
+  'as' => 'user.mainprofile'
+]);
+
+Route::get('users/{type}', [
+  'uses' => 'UserController@users',
+  'as' => 'user.userlist'
+]);
+
+Route::get('user/{user_id}', [
+  'uses' => 'UserController@userprofile',
+  'as' => 'user.profile'
+]);
+
+Route::post('user/change', [
+  'uses' => 'App\Http\Controllers\UserController@change',
+  'as' => 'user.change'
+]);
+
+Route::get('/changePasswordForm','App\Http\Controllers\UserController@showChangePasswordForm')->name('changePasswordForm');
+Route::post('/changePassword','App\Http\Controllers\UserController@changePassword')->name('changePassword');
+Route::post('/ajaxusernotify', 'App\Http\Controllers\UserController@ajax_update_notify')->name('ajaxusernotify');
+
+
 
 require __DIR__.'/auth.php';

@@ -64,4 +64,6 @@ apply CRUD functionality for LaboratoryTests (create, read, update, delete) with
  - enable only index view + AJAX CreateUpdate (without Delete)
 ###################################################
 
-
+add USER module
+adapted from UJKlides - apply changes for better visibility. In future I planne integration medUJK with UJKlides :)
+###################################################

@@ -45,7 +45,7 @@
                     </a>
                     <ul class="dropdown-menu">
                       <li>
-                        <a class="dropdown-item" href="{_{ route('user.mainprofile') }_}">
+                        <a class="dropdown-item" href="{{ route('user.mainprofile') }}">
                           profil
                         </a>
                       </li>
