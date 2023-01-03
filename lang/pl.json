@@ -1,12 +1,12 @@
 {
   "Medical Center": "Centrum Medyczne",
-  "Scenarios": "Scenariusze",
-  "This is a secure area of the application. Please confirm your password before continuing." : "przetłumacz na PL: This is a secure area of the application. Please confirm your password before continuing.",
+    "This is a secure area of the application. Please confirm your password before continuing." : "przetłumacz na PL: This is a secure area of the application. Please confirm your password before continuing.",
   "Email": "Email",
   "Password": "Hasło",
   "Remember me": "Zapamiętaj mnie",
   "Forgot your password?": "Zapomniane hasło?",
   "Log in": "Zaloguj",
+  "Logout": "Wyloguj",
   "Confirm": "Potwierdź",
   "Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.": "Zapomniałeś hasła? Żaden problem. Wpisz po prostu swój adres e-mail, a prześlemy na niego link do resetowania hasła.",
   "Email Password Reset Link": "Wślij mail z linkiem do zmiany hasła",
@@ -22,5 +22,10 @@
 
   "You're logged in!": "Jesteś zalogowany",
   "Dashboard": "Pulpit",
-  "Profile": "Profil"
+  "Profile": "Profil",
+
+  "Laboratory norms": "Normy laboratoryjne",
+  "Scenarios": "Scenariusze",
+  "Change theme": "Zmień motyw"
+
 }

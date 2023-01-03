@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}" data-bs-theme="dark">
+<html lang="{{ app()->getLocale() }}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="">
   <meta name="author" content="Sebastian Dudek">
   <title>{{ config('app.name', 'UJKclinic') }}: @yield('title')</title>
+
+  <meta name="color-scheme" content="dark light">
 
   @include('layoutparts.styles')
    
@@ -16,12 +18,13 @@
 @include('layoutparts.header')
 
 <main class="p-5" style="width: 100%">
-    @yield('content')
+@yield('content')
 </main>
 
 @include('layoutparts.footer')
 
 @include('layoutparts.scripts')
+
 @yield('add_scripts')      
 </body>
 </html>

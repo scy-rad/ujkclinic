@@ -46,7 +46,7 @@
 
   @foreach(App\Models\LaboratoryTestGroup::all()->sortBy('ltg_sort') as $test_one)
           <tr>
-          <td colspan="8" class="bg-success text-warning">
+          <td colspan="8" class="bg-success">
           {{$test_one->ltg_name}}
 </td>
 </tr>

@@ -46,13 +46,16 @@
                     <ul class="dropdown-menu">
                       <li>
                         <a class="dropdown-item" href="{{ route('user.mainprofile') }}">
-                          profil
+                        {{ __('Profile') }}
                         </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="#" id="your-darkmode-button-id">{{ __('Change theme') }}</a>
                       </li>
                       <li>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
-                          Logout
+                          {{ __('Logout') }}
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                           {{ csrf_field() }}
