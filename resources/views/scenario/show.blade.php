@@ -9,7 +9,7 @@
   <div class="col-4 p-2">
     <div class="card">
       <div class="card-header">
-        Szczegóły scenariusza <strong>{{$scenario->scenario_code}}</strong>
+        Szczegóły scenariusza <strong><i class="bi bi-camera-reels"></i> {{$scenario->scenario_code}}</strong>
       </div>
       <div class="card-body">
 
@@ -44,10 +44,10 @@
       <div class="card-footer">
         <div class="row">
           <div class="col-auto">
-              <a class="btn btn-primary m-1" href="{{ route('scenario.edit',$scenario->id) }}">Edytuj</a>
+              <a class="btn btn-primary m-1" href="{{ route('scenario.edit',$scenario->id) }}"><i class="bi bi-camera-reels"></i> Edytuj</a>
           </div>
           <div class="col-auto">
-            <a class="btn btn-success m-1" href="{{ route('actor.create',['scenario_id' => $scenario->id]) }}"> Create New Actor</a>
+            <a class="btn btn-success m-1" href="{{ route('actor.create',['scenario_id' => $scenario->id]) }}"><i class="bi bi-incognito"></i> Dodaj aktora</a>
           </div>
         </div>
       </div>
@@ -117,5 +117,5 @@
     </div>
   </div>
 </div>
-
+<button class="btn btn-warning btn-lg"> <h1><i class="bi bi-hospital"></i> Stwórz scenę</h1> </button>
 @endsection

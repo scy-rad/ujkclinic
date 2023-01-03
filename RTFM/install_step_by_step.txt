@@ -72,4 +72,9 @@ php artisan make:model LabTemplate -m
 php artisan make:model LabTemplateResult -m
 
 apply CRU functionality for Laboratory Templates & Results (wihout Delete yet)
-###########################################################################
+###################################################
+
+add dark theme:
+https://github.com/vinorodrigues/bootstrap-dark-5/blob/main/docs/bootstrap-nightshade.md
+###################################################
+

@@ -10,7 +10,7 @@
   <div class="col-4 p-2">
     <div class="card">
       <div class="card-header">
-      <i class="bi bi-incognito"></i> Aktor dla scenariusza <strong><a href="{{route('scenario.show', $actor->scenario)}}">{{$actor->scenario->scenario_code}} <i class="bi bi-hospital"></i></a></strong>
+      <i class="bi bi-incognito"></i> Aktor dla scenariusza <strong><a href="{{route('scenario.show', $actor->scenario)}}"><i class="bi bi-camera-reels"></i> {{$actor->scenario->scenario_code}} </a></strong>
       </div>
       <div class="card-body">
 
