@@ -13,6 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
+      /*
+      lt_result_type = 1 -> wynik liczbowy
+      lt_result_type = 2 -> wynik opisowy
+      */
         Schema::create('laboratory_tests', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('laboratory_test_group_id');
@@ -20,6 +24,7 @@ return new class extends Migration
             $table->string('lt_name_en');
             $table->string('lt_short');
             $table->string('lt_short_en');
+            $table->smallInteger('lt_result_type')->default(1);
             $table->smallInteger('lt_level');
             $table->smallInteger('lt_sort');
             $table->smallInteger('lt_time');

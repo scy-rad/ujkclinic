@@ -67,3 +67,9 @@ apply CRUD functionality for LaboratoryTests (create, read, update, delete) with
 add USER module
 adapted from UJKlides - apply changes for better visibility. In future I planne integration medUJK with UJKlides :)
 ###################################################
+
+php artisan make:model LabTemplate -m
+php artisan make:model LabTemplateResult -m
+
+apply CRU functionality for Laboratory Templates & Results (wihout Delete yet)
+###########################################################################

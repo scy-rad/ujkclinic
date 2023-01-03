@@ -58,7 +58,7 @@
   <div class="col-4 p-2">
     <div class="card">
       <div class="card-header">
-        Aktor dla scenariusza <strong>{{$scenario->scenario_code}}</strong>
+      <i class="bi bi-incognito"></i> Aktor dla scenariusza <strong>{{$scenario->scenario_code}}</strong>
       </div>
       <div class="card-body">
 
@@ -82,17 +82,19 @@
           <p><label>opis pozoracji:</label><br>
             {!! $actor_one->actor_simulation !!}
           </p>
-
         <ul>DODATKI:
-          <li><label class="small text-primary fw-bold">wykaz wykonanych badań laboratoryjnych:</label><br> </li>
-          <li><label class="small text-primary fw-bold">wykaz wykonanych badań diagnostycznych:</label><br> </li>
+          @if ($actor_one->lab_templates->count()>0)
+          <li><label class="small text-primary fw-bold">szablony badań laboratoryjnych:</label> {{$actor_one->lab_templates->count()}} </li>
+          @endif
+        </ul>
+
+        <ul>DODATKI DO ZROBIENIA:
           <li><label class="small text-primary fw-bold">wykaz szablonów badań laboratoryjnych:</label><br> </li>
-          <li><label class="small text-primary fw-bold">wykaz przygotowanych badań diagnostycznych:</label><br> </li>
           <li><label class="small text-primary fw-bold">wykaz załączników:</label><br> (np. szablon do LEEAPa, zdjęcia pozoracji, pliki do druku itp) </li>
         </ul>
       </div>
       <div class="card-footer">
-      <a class="btn btn-info m-1" href="{{ route('actor.show',$actor_one->id) }}">Pokaż</a>
+      <a class="btn btn-info m-1" href="{{ route('actor.show',$actor_one->id) }}"><i class="bi bi-incognito"></i> Pokaż</a>
       </div>
     </div>
   </div>

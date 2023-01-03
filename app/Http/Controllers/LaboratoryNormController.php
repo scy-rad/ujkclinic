@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LabTemplate;
+use App\Models\LabTemplateResult;
 use App\Models\LaboratoryTestGroup;
 use App\Models\LaboratoryTest;
 use App\Models\LaboratoryTestNorm;
@@ -147,4 +149,69 @@ class LaboratoryNormController extends Controller
   } // emd of public function updateajax
 
 
+  public function template_show(Request $request,Int $id_lrt)
+  {
+    $labtemplate=LabTemplate::where('id',$id_lrt)->first();
+    $labtemplate_results=LabTemplateResult::where('lab_template_id',$labtemplate->id)->get();
+    $result_type=LabTemplateResult::array_of_types();
+    $actor_id=$labtemplate->actor->id;
+
+    return view('laboratorynorms.template',compact('labtemplate'),['labtemplate_results' => $labtemplate_results, 'result_type' => $result_type, 'actor_id' => $actor_id]);    
+  }
+
+  public function templateupdateajax(Request $request)
+  {
+        $request->lrtr_sort = 1;
+        $ret = $request->toArray();
+
+        if (!is_null($request->lrtr_resultX))
+          {
+            $request_lrtr_result = str_replace(',','.',$request->lrtr_resultX)*$request->decimal_prec;
+            $request->merge(['lrtr_result' => $request_lrtr_result]);
+          }
+
+        if ($request->labtype==1)
+        {
+        $validator = Validator::make($request->all(), [
+          'lab_template_id' => 'required',
+          'laboratory_test_id' => 'required',
+          // 'lrtr_result' => 'required',
+          ]);
+        }
+        else
+        {
+          $validator = Validator::make($request->all(), [
+            'lab_template_id' => 'required',
+            'laboratory_test_id' => 'required',
+            // 'lrtr_resulttxt' => 'required',
+            ]);
+          }
+
+        if ($validator->fails())
+        {
+          return response()->json([
+              'error' => $validator->errors()->all()
+          ]);
+        }
+        if ($request->lab_template_result_id==0)
+          LabTemplateResult::create($request->post())->save();
+        else
+          LabTemplateResult::find($request->lab_template_result_id)->fill($request->post())->save();
+        
+    $ret = ['success' => 'Dane raczej zapisane prawidłowo :) .','table' => $ret];
+        
+    return response()->json($ret);
+  } // emd of public function template_update_ajax
+
+  public function templateupdate(Request $request)
+  {
+    
+    if ($request->id==0)
+     LabTemplate::create($request->post())->save();
+    else
+      LabTemplate::find($request->id)->fill($request->post())->save();
+
+    return back()->with('success', 'Edycja bądź dodawanie szablonu powiodło się... Możliwe, że tak... Chyba tak... Prawdopodobnie może...');    
+  }
+  
 }

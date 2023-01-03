@@ -29,13 +29,12 @@ class DatabaseSeeder extends Seeder
 
           CenterSeeder::class,
           ScenarioTypesSeeder::class,
-          ScenariosSeeder::class,
-
           ActorTypesSeeder::class,
           ActorRolePlansSeeder::class,
-          ActorsSeeder::class,
 
           LaboratoryNormsSeeder::class,
+
+          ScenariosSeeder::class,
 
       ]);
 

@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use function PHPUnit\Framework\isNull;
+
 class LaboratoryTestNorm extends Model
 {
   use HasFactory;
@@ -28,6 +30,22 @@ class LaboratoryTestNorm extends Model
   public function laboratory_test()
   {
     return $this->hasOne(LaboratoryTest::class, 'id', 'laboratory_test_id');
+  }
+
+  public function get_from_template($template_id)
+  {
+    $ret= (LabTemplateResult::where('laboratory_test_id',$this->laboratory_test_id)->where('lab_template_id',$template_id)->firstOrNew());
+    if ($ret->id==0)
+    {
+      $ret->id = 0;
+      $ret->laboratory_test_id = "";
+      $ret->lrtr_result= "";
+      $ret->lrtr_resulttxt= "";
+      $ret->lrtr_addedtext= "";
+      $ret->lrtr_type= 1;   // done
+      $ret->lrtr_sort= 1;   // ...
+    }
+    return $ret->toArray();    
   }
 
   function write_range()
@@ -147,4 +165,5 @@ class LaboratoryTestNorm extends Model
     }
     return $ret;
   }
+
 }

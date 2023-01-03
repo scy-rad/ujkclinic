@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" data-bs-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,14 +8,14 @@
   <title>{{ config('app.name', 'UJKclinic') }}: @yield('title')</title>
 
   @include('layoutparts.styles')
-  
+   
   @yield('add_styles')
 </head>
 <body>
-    
+
 @include('layoutparts.header')
 
-<main class="container mt-5">
+<main class="p-5" style="width: 100%">
     @yield('content')
 </main>
 

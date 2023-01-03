@@ -33,10 +33,11 @@ Route::resource('/scenario', App\Http\Controllers\ScenarioController::class);
 Route::resource('/actor', App\Http\Controllers\ActorController::class);
 
 Route::get('/laboratorynorms', [App\Http\Controllers\LaboratoryNormController::class, 'index'])->name('laboratorynorms.index');
-Route::post('/laboratorynormajx', [App\Http\Controllers\LaboratoryNormController::class, 'updateajax'])->name('laboratorynorms.updateajax');
 Route::get('/laboratorynormajx', [App\Http\Controllers\LaboratoryNormController::class, 'getajax'])->name('laboratorynorms.getajax');
-
-
+Route::get('/laboratorynormtemplate/{template_id}', [App\Http\Controllers\LaboratoryNormController::class, 'template_show'])->name('laboratorynorm.template');
+Route::post('/laboratorynormajx', [App\Http\Controllers\LaboratoryNormController::class, 'updateajax'])->name('laboratorynorms.updateajax');
+Route::post('/laboratorytemplateajx', [App\Http\Controllers\LaboratoryNormController::class, 'templateupdateajax'])->name('laboratorytemplate.updateajax');
+Route::post('/laboratorytemplate', [App\Http\Controllers\LaboratoryNormController::class, 'templateupdate'])->name('laboratorytemplate.update');
 
 
 /////////////////////////////////////////////////////////

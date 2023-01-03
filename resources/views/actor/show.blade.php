@@ -10,7 +10,7 @@
   <div class="col-4 p-2">
     <div class="card">
       <div class="card-header">
-        Aktor dla scenariusza <strong><a href="{{route('scenario.show', $actor->scenario)}}">{{$actor->scenario->scenario_code}} <i class="bi bi-hospital"></i></a></strong>
+      <i class="bi bi-incognito"></i> Aktor dla scenariusza <strong><a href="{{route('scenario.show', $actor->scenario)}}">{{$actor->scenario->scenario_code}} <i class="bi bi-hospital"></i></a></strong>
       </div>
       <div class="card-body">
 
@@ -47,17 +47,17 @@
   <div class="col-4 p-2">
     <div class="card">
       <div class="card-header">
-        Badania laboratoryjne
+        Szablony badań laboratoryjnych
       </div>
       <div class="card-body">
-
         <ul>
-          <li><label class="small text-primary fw-bold">wykaz szablonów badań laboratoryjnych:</label><br> </li>
-          <li><label class="small text-primary fw-bold">wykaz wykonanych badań laboratoryjnych:</label><br> </li>
+          @foreach ($actor->lab_templates as $lrt)
+            <li><a href="{{route('laboratorynorm.template', $lrt->id)}}"><label class="small text-primary fw-bold">{{$lrt->id}} [{{$lrt->name_of_type()}}]:</label> {{$lrt->description_for_leader}} </a></li>
+          @endforeach
         </ul>
       </div>
       <div class="card-footer">
-      <a class="btn btn-info m-1" href="#">szczegóły</a>
+      <span class="btn btn-primary" onClick="javascript:showTemplateEditModal()">dodaj szablon</span>
       </div>
     </div>
   </div>
@@ -96,5 +96,15 @@
   </div>
 
 </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+<?php
+$labtemplate=new App\Models\LabTemplate();
+$actor_id=$actor->id;
+?>
+@include('laboratorynorms.modal_template_edit')
+
 
 @endsection
