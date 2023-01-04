@@ -78,3 +78,17 @@ add dark theme:
 https://github.com/vinorodrigues/bootstrap-dark-5/blob/main/docs/bootstrap-nightshade.md
 ###################################################
 
+php artisan make:controller SceneController --resource
+php artisan make:model SceneMaster -m
+php artisan make:model SceneActor -m
+php artisan make:model SceneLabTemplate -m
+php artisan make:model SceneLabResult -m
+php artisan make:model ScenePersonelType -m
+php artisan make:model ScenePersonel -m
+php artisan make:seeder ScenePersonelTypesSeeder
+
+create hasOne and hasMany relations for models
+
+make skeleton for SceneMaster model
+###################################################
+

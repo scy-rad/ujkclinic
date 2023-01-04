@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('module_info')
+<i class="bi bi-badge-8k"></i> Scenario -> edit
+@endsection
+
 @section('content')
    Edit scenario:
     <div class="p-6 text-gray-900 dark:text-gray-100">

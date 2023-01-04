@@ -1,6 +1,13 @@
 @extends('layouts.master')
 
+@section('module_info')
+<i class="bi bi-badge-8k"></i> Scenario -> show
+@endsection
+
+@section('add_styles')
 <link href="{{ asset('css/scenarios.css') }}" rel="stylesheet">
+<meta name="csrf-token" content="{{ csrf_token() }}" />
+@endsection
 
 @section('content')
 
@@ -117,5 +124,17 @@
     </div>
   </div>
 </div>
-<button class="btn btn-warning btn-lg"> <h1><i class="bi bi-hospital"></i> Stwórz scenę</h1> </button>
+<button class="btn btn-warning btn-lg" onClick="javascript:showSceneModal()"> <h1><i class="bi bi-hospital"></i> Stwórz scenę</h1> </button>
+
+
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+<?php
+ $scene= new App\Models\SceneMaster();
+ $scene->scenario_id=$scenario->id;
+ $scene->scene_scenario_description=$scenario->scenario_description;
+ $scene->scene_scenario_for_students=$scenario->scenario_for_students;
+ ?>
+@include('scene.modal_scene_master')
+
 @endsection

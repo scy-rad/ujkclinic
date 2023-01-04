@@ -24,6 +24,7 @@
                       {{ __('Medical Center') }}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="{{ route('scene.index') }}">{{ __('Scenes') }}</a></li>
                     <li><a class="dropdown-item" href="{{ route('scenario.index') }}">{{ __('Scenarios') }}</a></li>
                     <li><a class="dropdown-item" href="{{ route('laboratorynorms.index') }}">{{ __('Laboratory norms') }}</a></li>
                     </ul>

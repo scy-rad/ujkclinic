@@ -1,5 +1,9 @@
 @extends('layouts.master')
 
+@section('module_info')
+<i class="bi bi-badge-8k"></i> Scenario -> create
+@endsection
+
 @section('content')
    Create scenario:
    <form action="{{ route('scenario.store') }}" method="POST" enctype="multipart/form-data">
