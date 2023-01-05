@@ -43,13 +43,13 @@
               </div>
             </div>
             <div class="row mb-3">
-              <div class="col-4">
+              <div class="col-5">
                 <label for="scene_date" class="form-label">data akcji:</label>
                 <input type="datetime-local" name="scene_date" class="form-control" placeholder="data akcji" value="{{$scene->scene_date}}">
               </div>
-              <div class="col-4">
-                <label for="scene_step_minutes" class="form-label">Krok czasu (min):</label>
-                <input type="number" step="1" min="0" name="scene_step_minutes" class="form-control" placeholder="Krok czasu" value="{{$scene->scene_step_minutes}}">
+              <div class="col-3">
+                <label for="scene_step_minutes" class="form-label">Krok (min):</label>
+                <input type="number" step="1" min="0" name="scene_step_minutes" class="form-control" placeholder="Krok czasu" value="{{$scene->scene_step_minutes*1}}">
               </div>
               <div class="col-4">
               <label for="scene_status" class="form-label">status:</label>

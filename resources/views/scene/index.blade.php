@@ -27,6 +27,7 @@
 
 <?php
  $scene= new App\Models\SceneMaster();
+ $scene->scene_date=date("Y-m-d H:i");
  ?>
 @include('scene.modal_scene_master')
 

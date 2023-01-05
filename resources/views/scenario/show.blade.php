@@ -134,6 +134,7 @@
  $scene->scenario_id=$scenario->id;
  $scene->scene_scenario_description=$scenario->scenario_description;
  $scene->scene_scenario_for_students=$scenario->scenario_for_students;
+ $scene->scene_date=date("Y-m-d H:i");
  ?>
 @include('scene.modal_scene_master')
 
