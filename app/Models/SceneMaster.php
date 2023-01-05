@@ -36,4 +36,15 @@ class SceneMaster extends Model
   {
     return $this->hasMany(ScenePersonel::class);
   }
+  public function status_name()
+  {
+    switch ($this->scene_status)
+      {
+        case 1 : $ret_txt = 'robocza'; break;
+        case 2 : $ret_txt = 'aktywna'; break;
+        case 3 : $ret_txt = 'zatrzymana'; break;
+        case 4 : $ret_txt = 'zakończona'; break;
+      }
+    return $ret_txt;
+  }
 }
