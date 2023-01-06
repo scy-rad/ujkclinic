@@ -92,3 +92,15 @@ create hasOne and hasMany relations for models
 make skeleton for SceneMaster model
 ###################################################
 
+add Clock Functionality for scene
+Now scene can be started, add time by declared step with automatic apply changes, stopped
+###################################################
+
+Add firstnames and lastnames table for actors names generator:
+php artisan make:migration create_actor_firstnames_table
+php artisan make:migration create_actor_lastnames_table
+php artisan make:model ActorFirstname
+php artisan make:model ActorLastname
+php artisan make:seeder ActorNamesSeeder
+
+###################################################
