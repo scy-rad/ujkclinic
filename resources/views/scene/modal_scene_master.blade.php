@@ -29,8 +29,6 @@
             <div class="alert alert-danger print-error-msg" style="display:none">
                 <ul></ul>
             </div>
-            <div class="mb-3">
-
             <input type="hidden" name="scenario_id" value="{{$scene->scenario_id}}">
             <div class="row mb-3">
               <div class="col-4">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Scenario;
 use App\Models\SceneMaster;
+use App\Models\SceneActor;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,7 +64,7 @@ class SceneController extends Controller
       $ret['scene']=SceneMaster::where('id',$id)->first();
       $ret['base_scenario']=Scenario::where('id',$ret['scene']->scenario_id)->first();
       $ret['diff_min'] = round((strtotime($ret['scene']->scene_date) - strtotime($ret['scene']->scene_relative_date)) / 60,0);
-          
+      $ret['actors']=SceneActor::where('scene_master_id',$id)->get();
       return view('scene.show',$ret);
     }
 
@@ -115,6 +116,16 @@ class SceneController extends Controller
         case 'relative_time':
           $ret = SceneMaster::select('scene_date','scene_relative_date','scene_relative_id','scene_step_minutes')->where('id',$request->idvalue)->first()->toArray();
           $ret['diff_min'] = round((strtotime($ret['scene_date']) - strtotime($ret['scene_relative_date'])) / 60,0);
+          $ret = ['success' => 'Dane raczej pobrane prawidłowo :) .','scene_data' => $ret];
+        case 'actor':
+          if ($request->idvalue==0)
+            {
+              $ret = new SceneActor();
+              $ret->sa_incoming_date = date('Y-m-d H:i');
+              $ret = $ret->toArray();
+            }
+          else
+            $ret = SceneActor::where('id',$request->idvalue)->first()->toArray();
           $ret = ['success' => 'Dane raczej pobrane prawidłowo :) .','scene_data' => $ret];
         break;
       }

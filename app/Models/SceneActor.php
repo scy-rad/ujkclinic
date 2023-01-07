@@ -9,9 +9,14 @@ class SceneActor extends Model
   protected $fillable = [
     'scene_master_id',
     'actor_id',
+    'sa_incoming_date',
+    'sa_incoming_recalculate',
+    'sa_main_book',
+    'sa_name',
     'sa_birth_date',
     'sa_PESEL',
     'sa_actor_sex',
+    'sa_actor_nn',
     'sa_actor_role_name',
     'sa_history_for_actor',
     'sa_actor_simulation'

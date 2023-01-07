@@ -17,12 +17,17 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('scene_master_id');
             $table->unsignedBigInteger('actor_id')->nullable();
+            $table->dateTime('sa_incoming_date')->nullable();
+            $table->integer('sa_incoming_recalculate')->default(0);
+            $table->string('sa_main_book')->nullable();;
+            $table->string('sa_name');
             $table->dateTime('sa_birth_date');
-            $table->string('sa_PESEL',11);
+            $table->string('sa_PESEL',11)->nullable();
             $table->smallInteger('sa_actor_sex');  // 2 - mężczyzna,  3 - kobieta
-            $table->string('sa_actor_role_name');
-            $table->text('sa_history_for_actor');
-            $table->text('sa_actor_simulation');
+            $table->smallInteger('sa_actor_nn')->default(0);  // 1 - NN, 0 - knowlny
+            $table->string('sa_actor_role_name')->nullable();
+            $table->text('sa_history_for_actor')->nullable();
+            $table->text('sa_actor_simulation')->nullable();
             $table->timestamps();
         });
         Schema::table('scene_actors', function (Blueprint $table) {

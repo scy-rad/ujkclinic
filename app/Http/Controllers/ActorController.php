@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\actor;
+use App\Models\Actor;
+use App\Models\SceneActor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class ActorController extends Controller
 {
@@ -120,4 +122,31 @@ class ActorController extends Controller
 
       return redirect()->route('scenario.show',$toback);
     }
+
+
+
+
+    public function actor_scene_save_ajax(Request $request)
+    {
+      $request->validate([
+        'scene_master_id' => 'required',
+        'sa_birth_date' => 'required'
+        ]);
+
+      if ($request->id > 0)
+      {
+        $SceneActor=SceneActor::where('id',$request->id)->first();
+        $SceneActor->fill($request->post())->save();  
+        \Illuminate\Support\Facades\Session::flash('success', 'Scene actor has been updated probably successfully :) ');    
+      }
+      else
+      {
+      SceneActor::create($request->post());
+      \Illuminate\Support\Facades\Session::flash('success', 'Scene actor has been created probably successfully :) ');
+      }
+      
+      return Redirect::route('scene.show',$request->scene_master_id);
+    }
+
+
 }

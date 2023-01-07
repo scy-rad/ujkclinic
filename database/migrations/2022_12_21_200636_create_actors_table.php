@@ -16,10 +16,12 @@ return new class extends Migration
         Schema::create('actors', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('scenario_id');
+            $table->integer('actor_incoming_recalculate')->default(0);
             $table->smallInteger('actor_age_from');
             $table->smallInteger('actor_age_to');
             $table->smallInteger('actor_age_interval'); // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
             $table->smallInteger('actor_sex');  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
+            $table->smallInteger('actor_nn')->default(0);  // 1 - NN, 0 - knowlny
             $table->unsignedBigInteger('actor_role_plan_id')->default('1'); //1 - rola pierwszoplanowa, 2 - rola drugoplanowa
             $table->string('actor_role_name');
             $table->unsignedBigInteger('actor_type_id');

@@ -28,6 +28,13 @@
           <p><label>płeć:</label><br>
             {{$actor->sex_name()}}
           </p>
+          <p><label>Czy NN:</label><br>
+            @if ($actor->actor_nn==1) TAK @else NIE @endif
+          </p>
+          <p><label>Przesunięcie przyjęcia:</label><br>
+            {{$actor->actor_incoming_recalculate}}
+          </p>
+          
           <p><label>historia dla aktora:</label><br>
             {!! $actor->history_for_actor !!}
           </p>

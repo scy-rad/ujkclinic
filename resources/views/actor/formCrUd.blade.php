@@ -78,6 +78,20 @@
 
   <div class="col-xs-12 col-sm-12 col-md-12">
     <div class="form-group">
+    <label for="actor_nn">NN:</label><br>
+      <input type="text" name="actor_nn" value="@isset($actor){{$actor->actor_nn}}@endisset" class="form-control" placeholder="Czy NN">
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-12 col-md-12">
+    <div class="form-group">
+    <label for="actor_incoming_recalculate">przesunięcie czasu przyjęcia:</label><br>
+      <input type="text" name="actor_incoming_recalculate" value="{{$actor->actor_incoming_recalculate}}" class="form-control" placeholder="przesunięcie czasu przyjęcia">
+    </div>
+  </div>
+  
+
+  <div class="col-xs-12 col-sm-12 col-md-12">
+    <div class="form-group">
       <label for="history_for_actor">historia dla aktora:</label><br>
       <textarea name="history_for_actor" class="form-control" placeholder="historia dla aktora">@isset($actor){!!$actor->history_for_actor!!}@endisset</textarea>
       @error('history_for_actor')

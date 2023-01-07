@@ -11,10 +11,12 @@ class Actor extends Model
 
     protected $fillable = [
       'scenario_id',
+      'actor_incoming_recalculate',
       'actor_age_from',
       'actor_age_to',
       'actor_age_interval',
       'actor_sex',
+      'actor_nn',
       'actor_role_plan_id',
       'actor_role_name',
       'actor_type_id',

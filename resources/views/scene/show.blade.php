@@ -41,7 +41,7 @@
 
 
 
-<div class="card">
+<div class="card mb-3">
     <div class="card-header">
         <ul class="nav nav-pills card-header-pills">
             <li class="nav-item">
@@ -92,10 +92,11 @@
               <label>reżyser sceny:</label> {{$scene->owner->name}}<br>
               </p>
               @if (!is_null($scene->scene_relative_date))
-              <button class="btn btn-lg btn-danger" onClick="javascript:stop_scene({{$scene->id}})"> <h1><span id="status_txt"><i class="bi bi-stop-btn-fill"></i></span></h1> </button>
+              <button class="btn btn-lg btn-danger" onClick="javascript:stop_scene({{$scene->id}})"> <span id="status_txt"><h1><i class="bi bi-stop-btn-fill"></i> Stop</h1></span> </button>
               @endif
 
               <button class="btn btn-warning btn-lg" onClick="javascript:showSceneModal()"> <h1><i class="bi bi-hospital"></i> Edytuj scenę</h1> </button>
+              <button class="btn btn-warning btn-lg" onClick="javascript:showActorModal(0)"> <h1><i class="bi bi-incognito"></i> Dodaj aktora</h1> </button>
             </div>
 
             <div class="tab-pane fade" id="nothing">
@@ -103,10 +104,29 @@
 
         </div>
     </div>
+</div> <!-- end of info cards -->
+
+
+
+<div class="row">
+<div class="col-2">
+@foreach ($actors as $actor)
+<div class="card mb-3">
+  <div class="card-header">
+  <svg style="color: red" xmlns="http://www.w3.org/2000/svg" width="56" height="64" fill="currentColor" class="bi bi-file-person" viewBox="0 0 16 16"> <path d="M12 1a1 1 0 0 1 1 1v10.755S12 11 8 11s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h8zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z" fill="yellow"></path> <path d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" fill="yellow"></path> </svg>
+  {{$actor->sa_name}}
+  </div>
+   {{$actor->sa_actor_role_name}}
+  <button class="btn btn-warning btn-sm" onClick="javascript:showActorModal({{$actor->id}})"> <i class="bi bi-incognito"></i> edytuj </button>
+  <button class="btn btn-success btn-sm" > <i class="bi bi-incognito"></i> wybierz </button>
 </div>
+@endforeach
+
+
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
+@include('scene.modal_scene_actor')
 
 @include('scene.modal_scene_master')
 

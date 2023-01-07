@@ -34,6 +34,8 @@ Route::resource('/actor', App\Http\Controllers\ActorController::class);
 Route::resource('/scene', App\Http\Controllers\SceneController::class);
 Route::get('/scenegetajax', [App\Http\Controllers\SceneController::class, 'getajax'])->name('scene.getajax');
 Route::post('/sceneupdateajax', [App\Http\Controllers\SceneController::class, 'updateajax'])->name('scene.updateajax');
+Route::post('/sceneactorsave', [App\Http\Controllers\ActorController::class, 'actor_scene_save_ajax'])->name('scene.actor_save_ajax');
+
 
 Route::get('/laboratorynorms', [App\Http\Controllers\LaboratoryNormController::class, 'index'])->name('laboratorynorms.index');
 Route::get('/laboratorynormajx', [App\Http\Controllers\LaboratoryNormController::class, 'getajax'])->name('laboratorynorms.getajax');
