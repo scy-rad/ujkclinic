@@ -77,5 +77,13 @@ Route::post('/changePassword','App\Http\Controllers\UserController@changePasswor
 Route::post('/ajaxusernotify', 'App\Http\Controllers\UserController@ajax_update_notify')->name('ajaxusernotify');
 
 
+/*  FOR TEST ONLY BEGIN  */
+Route::get('/testuj', 'App\Http\Controllers\TestController@index')->name('testuj');
+Route::get('/testuj2', 'App\Http\Controllers\TestController@index2')->name('testuj2');
+
+Route::post('testuj/ajx_roomstorages', 'App\Http\Controllers\TestController@ajx_room_storages')->name('testuj.ajx_roomstorages');
+Route::post('testuj/ajx_shelf_count', 'App\Http\Controllers\TestController@ajx_shelf_count')->name('testuj.ajx_shelf_count');
+/*  FOR TEST ONLY END  */
+
 
 require __DIR__.'/auth.php';

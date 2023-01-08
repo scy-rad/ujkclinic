@@ -30,6 +30,25 @@
                     </ul>
                   </li>
 
+                  @if (Auth::user()->hasRoleCode('administrators'))
+
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Administracja
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                      @if (Auth::user()->hasRoleCode('administrators')
+                      )
+                      <li><a class="dropdown-item" href="{{ route('testuj') }}"> TESTY </a></li>
+                      <li><a class="dropdown-item" href="{{ route('testuj2') }}"> TESTY2 </a></li>
+                      @endif
+                    </ul>
+                  </li>
+                  @endif
+
+
+
                 </ul>
 
 
