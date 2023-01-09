@@ -19,13 +19,21 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="SceneActorTitle">Edycja aktora </h5>
+        <div class="float-start">
+          <h5 class="float-start modal-title" id="SceneActorTitle">Edycja aktora</h5>
+        </div>
+        <div style="margin: 0 auto">
+
+        </div>
+        <div class="float-end">
+          <button class="btn btn-outline-success ms-10 float-end" onClick="javascript:proposeActor()">generuj</button>
+        </div>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+        </div>
       <div class="modal-body">
 
 
-          <form action="{{ route('scene.actor_save_ajax') }}" method="post" enctype="multipart/form-data">
+          <form action="{{ route('actor.actor_save_ajax') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="alert alert-danger print-error-msg" style="display:none">
                 <ul></ul>
@@ -37,6 +45,7 @@
 
             <div class="row mb-3">
               <div class="col-5">
+                <input type="hidden" id="sa_incoming_date_start" value="0">
                 <label for="sa_incoming_date" class="form-label">data rejestracji:</label>
                 <input type="datetime-local" id="sa_incoming_date" name="sa_incoming_date" class="form-control" placeholder="data rejestracji" value="">
               </div>
@@ -51,6 +60,7 @@
             </div>
             <div class="row mb-3">
               <div class="col-4">
+              <input type="hidden" id="sa_actor_sex_start" value="0">
               <label for="sa_actor_sex" class="form-label">płeć:</label>
                 <select id="sa_actor_sex" name="sa_actor_sex" class="form-select">
                   <option value="2">mężczyzna</option>
@@ -115,21 +125,40 @@
             success:function(data){
                 if($.isEmptyObject(data.error)){
                   // alert(JSON.stringify(data, null, 4));
-                  $('#SceneActorTitle').html('Edycja aktora: '+data.scene_data.id);
-                  $('#actor_id').val(data.scene_data.id);
-                  $('#sa_incoming_date').val(data.scene_data.sa_incoming_date);
-                  $('#sa_incoming_recalculate').val(data.scene_data.sa_incoming_recalculate);
-                  $('#sa_main_book').val(data.scene_data.sa_main_book);
-                  $('#sa_name').val(data.scene_data.sa_name);
-                  $('#sa_birth_date').val(data.scene_data.sa_birth_date);
-                  $('#sa_PESEL').val(data.scene_data.sa_PESEL);
-                  $('#sa_actor_nn').val(data.scene_data.sa_actor_nn);
-                  $('#sa_actor_role_name').val(data.scene_data.sa_actor_role_name);
-
-                  $('#sa_history_for_actor').val(data.scene_data.sa_history_for_actor);
-                  $('#sa_actor_simulation').val(data.scene_data.sa_actor_simulation);
-
-                  
+                  if (data.scene_data.sa_actor_sex>0)
+                    {
+                    $('#SceneActorTitle').html('Edycja aktora: '+data.scene_data.id);
+                    $('#actor_id').val(data.scene_data.id);
+                    $('#sa_incoming_date').val(data.scene_data.sa_incoming_date);
+                    $('#sa_incoming_recalculate').val(data.scene_data.sa_incoming_recalculate);
+                    $('#sa_main_book').val(data.scene_data.sa_main_book);
+                    $('#sa_name').val(data.scene_data.sa_name);
+                    $('#sa_birth_date').val(data.scene_data.sa_birth_date);
+                    $('#sa_birth_date_start').val(data.scene_data.sa_birth_date);
+                    $('#sa_PESEL').val(data.scene_data.sa_PESEL);
+                    $('#sa_actor_sex').val(data.scene_data.sa_actor_sex);
+                    $('#sa_actor_sex_start').val(data.scene_data.sa_actor_sex);
+                    $('#sa_actor_nn').val(data.scene_data.sa_actor_nn);                  
+                    $('#sa_actor_role_name').val(data.scene_data.sa_actor_role_name);
+                    $('#sa_history_for_actor').val(data.scene_data.sa_history_for_actor);
+                    $('#sa_actor_simulation').val(data.scene_data.sa_actor_simulation);
+                    }
+                  else
+                    $('#SceneActorTitle').html('Dodawanie aktora');
+                    $('#actor_id').val(data.scene_data.id);
+                    $('#sa_incoming_date').val(data.scene_data.sa_incoming_date);
+                    $('#sa_incoming_recalculate').val(0);
+                    $('#sa_main_book').val(data.scene_data.sa_main_book);
+                    $('#sa_name').val(data.scene_data.sa_name);
+                    $('#sa_birth_date').val(data.scene_data.sa_birth_date);
+                    $('#sa_birth_date_start').val(data.scene_data.sa_birth_date);
+                    $('#sa_PESEL').val(data.scene_data.sa_PESEL);
+                    // $('#sa_actor_sex').val(data.scene_data.sa_actor_sex);
+                    $('#sa_actor_sex_start').val(data.scene_data.sa_actor_sex);
+                    $('#sa_actor_nn').val(0);                  
+                    $('#sa_actor_role_name').val(data.scene_data.sa_actor_role_name);
+                    $('#sa_history_for_actor').val(data.scene_data.sa_history_for_actor);
+                    $('#sa_actor_simulation').val(data.scene_data.sa_actor_simulation);
                   }else{
                     printErrorMsg(data.error);
                   }
@@ -137,5 +166,25 @@
             });
 
     $('#SceneActor').modal('show');
+  }
+
+  function proposeActor()
+  {
+    $.ajax({
+            type:'GET',
+            url:"{{ route('scene.getajax') }}",
+            data:{actor_sex:$('#sa_actor_sex').val(),
+              birth_date:$('#sa_birth_date').val(),
+              what:'actor_propose'},
+            success:function(data){
+                if($.isEmptyObject(data.error)){
+                  // alert(JSON.stringify(data, null, 4));
+                  $('#sa_PESEL').val(data.PESEL);
+                  $('#sa_name').val(data.name);
+                  }else{
+                    printErrorMsg(data.error);
+                  }
+                }
+            });
   }
 </script>

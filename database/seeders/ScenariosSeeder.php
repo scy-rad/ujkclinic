@@ -55,8 +55,8 @@ class ScenariosSeeder extends Seeder
 
       $actor = new Actor();
       $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','PIEL-INT-PED-01')->first()->id;
-      $actor->actor_age_from      = 28;
-      $actor->actor_age_to        = 38;
+      $actor->actor_age_from      = 28*365;
+      $actor->actor_age_to        = 38*365;
       $actor->actor_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
       $actor->actor_sex           = 1;  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
       $actor->actor_role_plan_id  = \App\Models\ActorRolePlan::where('short','pierwszoplanowa')->first()->id;
@@ -118,8 +118,8 @@ class ScenariosSeeder extends Seeder
 
       $actor = new Actor();
       $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','LEK-INT-PED-01')->first()->id;
-      $actor->actor_age_from      = 48;
-      $actor->actor_age_to        = 68;
+      $actor->actor_age_from      = 48*365;
+      $actor->actor_age_to        = 68*365;
       $actor->actor_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
       $actor->actor_sex           = 2;  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
       $actor->actor_role_plan_id  = \App\Models\ActorRolePlan::where('short','pierwszoplanowa')->first()->id;
@@ -134,8 +134,8 @@ class ScenariosSeeder extends Seeder
 
       $actor = new Actor();
       $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','LEK-INT-PED-01')->first()->id;
-      $actor->actor_age_from      = 42;
-      $actor->actor_age_to        = 60;
+      $actor->actor_age_from      = 42*365;
+      $actor->actor_age_to        = 60*365;
       $actor->actor_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
       $actor->actor_sex           = 2;  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
       $actor->actor_role_plan_id  = \App\Models\ActorRolePlan::where('short','drugoplanowa')->first()->id;
@@ -146,6 +146,47 @@ class ScenariosSeeder extends Seeder
       $actor->actor_status = 1;
       $actor->save();	
 
+      $actor = new Actor();
+      $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','LEK-INT-PED-01')->first()->id;
+      $actor->actor_age_from      = 0;
+      $actor->actor_age_to        = 0;
+      $actor->actor_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
+      $actor->actor_sex           = 2;  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
+      $actor->actor_role_plan_id  = \App\Models\ActorRolePlan::where('short','drugoplanowa')->first()->id;
+      $actor->actor_role_name     = 'Noworodek - 0 dni';
+      $actor->actor_type_id       = \App\Models\ActorType::where('short','PAC STAND')->first()->id;
+      $actor->history_for_actor   = 'Dzisiaj urodzony :)';
+      $actor->actor_simulation = "opis dziś urodzonego noworodka";
+      $actor->actor_status = 1;
+      $actor->save();	
+
+      $actor = new Actor();
+      $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','LEK-INT-PED-01')->first()->id;
+      $actor->actor_age_from      = 0;
+      $actor->actor_age_to        = 30;
+      $actor->actor_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
+      $actor->actor_sex           = 2;  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
+      $actor->actor_role_plan_id  = \App\Models\ActorRolePlan::where('short','drugoplanowa')->first()->id;
+      $actor->actor_role_name     = 'Noworodek';
+      $actor->actor_type_id       = \App\Models\ActorType::where('short','PAC STAND')->first()->id;
+      $actor->history_for_actor   = 'Niedawno urodzony :)';
+      $actor->actor_simulation = "opis noworodka.";
+      $actor->actor_status = 1;
+      $actor->save();	
+
+      $actor = new Actor();
+      $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','LEK-INT-PED-01')->first()->id;
+      $actor->actor_age_from      = 3*365;
+      $actor->actor_age_to        = 5*365;
+      $actor->actor_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
+      $actor->actor_sex           = 2;  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
+      $actor->actor_role_plan_id  = \App\Models\ActorRolePlan::where('short','drugoplanowa')->first()->id;
+      $actor->actor_role_name     = 'Przedszkolak';
+      $actor->actor_type_id       = \App\Models\ActorType::where('short','PAC STAND')->first()->id;
+      $actor->history_for_actor   = 'Sprytny przedszkolaczek';
+      $actor->actor_simulation = "Umorusany czekoladą";
+      $actor->actor_status = 1;
+      $actor->save();	
 
 
     }

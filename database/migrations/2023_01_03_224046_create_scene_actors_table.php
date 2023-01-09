@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('sa_main_book')->nullable();;
             $table->string('sa_name');
             $table->dateTime('sa_birth_date');
+            $table->integer('sa_age');
+            $table->string('sa_age_txt');
             $table->string('sa_PESEL',11)->nullable();
             $table->smallInteger('sa_actor_sex');  // 2 - mężczyzna,  3 - kobieta
             $table->smallInteger('sa_actor_nn')->default(0);  // 1 - NN, 0 - knowlny

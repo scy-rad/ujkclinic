@@ -126,6 +126,9 @@ class ActorController extends Controller
 
 
 
+
+
+
     public function actor_scene_save_ajax(Request $request)
     {
       $request->validate([
@@ -141,12 +144,15 @@ class ActorController extends Controller
       }
       else
       {
-      SceneActor::create($request->post());
+          $retSA = SceneActor::create_actor($request->scene_master_id,null,$request->sa_birth_date,$request->sa_PESEL,$request->sa_name,0,0,$request->sa_actor_sex,$request->sa_incoming_date,$request->sa_incoming_recalculate,$request->sa_actor_nn,$request->sa_actor_role_name,$request->sa_history_for_actor,$request->sa_actor_simulation);
+
+      // SceneActor::create($request->post());
       \Illuminate\Support\Facades\Session::flash('success', 'Scene actor has been created probably successfully :) ');
       }
       
       return Redirect::route('scene.show',$request->scene_master_id);
     }
+
 
 
 }

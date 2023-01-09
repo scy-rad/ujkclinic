@@ -17,7 +17,7 @@ class ActorNamesSeeder extends Seeder
      */
     public function run()
     {
-      function dodaj_imie($firstname_man,$firstname_woman,$count_man,$count_woman)
+      function dodaj_imie($firstname_woman,$firstname_man,$count_woman,$count_man)
       {
         $table = new ActorFirstname();
         $table->firstname_man=$firstname_man;
@@ -26,7 +26,7 @@ class ActorNamesSeeder extends Seeder
         $table->count_woman=$count_woman;
         $table->save();
       }
-      function dodaj_nazwisko($lastname_man,$lastname_woman,$count_man,$count_woman)
+      function dodaj_nazwisko($lastname_woman,$lastname_man,$count_woman,$count_man)
       {
         $table = new ActorLastname();
         $table->lastname_man=$lastname_man;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Actor;
 use App\Models\Scenario;
 use App\Models\SceneMaster;
 use App\Models\SceneActor;
@@ -32,21 +33,25 @@ class SceneController extends Controller
      */
     public function store(Request $request)
     {
-      // $request->validate([
-      //   'scenario_code' => 'required',
-      //   'scenario_name' => 'required',
-      //   'scenario_main_problem' => 'required',
-      //   'scenario_description' => 'required',
-      //   'scenario_for_students' => 'required',
-      //   'scenario_for_leader' => 'required',
-      //   ]);
-
+      $request->validate([
+        'scene_code' => 'required',
+        'scene_name' => 'required',
+        'scene_scenario_description' => 'required',
+        'scene_scenario_for_students' => 'required',
+        ]);
 
       $request->merge(['scene_owner_id' => Auth::user()->id]);
       $request->request->remove('id');
-
+// dd(Actor::where('scenario_id',$request->scenario_id)->get());
       $scene=SceneMaster::create($request->post());
 
+      if ($request->scenario_id>0)
+      {
+        foreach (Actor::where('scenario_id',$request->scenario_id)->get() as $actor)
+        {
+          $retSA = SceneActor::create_actor($scene->id,$actor->id,"","","",$actor->actor_age_from,$actor->actor_age_to,$actor->actor_sex,$actor->actor_incoming_date,$actor->actor_incoming_recalculate,$actor->actor_nn,$actor->actor_role_name,$actor->history_for_actor,$actor->actor_simulation);
+        }
+      }
 
       \Illuminate\Support\Facades\Session::flash('success', 'Scenario has been created successfully.'); 
 
@@ -117,16 +122,23 @@ class SceneController extends Controller
           $ret = SceneMaster::select('scene_date','scene_relative_date','scene_relative_id','scene_step_minutes')->where('id',$request->idvalue)->first()->toArray();
           $ret['diff_min'] = round((strtotime($ret['scene_date']) - strtotime($ret['scene_relative_date'])) / 60,0);
           $ret = ['success' => 'Dane raczej pobrane prawidłowo :) .','scene_data' => $ret];
+        break;
+        
         case 'actor':
           if ($request->idvalue==0)
             {
               $ret = new SceneActor();
-              $ret->sa_incoming_date = date('Y-m-d H:i');
+              // $ret->sa_incoming_date = date('Y-m-d H:i');
               $ret = $ret->toArray();
             }
           else
             $ret = SceneActor::where('id',$request->idvalue)->first()->toArray();
           $ret = ['success' => 'Dane raczej pobrane prawidłowo :) .','scene_data' => $ret];
+        break;
+
+        case 'actor_propose':
+          $ret=json_decode(SceneActor::random_actor($request->birth_date,$request->actor_sex),true);
+          // $ret = ['success' => 'Dane raczej wygenerowane prawidłowo :) .','scene_data' => $ret];  
         break;
       }
       return response()->json($ret);
