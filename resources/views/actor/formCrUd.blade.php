@@ -85,7 +85,7 @@
   <div class="col-xs-12 col-sm-12 col-md-12">
     <div class="form-group">
     <label for="actor_incoming_recalculate">przesunięcie czasu przyjęcia:</label><br>
-      <input type="text" name="actor_incoming_recalculate" value="{{$actor->actor_incoming_recalculate}}" class="form-control" placeholder="przesunięcie czasu przyjęcia">
+      <input type="text" name="actor_incoming_recalculate" value="@isset($actor){{$actor->actor_incoming_recalculate}}@endisset" class="form-control" placeholder="przesunięcie czasu przyjęcia">
     </div>
   </div>
   

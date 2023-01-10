@@ -49,7 +49,7 @@ class ActorController extends Controller
         'actor_simulation' => 'required'
         ]);
 
-      Actor::create($request->post());
+      $actor=Actor::create($request->post());
 
       \Illuminate\Support\Facades\Session::flash('success', 'Actor has been created successfully.'); 
 
@@ -144,7 +144,7 @@ class ActorController extends Controller
       }
       else
       {
-          $retSA = SceneActor::create_actor($request->scene_master_id,null,$request->sa_birth_date,$request->sa_PESEL,$request->sa_name,0,0,$request->sa_actor_sex,$request->sa_incoming_date,$request->sa_incoming_recalculate,$request->sa_actor_nn,$request->sa_actor_role_name,$request->sa_history_for_actor,$request->sa_actor_simulation);
+          $retSA = SceneActor::create_actor($request->scene_master_id,null,$request->sa_birth_date,$request->sa_PESEL,$request->sa_name,$request->sa_actor_sex,$request->sa_incoming_date,$request->sa_incoming_recalculate,$request->sa_actor_nn,$request->sa_actor_role_name,$request->sa_history_for_actor,$request->sa_actor_simulation);
 
       // SceneActor::create($request->post());
       \Illuminate\Support\Facades\Session::flash('success', 'Scene actor has been created probably successfully :) ');

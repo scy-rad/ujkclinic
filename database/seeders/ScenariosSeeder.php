@@ -44,33 +44,34 @@ class ScenariosSeeder extends Seeder
       $scenario->scenario_type_id =  \App\Models\ScenarioType::where('short','sym')->first()->id;
       $scenario->scenario_name  = 'scenariusz testowy pierwszy';
       $scenario->scenario_code  = 'PIEL-INT-PED-01';
-      $scenario->scenario_main_problem = 'złamanie otwarte nogi';
-      $scenario->scenario_description = 'chłopczyk przewrócił się na rowerze i doznał złamania otwartego ręki z raną ciętą skroni';
-      $scenario->scenario_for_students = 'Jesteście lekarzami na Izbie Przyjęć. ZRM przywiózł Wam pacjenta (kierowcę) z wypadku samochodowego, u któego nastąpiło zatrzymanie krążenia. Krążenie wróciło w karetce.';
-      $scenario->scenario_for_leader  = 'Poszkodowany został przywieziony nieprawidłowo zaintubowany.';
-      $scenario->scenario_helpers_for_students= '<ul><li>jeśli zespół nie zauważy nieprawidłowej intubacji, może wejść pielęgniarka żeby podłączyć pompę innemu pacjentowi i zauważyć, że klatka piersiowa nie porusza się podczas wentylacji</li></ul>';
-      $scenario->scenario_logs_for_students   = '<ul><li>może zadzwonić żona i powiedzieć, że mąż ostatnio źle się czuł, był częśto zmęczny i narzekał na serce</li></ul>';
+      $scenario->scenario_main_problem = 'Oddział pediatryczny';
+      $scenario->scenario_description = 'Dziecko przewróciło się na rowerze i doznało złamania otwartego ręki z raną ciętą skroni. Na oddziale jest już dwójka innych dzieci';
+      $scenario->scenario_for_students = 'Jesteście lekarzami na Izbie Przyjęć. ZRM przywiezie Wam półprzytomne dziecko, które zostalo potrącone przez pijanego kierowcę samochodu. Wynki badań z karetki powinny być już dostępne w systemie szpitalnym.';
+      $scenario->scenario_for_leader  = 'Dziecko choruje na cukrzycę i w trakcie transportu na Izbę Przyjęć cukier znacznie spadł (czego nie widać w wynikach z karetki';
+      $scenario->scenario_helpers_for_students= '<ul><li>jeśli zespół nie powiąże pogarszania się stanu dziecka z cukrzycą, może zadzwonić mama z tą informację</li></ul>';
+      $scenario->scenario_logs_for_students   = '<ul><li>n salę może wejść pijany kierowca, któy potrącł dziecko, a teraz chce je stamtąd zabrać, bo wszystko jest w porządku i on wszystko załatwi z rodzicami dziecka.</li></ul>';
       $scenario->scenario_status	= 1;
       $scenario->save();
 
       $actor = new Actor();
       $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','PIEL-INT-PED-01')->first()->id;
-      $actor->actor_age_from      = 28*365;
-      $actor->actor_age_to        = 38*365;
+      $actor->actor_incoming_recalculate      = 0;
+      $actor->actor_age_from      = 11;
+      $actor->actor_age_to        = 15;
       $actor->actor_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
       $actor->actor_sex           = 1;  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
       $actor->actor_role_plan_id  = \App\Models\ActorRolePlan::where('short','pierwszoplanowa')->first()->id;
-      $actor->actor_role_name     = 'pacjent';
+      $actor->actor_role_name     = 'poszkodowane dziecko';
       $actor->actor_type_id       = \App\Models\ActorType::where('short','SYM WW')->first()->id;
-      $actor->history_for_actor   = 'Pacjent przez cały czas jest nieprzytomny';
-      $actor->actor_simulation = "Pacjent z naklejonymi ranami ciętymi, z nieprawidłowo założoną rurką intubacyjną, z założonym wkłuciem obwodowym";
+      $actor->history_for_actor   = 'Dziecko na początku jest w słabym kontakcie, po chwili całkowicie traci przytomnośc z powodu spadku cukru';
+      $actor->actor_simulation = "Pacjent z zadrapaniami na twarzy i rękach. Może mieć złamanie lub opatrunek uciskowy na kończynie";
       $actor->actor_status = 1;
       $actor->save();	
 
       $lr_template = new LabTemplate();
       $lr_template->actor_id    = $actor->id;
       $lr_template->description_for_leader = 'wyniki badań z wizyty w poradni dzień wcześniej';
-      $lr_template->lrt_minutes_before = 60*24-72;
+      $lr_template->lrt_minutes_before = 60*24-72;  //24 godziny wczesniej bez 72 minut
       $lr_template->lrt_type    = 1;
       $lr_template->lrt_sort    = 1;
       $lr_template->save();
@@ -98,11 +99,92 @@ class ScenariosSeeder extends Seeder
       add_test_result($lr_template->id,'mocz_kolor',null,'słomkowy','',2,1);
 
 
+      $actor = new Actor();
+      $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','PIEL-INT-PED-01')->first()->id;
+      $actor->actor_incoming_recalculate      = 24*60*2+188; // 2 dni 3 godz i 8 minut wcześniej
+      $actor->actor_age_from      = 7;
+      $actor->actor_age_to        = 7;
+      $actor->actor_age_interval  = 4;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
+      $actor->actor_sex           = 1;  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
+      $actor->actor_role_plan_id  = \App\Models\ActorRolePlan::where('short','pierwszoplanowa')->first()->id;
+      $actor->actor_role_name     = 'tygodniowy noworodek';
+      $actor->actor_type_id       = \App\Models\ActorType::where('short','MAN')->first()->id;
+      $actor->history_for_actor   = 'Dziecko leży i czasami popłakuje';
+      $actor->actor_simulation = "Jeśli dziecko byłoby istotne z punktu widzenia symulacji - to tu byłoby o tym napisane";
+      $actor->actor_status = 1;
+      $actor->save();	
+
+      $lr_template = new LabTemplate();
+      $lr_template->actor_id    = $actor->id;
+      $lr_template->description_for_leader = 'wyniki badań z przyjęcia';
+      $lr_template->lrt_minutes_before = 23*60+33;  //23 godziny i 33 minuty wczesniej
+      $lr_template->lrt_type    = 1;
+      $lr_template->lrt_sort    = 1;
+      $lr_template->save();
+
+      add_test_result($lr_template->id,'Hb',113,'','',1,1);
+      add_test_result($lr_template->id,'Ht',38,'','',1,1);
+      add_test_result($lr_template->id,'RBC',49,'','',1,1);
+      add_test_result($lr_template->id,'MCV',72,'','',1,1);
+      add_test_result($lr_template->id,'MCH',39,'','',1,1);
+      add_test_result($lr_template->id,'mocz_kolor',null,'pomarańczowy','',2,1);
+
+      $lr_template = new LabTemplate();
+      $lr_template->actor_id    = $actor->id;
+      $lr_template->description_for_leader = 'dzisiajesze wyniki';
+      $lr_template->lrt_minutes_before = 32; // sprzed 32 minut
+      $lr_template->lrt_type    = 2;
+      $lr_template->lrt_sort    = 2;
+      $lr_template->save();
+
+      add_test_result($lr_template->id,'Hb',109,'','',2,1);
+      add_test_result($lr_template->id,'Ht',375,'','',2,1);
+      add_test_result($lr_template->id,'RBC',48,'','',2,1);
+      add_test_result($lr_template->id,'MCV',80,'','',2,1);
+      add_test_result($lr_template->id,'MCH',34,'','',2,1);
+      add_test_result($lr_template->id,'mocz_kolor',null,'słomkowy','',2,1);
+
+      $lr_template = new LabTemplate();
+      $lr_template->actor_id    = $actor->id;
+      $lr_template->description_for_leader = 'bieżące wyniki po podaniu wapnia';
+      $lr_template->lrt_minutes_before = 0;
+      $lr_template->lrt_type    = 2;
+      $lr_template->lrt_sort    = 2;
+      $lr_template->save();
+
+      add_test_result($lr_template->id,'Hb',129,'','',2,1);
+      add_test_result($lr_template->id,'Ht',325,'','',2,1);
+      add_test_result($lr_template->id,'RBC',43,'','',2,1);
+      add_test_result($lr_template->id,'MCV',60,'','',2,1);
+      add_test_result($lr_template->id,'MCH',28,'','',2,1);
+      add_test_result($lr_template->id,'mocz_kolor',null,'biały','',2,1);
+
+      $lr_template = new LabTemplate();
+      $lr_template->actor_id    = $actor->id;
+      $lr_template->description_for_leader = 'bieżące wyniki bez podania wapnia';
+      $lr_template->lrt_minutes_before = 0;
+      $lr_template->lrt_type    = 2;
+      $lr_template->lrt_sort    = 2;
+      $lr_template->save();
+
+      add_test_result($lr_template->id,'Hb',99,'','',2,1);
+      add_test_result($lr_template->id,'Ht',447,'','',2,1);
+      add_test_result($lr_template->id,'RBC',33,'','',2,1);
+      add_test_result($lr_template->id,'MCV',72,'','',2,1);
+      add_test_result($lr_template->id,'MCH',39,'','',2,1);
+      add_test_result($lr_template->id,'mocz_kolor',null,'tęczowy','',2,1);
+
+
+      // ####################################################################################
+
+
+
       // ####################################################################################
 
       $scenario = new Scenario();
       $scenario->scenario_author_id = null;
       // $scenario->scenario_author_id = \App\Models\User::where('name','instruktor')->first()->id;
+      $actor->actor_incoming_recalculate      = 0;
       $scenario->center_id        =  \App\Models\Center::where('center_short','Lek')->first()->id;
       $scenario->scenario_type_id =  \App\Models\ScenarioType::where('short','sym')->first()->id;
       $scenario->scenario_name  = 'scenariusz testowy drugi';
@@ -118,8 +200,9 @@ class ScenariosSeeder extends Seeder
 
       $actor = new Actor();
       $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','LEK-INT-PED-01')->first()->id;
-      $actor->actor_age_from      = 48*365;
-      $actor->actor_age_to        = 68*365;
+      $actor->actor_incoming_recalculate      = 0;
+      $actor->actor_age_from      = 48;
+      $actor->actor_age_to        = 68;
       $actor->actor_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
       $actor->actor_sex           = 2;  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
       $actor->actor_role_plan_id  = \App\Models\ActorRolePlan::where('short','pierwszoplanowa')->first()->id;
@@ -134,8 +217,9 @@ class ScenariosSeeder extends Seeder
 
       $actor = new Actor();
       $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','LEK-INT-PED-01')->first()->id;
-      $actor->actor_age_from      = 42*365;
-      $actor->actor_age_to        = 60*365;
+      $actor->actor_incoming_recalculate      = 0;
+      $actor->actor_age_from      = 42;
+      $actor->actor_age_to        = 60;
       $actor->actor_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
       $actor->actor_sex           = 2;  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
       $actor->actor_role_plan_id  = \App\Models\ActorRolePlan::where('short','drugoplanowa')->first()->id;
@@ -148,6 +232,7 @@ class ScenariosSeeder extends Seeder
 
       $actor = new Actor();
       $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','LEK-INT-PED-01')->first()->id;
+      $actor->actor_incoming_recalculate      = 0;
       $actor->actor_age_from      = 0;
       $actor->actor_age_to        = 0;
       $actor->actor_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
@@ -162,6 +247,7 @@ class ScenariosSeeder extends Seeder
 
       $actor = new Actor();
       $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','LEK-INT-PED-01')->first()->id;
+      $actor->actor_incoming_recalculate      = 0;
       $actor->actor_age_from      = 0;
       $actor->actor_age_to        = 30;
       $actor->actor_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
@@ -176,8 +262,9 @@ class ScenariosSeeder extends Seeder
 
       $actor = new Actor();
       $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','LEK-INT-PED-01')->first()->id;
-      $actor->actor_age_from      = 3*365;
-      $actor->actor_age_to        = 5*365;
+      $actor->actor_incoming_recalculate      = 0;
+      $actor->actor_age_from      = 3;
+      $actor->actor_age_to        = 5;
       $actor->actor_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
       $actor->actor_sex           = 2;  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
       $actor->actor_role_plan_id  = \App\Models\ActorRolePlan::where('short','drugoplanowa')->first()->id;

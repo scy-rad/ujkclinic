@@ -105,7 +105,10 @@ class SceneActor extends Model
   $checksum = $digit_sum % 10;
 
   // // PESEL
-  $ret['PESEL'] = $digits_number.$checksum;
+  if ($is_child)
+    $ret['PESEL'] = '00000000000';
+  else
+    $ret['PESEL'] = $digits_number.$checksum;
   $ret['actor_sex'] = $actor_sex;
   $ret['actor_birth'] = $birthDate;
   
@@ -118,24 +121,17 @@ class SceneActor extends Model
 }
 
 
-public static function create_actor($scene_id,$actor_id,$actor_birth_date,$actor_PESEL,$actor_name,$age_from,$age_to,$actor_sex,$actor_incoming_date,$actor_incoming_recalculate,$actor_nn,$actor_role_name,$actor_history_for_actor,$actor_simulation)
+public static function create_actor($scene_id,$actor_id,$actor_birth_date,$actor_PESEL,$actor_name,$actor_sex,$actor_incoming_date,$actor_incoming_recalculate,$actor_nn,$actor_role_name,$actor_history_for_actor,$actor_simulation)
 {
     $SceneActor = new SceneActor();
 
     $SceneActor->scene_master_id = $scene_id;
 
-    if ($actor_birth_date=="")
-      $SceneActor->sa_age=rand($age_from,$age_to);
-    else
-      {
-        $now = strtotime(date('Y-m-d'));
-        $birth_date = strtotime($actor_birth_date);
-        $SceneActor->sa_age = ($now - $birth_date)/(60*60*24);
-      }
 
+        
 
         $secondDate = new DateTime(date('Y-m-d 00:00:00'));
-        $firstDate = new DateTime(date('Y-m-d H:i:s',strtotime($secondDate->format('Y-m-d H:i:s').' - '.$SceneActor->sa_age.' days')));
+        $firstDate = new DateTime(date('Y-m-d H:i:s',strtotime($actor_birth_date)));
 
         $ret['losowanie']=json_decode(SceneActor::random_actor($firstDate->format('Y-m-d'),$actor_sex),true);
 
@@ -155,26 +151,25 @@ public static function create_actor($scene_id,$actor_id,$actor_birth_date,$actor
           $SceneActor->sa_age_txt= $ret['months'].' m. '.$ret['days'].' d.';
         else
           {
-          $ret['losowanie']['PESEL']='00000000000';
           $SceneActor->sa_age_txt= $ret['days'].' d.';
-          if ($ret['days']==0)
-            $firstDate = new DateTime(date('Y-m-d H:i:s',strtotime($firstDate->format('Y-m-d H:i:s').' + '.rand(0,(60*8-1)).' minutes')));
-          else
-            $firstDate = new DateTime(date('Y-m-d H:i:s',strtotime($firstDate->format('Y-m-d H:i:s').' + '.rand(0,(60*24-1)).' minutes')));
-          $ret['days'] = $firstDate->diff($secondDate)->d;
           }
 
 
     $SceneActor->actor_id = $actor_id;
     $SceneActor->sa_incoming_date = $actor_incoming_date;
     $SceneActor->sa_incoming_recalculate = $actor_incoming_recalculate;
-    $SceneActor->sa_main_book = str_pad(rand(date('z')*30,date('z')*35), 5, 0, STR_PAD_LEFT).'/medUJK/'.date('y');
+    do
+    {
+      $SceneActor->sa_main_book = str_pad(rand(date('z')*30,date('z')*35), 5, 0, STR_PAD_LEFT).'/medUJK/'.date('y');
+    }
+    while (SceneActor::where('sa_main_book',$SceneActor->sa_main_book)->count() > 0);
+
     if ($actor_name=="")
       $SceneActor->sa_name = $ret['losowanie']['name'];
     else
       $SceneActor->sa_name = $actor_name;
     $SceneActor->sa_birth_date = $firstDate->format('Y-m-d H:i:s');
-    // sa_age
+    $SceneActor->sa_age = (strtotime(date('Y-m-d H:i:s')) - strtotime($actor_birth_date))/(60*60*24);
     // sa_age_txt
     if ($actor_PESEL=="")
       $SceneActor->sa_PESEL = $ret['losowanie']['PESEL'];

@@ -42,14 +42,32 @@ class SceneController extends Controller
 
       $request->merge(['scene_owner_id' => Auth::user()->id]);
       $request->request->remove('id');
-// dd(Actor::where('scenario_id',$request->scenario_id)->get());
+
       $scene=SceneMaster::create($request->post());
 
       if ($request->scenario_id>0)
       {
         foreach (Actor::where('scenario_id',$request->scenario_id)->get() as $actor)
         {
-          $retSA = SceneActor::create_actor($scene->id,$actor->id,"","","",$actor->actor_age_from,$actor->actor_age_to,$actor->actor_sex,$actor->actor_incoming_date,$actor->actor_incoming_recalculate,$actor->actor_nn,$actor->actor_role_name,$actor->history_for_actor,$actor->actor_simulation);
+          $sa_age=rand($actor->actor_days_from(),$actor->actor_days_to());
+
+          if ($actor->actor_age_interval==6)  //minutes
+            $sa_age = rand($actor->actor_age_from,$actor->actor_age_to).' minutes';
+          elseif ($actor->actor_age_interval==5)  //hours
+            $sa_age = rand($actor->actor_age_from,$actor->actor_age_to).' hours';
+          else
+            $sa_age = rand($actor->actor_days_from(),$actor->actor_days_to()).' days';
+          
+          if ($actor->actor_age_interval>3)
+            $secondDate = new DateTime(date('Y-m-d H:i:s',strtotime($scene->scene_date)));
+          else
+            $secondDate = new DateTime(date('Y-m-d',strtotime($scene->scene_date)));
+          
+          $firstDate = new DateTime(date('Y-m-d H:i:s',strtotime($secondDate->format('Y-m-d H:i:s').' - '.$sa_age)));
+
+          $actor_birth_date = $firstDate->format('Y-m-d H:i:s'); 
+
+          $retSA = SceneActor::create_actor($scene->id,$actor->id,$actor_birth_date,"","",$actor->actor_sex,$actor->actor_incoming_date,$actor->actor_incoming_recalculate,$actor->actor_nn,$actor->actor_role_name,$actor->history_for_actor,$actor->actor_simulation);
         }
       }
 

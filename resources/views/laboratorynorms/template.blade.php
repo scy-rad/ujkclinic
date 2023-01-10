@@ -28,7 +28,7 @@
     <span class="btn btn-outline-success" onClick="javascript:showTemplateEditModal()">Edytuj szablon badań laboratoryjnych</span>
     <p>
     <label>płeć:</label> {{$labtemplate->actor->sex_name()}} <br>
-    <label>wiek:</label> {{$labtemplate->actor->actor_age_from}} - {{$labtemplate->actor->actor_age_to}}<br>
+    <label>wiek:</label> {{$labtemplate->actor->actor_age_from}} - {{$labtemplate->actor->actor_age_to}} {{$labtemplate->actor->age_interval_name}}<br>
     <label>rodzaj szablonu:</label> {{$labtemplate->name_of_type()}}<br>
     <label>cofnięcie w czasie badań o min.:</label> {{$labtemplate->calculate_time()}}<br>
     <label>kolejność:</label> {{$labtemplate->lrt_sort}}<br>
@@ -53,7 +53,7 @@
 
         @foreach(App\Models\LaboratoryTest::where('laboratory_test_group_id',$test_one->id)->get() as $lab_test_row)
             <?php 
-            $normy=App\Models\LaboratoryTestNorm::where('laboratory_test_id',$lab_test_row->id)->where('ltn_days_from','<=',$labtemplate->actor->actor_age_to)->Where('ltn_days_to','>=',$labtemplate->actor->actor_age_from)->get();
+            $normy=App\Models\LaboratoryTestNorm::where('laboratory_test_id',$lab_test_row->id)->where('ltn_days_from','<=',$labtemplate->actor->actor_days_to())->Where('ltn_days_to','>=',$labtemplate->actor->actor_days_from())->get();
             $count=$normy->count();
             // dump($lab_test_row);
             $next=""; ?>

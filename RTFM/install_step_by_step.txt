@@ -109,9 +109,10 @@ Manually ADD & EDIT actor on scene
 
 Modal window to correction :
 - no validation
-- no activate sex value on list
 - nn isn't list or checkbox
-- PESEL generator (in future)
-- names generator (in future)
+
+###################################################
+
+Automatic ADD & EDIT actor on scene
 
 ###################################################

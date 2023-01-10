@@ -51,7 +51,7 @@
               </div>
               <div class="col-3">
                 <label for="sa_incoming_recalculate" class="form-label">przes. czasu:</label>
-                <input type="text" id="sa_incoming_recalculate" name="sa_incoming_recalculate" class="form-control" placeholder="przesunięcie czasu" value="0">
+                <input type="text" id="sa_incoming_recalculate" name="sa_incoming_recalculate" class="form-control" placeholder="przesunięcie czasu" value="">
               </div>
               <div class="col-4">
                 <label for="sa_main_book" class="form-label">nr księgi głównej:</label>
@@ -123,10 +123,11 @@
             url:"{{ route('scene.getajax') }}",
             data:{idvalue:idvalue,what:'actor'},
             success:function(data){
-                if($.isEmptyObject(data.error)){
+                if($.isEmptyObject(data.error))
+                {
                   // alert(JSON.stringify(data, null, 4));
                   if (data.scene_data.sa_actor_sex>0)
-                    {
+                  {
                     $('#SceneActorTitle').html('Edycja aktora: '+data.scene_data.id);
                     $('#actor_id').val(data.scene_data.id);
                     $('#sa_incoming_date').val(data.scene_data.sa_incoming_date);
@@ -142,8 +143,9 @@
                     $('#sa_actor_role_name').val(data.scene_data.sa_actor_role_name);
                     $('#sa_history_for_actor').val(data.scene_data.sa_history_for_actor);
                     $('#sa_actor_simulation').val(data.scene_data.sa_actor_simulation);
-                    }
+                  }
                   else
+                  {
                     $('#SceneActorTitle').html('Dodawanie aktora');
                     $('#actor_id').val(data.scene_data.id);
                     $('#sa_incoming_date').val(data.scene_data.sa_incoming_date);
@@ -159,10 +161,13 @@
                     $('#sa_actor_role_name').val(data.scene_data.sa_actor_role_name);
                     $('#sa_history_for_actor').val(data.scene_data.sa_history_for_actor);
                     $('#sa_actor_simulation').val(data.scene_data.sa_actor_simulation);
-                  }else{
-                    printErrorMsg(data.error);
                   }
                 }
+                else
+                {
+                  printErrorMsg(data.error);
+                }
+              }
             });
 
     $('#SceneActor').modal('show');
