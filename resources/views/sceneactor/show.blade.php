@@ -56,7 +56,7 @@ dump($sceneactor);
   {
     var zmienna = $('#relative_sec').val();
 
-    var data = new Date(new Date().getTime()+(zmienna*1000));
+    var data = new Date(new Date().getTime()+(zmienna*1000-3600000)); //- 3600000: hand changing timezone
 
     var godzina = data.getHours();
     var minuta = data.getMinutes();

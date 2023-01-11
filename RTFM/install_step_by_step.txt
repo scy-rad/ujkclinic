@@ -122,3 +122,9 @@ php artisan make:controller SceneActorController --resource
 Add ScenaActor controller (+ basic view with scene clock)
 
 ###################################################
+
+Change javascript scene time calculate...
+... -3600000)); //- 3600000: hand changing timezone)
+on Scene & SceneActor show views
+
+###################################################
