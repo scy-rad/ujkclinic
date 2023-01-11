@@ -15,7 +15,7 @@
 
 
 <!-- clock code part I -->
-<div class="row">
+<div class="row mb-3">
   <div class="col-2">
     <div class="bg-primary btn w-100 text-center text-truncate" disabled id="zegar">
       {{date("Y-m-d",strtotime($sceneactor->scene->scene_date))}}
@@ -38,7 +38,65 @@
 <input type="hidden" id="relative_sec" value="{{$diff_sec}}">
 <!-- end of clock code part I -->
 
+<div class="row">
+  <div class="col-2">
+    <div class="card">
+      <div class="card-header">
+      <i class="bi bi-file-person"></i>
+        <h2>{{$sceneactor->sa_name}}</h2>
+      </div>
+      <p>
+        <label>nr KG:</label> {{$sceneactor->sa_main_book}}<br>
+        <label>wiek:</label> {{$sceneactor->sa_age_txt}}<br>
+        <label>PESEL:</label> {{$sceneactor->sa_PESEL}}<br>
+        <label>data prz.:</label> {{$sceneactor->sa_incoming_date}}
+      </p>
+    </div>
+  </div>
+  <div class="col-2">
+    <div class="card">
+      <div class="card-header">
+      <i class="bi bi-eyedropper"></i> 
+      Badania Laboratoryjne
+      </div>
+      xyz
+      <div class="card-footer">
+      <i class="bi bi-eyedropper"></i> 
+      Dodaj
+      </div>
+    </div>
+  </div>
 
+  <div class="col-2">
+    <div class="card">
+      <div class="card-header">
+      <i class="bi bi-camera-video"></i> 
+      Badania Diagnostyczne
+      </div>
+      xyz
+      <div class="card-footer">
+      <i class="bi bi-camera-video"></i> 
+      Dodaj
+      </div>
+    </div>
+  </div>
+
+  <div class="col-2">
+    <div class="card">
+      <div class="card-header">
+      <i class="bi bi-card-list"></i> 
+      Dok. medyczna
+      </div>
+      xyz
+      <div class="card-footer">
+      <i class="bi bi-card-list"></i> 
+      Dodaj
+      </div>
+    </div>
+  </div>
+
+
+</div>
 <?php
 dump($sceneactor);
 ?>

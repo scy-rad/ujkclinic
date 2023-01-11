@@ -128,3 +128,4 @@ Change javascript scene time calculate...
 on Scene & SceneActor show views
 
 ###################################################
+Create SceneActor show layout for LaboratoryTests
