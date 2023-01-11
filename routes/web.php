@@ -32,9 +32,12 @@ Route::middleware('auth')->group(function () {
 Route::resource('/scenario', App\Http\Controllers\ScenarioController::class);
 Route::resource('/actor', App\Http\Controllers\ActorController::class);
 Route::resource('/scene', App\Http\Controllers\SceneController::class);
+Route::resource('/sceneactor', App\Http\Controllers\SceneActorController::class);
+
 Route::get('/scenegetajax', [App\Http\Controllers\SceneController::class, 'getajax'])->name('scene.getajax');
 Route::post('/sceneupdateajax', [App\Http\Controllers\SceneController::class, 'updateajax'])->name('scene.updateajax');
-Route::post('/sceneactorsave', [App\Http\Controllers\ActorController::class, 'actor_scene_save_ajax'])->name('actor.actor_save_ajax');
+
+Route::post('/sceneactorsave', [App\Http\Controllers\SceneActorController::class, 'actor_scene_save_ajax'])->name('actor.actor_save_ajax');
 
 
 Route::get('/laboratorynorms', [App\Http\Controllers\LaboratoryNormController::class, 'index'])->name('laboratorynorms.index');

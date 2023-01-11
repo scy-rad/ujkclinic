@@ -116,3 +116,9 @@ Modal window to correction :
 Automatic ADD & EDIT actor on scene
 
 ###################################################
+
+php artisan make:controller SceneActorController --resource
+
+Add ScenaActor controller (+ basic view with scene clock)
+
+###################################################

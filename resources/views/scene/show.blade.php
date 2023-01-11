@@ -34,10 +34,8 @@
   </div>
 </div>
 
-<input type="hidden" id="relative_min" value="{{$diff_min}}">
+<input type="hidden" id="relative_sec" value="{{$diff_sec}}">
 <!-- end of clock code part I -->
-
-
 
 
 
@@ -117,8 +115,17 @@
    {{$actor->sa_name}}
   </div>
    {{$actor->sa_actor_role_name}}
-  <button class="btn btn-warning btn-sm" onClick="javascript:showActorModal({{$actor->id}})"> <i class="bi bi-incognito"></i> edytuj </button>
-  <button class="btn btn-success btn-sm" > <i class="bi bi-incognito"></i> wybierz </button>
+   @if (!is_null($actor->sa_incoming_date))
+   <a href="{{ route('sceneactor.show',$actor->id) }}" class="btn btn-success btn-sm" > <i class="bi bi-incognito"></i> wybierz </a>
+    @else
+   <button class="btn btn-warning btn-sm" onClick="javascript:showActorModal({{$actor->id}})"> <i class="bi bi-incognito"></i> edytuj </button>
+  <form action="{{ route('sceneactor.update',$actor->id) }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
+    <input type="hidden" name="action" value="registry">
+    <button type="submit" class="btn btn-primary btn-sm col-12" > <i class="bi bi-pin-map"></i> rejestruj </button>
+  </form>
+  @endif
 </div>
 @endforeach
 
@@ -136,9 +143,9 @@
 <script>
   function zegarek()
   {
-    var zmienna = $('#relative_min').val();
+    var zmienna = $('#relative_sec').val();
 
-    var data = new Date(new Date().getTime()+(zmienna*60*1000));
+    var data = new Date(new Date().getTime()+(zmienna*1000));
 
     var godzina = data.getHours();
     var minuta = data.getMinutes();
@@ -176,9 +183,9 @@
       success:function(data){
           if($.isEmptyObject(data.error)){
             // alert(JSON.stringify(data, null, 4));
-            if (data.scene_data.diff_min != $('#relative_min').val())
+            if (data.scene_data.diff_sec != $('#relative_sec').val())
             {
-              $('#relative_min').val(data.scene_data.diff_min);
+              $('#relative_sec').val(data.scene_data.diff_sec);
             }
             if (data.scene_data.scene_step_minutes != $('#min_step').text())
             {
@@ -195,7 +202,7 @@
 <script>
   $(document).ready(function(){
     window.setInterval(function () {
-      get_relative_time(1);
+      get_relative_time({{$scene->id}});
     }, 1000);
   });
 </script>

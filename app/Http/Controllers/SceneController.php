@@ -86,7 +86,7 @@ class SceneController extends Controller
     {
       $ret['scene']=SceneMaster::where('id',$id)->first();
       $ret['base_scenario']=Scenario::where('id',$ret['scene']->scenario_id)->first();
-      $ret['diff_min'] = round((strtotime($ret['scene']->scene_date) - strtotime($ret['scene']->scene_relative_date)) / 60,0);
+      $ret['diff_sec'] = (strtotime($ret['scene']->scene_date) - strtotime($ret['scene']->scene_relative_date));
       $ret['actors']=SceneActor::where('scene_master_id',$id)->get();
       return view('scene.show',$ret);
     }
@@ -138,7 +138,7 @@ class SceneController extends Controller
       {
         case 'relative_time':
           $ret = SceneMaster::select('scene_date','scene_relative_date','scene_relative_id','scene_step_minutes')->where('id',$request->idvalue)->first()->toArray();
-          $ret['diff_min'] = round((strtotime($ret['scene_date']) - strtotime($ret['scene_relative_date'])) / 60,0);
+          $ret['diff_sec'] = (strtotime($ret['scene_date']) - strtotime($ret['scene_relative_date']));
           $ret = ['success' => 'Dane raczej pobrane prawidłowo :) .','scene_data' => $ret];
         break;
         
