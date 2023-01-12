@@ -20,6 +20,7 @@ return new class extends Migration
         Schema::create('laboratory_tests', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('laboratory_test_group_id');
+            $table->unsignedBigInteger('laboratory_order_id');
             $table->string('lt_name');
             $table->string('lt_name_en');
             $table->string('lt_short');
@@ -38,6 +39,11 @@ return new class extends Migration
               ->references('id')
               ->on('laboratory_test_groups');
         });
+        Schema::table('laboratory_tests', function (Blueprint $table) {
+          $table->foreign('laboratory_order_id')
+              ->references('id')
+              ->on('laboratory_orders');
+        });
 
     }
 
@@ -50,6 +56,9 @@ return new class extends Migration
     {
       Schema::table('laboratory_tests', function (Blueprint $table) {
         $table->dropForeign(['laboratory_test_group_id']);
+        });
+      Schema::table('laboratory_tests', function (Blueprint $table) {
+        $table->dropForeign(['laboratory_order_id']);
         });
       Schema::dropIfExists('laboratory_tests');
     }

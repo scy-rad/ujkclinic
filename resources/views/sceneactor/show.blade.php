@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('module_info')
-<i class="bi bi-badge-8k"></i> Scene -> show <span class="text-danger">in progress...</span>
+<i class="bi bi-badge-8k"></i> SceneActor -> show <span class="text-danger">in progress...</span>
 @endsection
 
 @section('add_styles')
@@ -61,8 +61,7 @@
       </div>
       xyz
       <div class="card-footer">
-      <i class="bi bi-eyedropper"></i> 
-      Dodaj
+        <button class="btn btn-warning btn-sm col-12" onClick="javascript:showLabOrderModal()"> <i class="bi bi-eyedropper"></i> dodaj </button>
       </div>
     </div>
   </div>
@@ -97,15 +96,13 @@
 
 
 </div>
-<?php
-dump($sceneactor);
-?>
-
 
 
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
+
+@include('sceneactor.modal_lab_order')
 
 @if (!is_null($sceneactor->scene->scene_relative_date))
 <!-- clock code part II -->
