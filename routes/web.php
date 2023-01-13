@@ -33,6 +33,8 @@ Route::resource('/scenario', App\Http\Controllers\ScenarioController::class);
 Route::resource('/actor', App\Http\Controllers\ActorController::class);
 Route::resource('/scene', App\Http\Controllers\SceneController::class);
 Route::resource('/sceneactor', App\Http\Controllers\SceneActorController::class);
+Route::resource('/salaborder', App\Http\Controllers\SceneActorLabOrderController::class);
+
 
 Route::get('/scenegetajax', [App\Http\Controllers\SceneController::class, 'getajax'])->name('scene.getajax');
 Route::post('/sceneupdateajax', [App\Http\Controllers\SceneController::class, 'updateajax'])->name('scene.updateajax');

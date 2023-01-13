@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\SceneActor;
+use App\Models\SceneActorLabOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -48,6 +49,7 @@ class SceneActorController extends Controller
     public function show($id)
     {
       $ret['sceneactor']=SceneActor::where('id',$id)->first();
+      $ret['laborders']=SceneActorLabOrder::where('scene_actor_id',$id)->get();
       $ret['diff_sec'] = (strtotime($ret['sceneactor']->scene->scene_date) - strtotime($ret['sceneactor']->scene->scene_relative_date));
       return view('sceneactor.show',$ret);
     }
@@ -75,12 +77,10 @@ class SceneActorController extends Controller
       switch ($request->action)
         {
           case 'registry':
-           
-            $diff= (strtotime(date('Y-m-d H:i:s'))  + (strtotime($sceneactor->scene->scene_date) - strtotime($sceneactor->scene->scene_relative_date) ) );
             
-            $sceneactor->sa_incoming_date=date('Y-m-d H:i:s',$diff);
+            $sceneactor->sa_incoming_date=$sceneactor->scene->scene_current_time();
             $sceneactor->save();
-            // dd(date('Y-m-d H:i:s',$diff));
+
             return back()->with('success', 'Aktor przyjęty na scenę.');
             break;
 

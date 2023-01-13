@@ -133,3 +133,9 @@ Create modal LabOrder
 
 php artisan make:model LaboratoryOrderGroup -m
 php artisan make:model LaboratoryOrder -m
+
+php artisan make:controller SceneActorLabOrderController --resource
+php artisan make:model  SceneActorLabOrder --migration
+php artisan make:model  SceneActorLabResult --migration
+
+

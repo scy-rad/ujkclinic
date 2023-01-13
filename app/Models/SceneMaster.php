@@ -47,4 +47,11 @@ class SceneMaster extends Model
       }
     return $ret_txt;
   }
+  public function scene_current_time()
+  {
+    if (is_null($this->scene_relative_date))
+      return $this->scene_date;
+    else
+      return date("Y-m-d H:i:s",strtotime(date('Y-m-d H:i:s')) + strtotime($this->scene_date) - strtotime($this->scene_relative_date));
+  }
 }

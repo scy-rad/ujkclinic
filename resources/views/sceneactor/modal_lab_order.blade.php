@@ -25,15 +25,13 @@
       <div class="modal-body">
 
 
-          <form action="{__{ route('laboratoryorder.store') }__}" method="post" enctype="multipart/form-data">
-            {{ csrf_field() }}
+          <form action="{{ route('salaborder.store') }}" method="post" enctype="multipart/form-data">
+            @csrf
             <div class="alert alert-danger print-error-msg" style="display:none">
                 <ul></ul>
             </div>
 
-            <input type="hidden" name="scene_master_id" value="">
-            <input type="hidden" id="actor_id" name="id" value="">
-            
+            <input type="hidden" id="actor_id" name="scene_actor_id" value="{{$sceneactor->id}}">
 
             <div class="row mb-3">
               <div class="col col-auto">
@@ -41,7 +39,7 @@
                   {{$group_one->log_name}}
                     @foreach (App\Models\LaboratoryOrder::where('laboratory_order_group_id',$group_one->id)->get() as $test_one)
                       <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="test{{$test_one->id}}" name="test{{$test_one->id}}">
+                        <input class="form-check-input" type="checkbox" value="{{$test_one->id}}" id="test{{$test_one->id}}" name="test{{$test_one->id}}">
                         <label class="form-check-label" for="flexCheckDefault">
                           {{$test_one->lo_name}}
                         </label>
@@ -55,8 +53,16 @@
               </div>
             </div>
             <div class="mb-3 text-center">
-              <button type="submit" class="btn btn-success btn-submit btn-tmpl-edit">Potwierdź</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">zamknij</button>
+            <div class="col-1 form-check">
+                        <input class="form-check-input" type="checkbox" id="cito" name="cito">
+                        <label class="form-check-label" for="flexCheckDefault">
+                          CITO
+                        </label>
+                      </div>
+              <div>
+                <button type="submit" class="btn btn-success btn-submit btn-tmpl-edit">Potwierdź</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">zamknij</button>
+              </div>
             </div>
         </form>
       </div>
@@ -67,6 +73,9 @@
 <script type="text/javascript">
   function showLabOrderModal()
   {
+    var get= document.getElementsByClassName('form-check-input');
+    for(var i= 0; i<get.length; i++){
+      get[i].checked= false;}
     $('#LabOrder').modal('show');
   }
 

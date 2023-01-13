@@ -59,7 +59,11 @@
       <i class="bi bi-eyedropper"></i> 
       Badania Laboratoryjne
       </div>
-      xyz
+        <ul>
+          @foreach ($laborders as $order_one)
+            <li>{{$order_one->salo_date_order}}</li>
+          @endforeach
+        </ul>
       <div class="card-footer">
         <button class="btn btn-warning btn-sm col-12" onClick="javascript:showLabOrderModal()"> <i class="bi bi-eyedropper"></i> dodaj </button>
       </div>
