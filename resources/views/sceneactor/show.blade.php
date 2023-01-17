@@ -61,7 +61,7 @@
       </div>
         <ul>
           @foreach ($laborders as $order_one)
-            <li>{{$order_one->salo_date_order}}</li>
+            <li onClick="javascript:showLabResultModal({{$order_one->id}})">{{$order_one->salo_date_order}}</li>
           @endforeach
         </ul>
       <div class="card-footer">
@@ -107,6 +107,7 @@
 
 
 @include('sceneactor.modal_lab_order')
+@include('sceneactor.modal_lab_results')
 
 @if (!is_null($sceneactor->scene->scene_relative_date))
 <!-- clock code part II -->

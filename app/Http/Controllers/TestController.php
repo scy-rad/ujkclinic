@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Actor;
+use App\Models\LaboratoryOrder;
+use App\Models\LaboratoryOrderGroup;
 use App\Models\SceneActor;
+use App\Models\SceneActorLabOrder;
+use App\Models\SceneActorLabResult;
+use App\Models\SceneLabResult;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class TestController extends Controller
@@ -17,14 +23,31 @@ class TestController extends Controller
      */
         public function index()
     {
-      $ret['SceneActor'] = 'SceneActor';
 
+      $ret=SceneActorLabOrder::get_ajax_order(1,'table');
       return view('tests.test',['wynik' => $ret]);
 
     }
     public function index2()
     {
-        return view('tests.test2');
+      $requestidvalue = 1;
+      dump(SceneActorLabOrder::where('id',$requestidvalue)->get());
+
+      $actor=SceneActorLabOrder::where('id',$requestidvalue)->first()->scene_actor;
+      foreach (SceneActorLabResult::where('scene_actor_lab_order_id',$requestidvalue)->get() as $lo_one)
+      {
+        // $lo_one->
+        dump($lo_one->lab_order->salo_date_order);
+      //   dump($lo_one->laboratory_test->laboratory_test_norms()
+      //   ->where('ltn_days_from','<=',$actor->sa_age)
+      //   ->where('ltn_days_to','>=',$actor->sa_age)
+      //   ->first()
+      // );
+      }
+
+      $ret="sss";
+
+        return view('tests.test2',['wynik' => $ret]);
     }
 
     public function ajx_room_storages(Request $request)

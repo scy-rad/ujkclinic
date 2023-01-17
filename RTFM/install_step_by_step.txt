@@ -138,4 +138,8 @@ php artisan make:controller SceneActorLabOrderController --resource
 php artisan make:model  SceneActorLabOrder --migration
 php artisan make:model  SceneActorLabResult --migration
 
+###################################################
+
+Show SceneActor LaboratoryTests Results
+
 

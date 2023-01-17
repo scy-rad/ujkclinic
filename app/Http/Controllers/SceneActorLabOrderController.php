@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\LaboratoryOrder;
 use App\Models\LaboratoryTest;
+use App\Models\LaboratoryTestNorm;
 use App\Models\SceneActor;
 use App\Models\SceneActorLabOrder;
 use App\Models\SceneActorLabResult;
+use App\Models\SceneMaster;
 use Illuminate\Http\Request;
 
 class SceneActorLabOrderController extends Controller
@@ -40,7 +42,9 @@ class SceneActorLabOrderController extends Controller
     public function store(Request $request)
     {
 
+      // $actor=SceneActor::where('id',$request->scene_actor_id)->first();
       $scene=SceneActor::where('id',$request->scene_actor_id)->first()->scene()->first();
+      
       // dump($scene);
 
       $new_order = new SceneActorLabOrder();
@@ -62,7 +66,12 @@ class SceneActorLabOrderController extends Controller
                 {
                   $new_result = new SceneActorLabResult();
                   $new_result->scene_actor_lab_order_id = $new_order->id;
-                  $new_result->laboratory_test_id = $lab_one->id; 
+                  $new_result->laboratory_test_id = $lab_one->id;
+                  // $new_result->laboratory_test_norm_id = LaboratoryTestNorm::where('laboratory_test_id',$lab_one->id)
+                  // ->where('ltn_days_from','<=',$actor=>sa_age)
+                  // ->where('ltn_days_to','<=',$actor=<sa_age)
+                  // ->first()->id;
+                  // ; 
                   // $new_result->salr_result
                   // $new_result->salr_resulttxt
                   // $new_result->salr_addedtext
@@ -120,4 +129,25 @@ class SceneActorLabOrderController extends Controller
     {
         //
     }
+
+
+    public function getajax(Request $request)
+    {
+      $ret=$request->idvalue;
+      switch ($request->what)
+      {
+        case 'lab_results':
+          $ret=['success' => 'Dane dla sceny 1 (wpisane ręczne) raczej pobrane prawidłowo :) .','salo_data' => SceneActorLabOrder::get_ajax_order($request->idvalue,'html')];  
+        break;
+        default:
+          $ret = ['success' => 'Coś nie pykło... :) .'];
+        break;
+        
+      }
+      return response()->json($ret);
+    } // end of public function getajax
+
+
+
+
 }

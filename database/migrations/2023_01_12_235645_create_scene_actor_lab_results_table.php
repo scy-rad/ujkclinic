@@ -22,6 +22,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('scene_actor_lab_order_id');
             $table->unsignedBigInteger('laboratory_test_id');
+            $table->dateTime('salr_date')->nullable();
             $table->Integer('salr_result')->nullable()->default(null);
             $table->string('salr_resulttxt')->nullable()->default(null);
             $table->string('salr_addedtext')->nullable()->default(null);
