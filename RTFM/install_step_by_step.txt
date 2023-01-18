@@ -68,8 +68,8 @@ add USER module
 adapted from UJKlides - apply changes for better visibility. In future I planne integration medUJK with UJKlides :)
 ###################################################
 
-php artisan make:model LabTemplate -m
-php artisan make:model LabTemplateResult -m
+php artisan make:model LabOrderTemplate -m
+php artisan make:model LabResultTemplate -m
 
 apply CRU functionality for Laboratory Templates & Results (wihout Delete yet)
 ###################################################
@@ -143,3 +143,5 @@ php artisan make:model  SceneActorLabResult --migration
 Show SceneActor LaboratoryTests Results
 Edit SceneActor LaboratoryTests Results (basic)
 Change database structure for moving test results from scenario to scene
+Edit SceneActor LaboratoryTests Results (advanced):
+   -> adding laboratory tests templates when creating a scene from scenario

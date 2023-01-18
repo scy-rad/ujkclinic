@@ -7,6 +7,8 @@ use App\Models\Scenario;
 use App\Models\SceneMaster;
 use App\Models\SceneActor;
 use App\Models\SceneActorLabOrder;
+use App\Models\SceneActorLabOrderTemplate;
+use App\Models\SceneActorLabResultTemplate;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -44,6 +46,9 @@ class SceneController extends Controller
       $request->merge(['scene_owner_id' => Auth::user()->id]);
       $request->request->remove('id');
 
+        // dump($order_one);
+      // dd('end');
+      
       $scene=SceneMaster::create($request->post());
 
       if ($request->scenario_id>0)
@@ -55,7 +60,7 @@ class SceneController extends Controller
           if ($actor->actor_age_interval==6)  //minutes
             $sa_age = rand($actor->actor_age_from,$actor->actor_age_to).' minutes';
           elseif ($actor->actor_age_interval==5)  //hours
-            $sa_age = rand($actor->actor_age_from,$actor->actor_age_to).' hours';
+            $sa_age = rand($actor->actor_age_from,$actor->alrt_typector_age_to).' hours';
           else
             $sa_age = rand($actor->actor_days_from(),$actor->actor_days_to()).' days';
           
@@ -68,7 +73,36 @@ class SceneController extends Controller
 
           $actor_birth_date = $firstDate->format('Y-m-d H:i:s'); 
 
-          $retSA = SceneActor::create_actor($scene->id,$actor->id,$actor_birth_date,"","",$actor->actor_sex,$actor->actor_incoming_date,$actor->actor_incoming_recalculate,$actor->actor_nn,$actor->actor_role_name,$actor->history_for_actor,$actor->actor_simulation);
+          $new_SA = SceneActor::create_actor($scene->id,$actor->id,$actor_birth_date,"","",$actor->actor_sex,$actor->actor_incoming_date,$actor->actor_incoming_recalculate,$actor->actor_nn,$actor->actor_role_name,$actor->history_for_actor,$actor->actor_simulation);
+
+
+                // $actor = Actor::where('scenario_id',$request->scenario_id)->first();
+      foreach ($actor->lab_order_templates as $order_one)
+      {
+        $new_order = new SceneActorLabOrderTemplate();
+        $new_order->scene_actor_id            = $new_SA->id;	
+        $new_order->lab_order_template_id	    = $order_one->id;
+        $new_order->salot_lrt_minutes_before	= $order_one->lrt_minutes_before;
+        $new_order->salo_descript             = $order_one->description_for_leader;
+        $new_order->save();
+        // dd($new_order);
+        foreach ($order_one->results as $result_one)
+        {
+          $new_result = new SceneActorLabResultTemplate();
+          $new_result->salot_id             = $new_order->id;
+          $new_result->laboratory_test_id   = $result_one->laboratory_test_id;
+          $new_result->salr_result          = $result_one->lrtr_result;
+          $new_result->salr_resulttxt       = $result_one->lrtr_resulttxt;
+          $new_result->salr_addedtext       = $result_one->lrtr_addedtext;
+          $new_result->salr_type            = $result_one->lrtr_type;
+          $new_result->save();
+          // dump($result_one);
+          // dump($new_result);
+        }
+      }
+
+
+          dump($actor);
         }
       }
 

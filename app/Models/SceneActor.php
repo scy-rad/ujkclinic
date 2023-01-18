@@ -175,6 +175,8 @@ public static function create_actor($scene_id,$actor_id,$actor_birth_date,$actor
     $SceneActor->sa_actor_simulation = $actor_simulation;
 
     $SceneActor->save();
+
+    return $SceneActor;
   } // end of public static function
 
 
