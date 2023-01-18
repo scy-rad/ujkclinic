@@ -122,38 +122,31 @@ class SceneActor extends Model
 
 
 public static function create_actor($scene_id,$actor_id,$actor_birth_date,$actor_PESEL,$actor_name,$actor_sex,$actor_incoming_date,$actor_incoming_recalculate,$actor_nn,$actor_role_name,$actor_history_for_actor,$actor_simulation)
-{
+  {
     $SceneActor = new SceneActor();
 
     $SceneActor->scene_master_id = $scene_id;
 
+    $secondDate = new DateTime(date('Y-m-d 00:00:00'));
+    $firstDate = new DateTime(date('Y-m-d H:i:s',strtotime($actor_birth_date)));
 
+    $ret['losowanie']=json_decode(SceneActor::random_actor($firstDate->format('Y-m-d'),$actor_sex),true);
+
+    // $ret['diff'] = $firstDate->diff($secondDate);
+    $ret['years'] = $firstDate->diff($secondDate)->y;
+    $ret['months'] = $firstDate->diff($secondDate)->m;
+    $ret['days'] = $firstDate->diff($secondDate)->d;
         
-
-        $secondDate = new DateTime(date('Y-m-d 00:00:00'));
-        $firstDate = new DateTime(date('Y-m-d H:i:s',strtotime($actor_birth_date)));
-
-        $ret['losowanie']=json_decode(SceneActor::random_actor($firstDate->format('Y-m-d'),$actor_sex),true);
-
-        // $ret['diff'] = $firstDate->diff($secondDate);
-        $ret['years'] = $firstDate->diff($secondDate)->y;
-        $ret['months'] = $firstDate->diff($secondDate)->m;
-        $ret['days'] = $firstDate->diff($secondDate)->d;
-        
-    // $SceneActor->sa_age_txt
-        if ($ret['years']>2)
-          $SceneActor->sa_age_txt= $ret['years'].' l.';
-        elseif ($ret['years']>0)
-          $SceneActor->sa_age_txt= $ret['years'].' l '.$ret['months'].' m.';
-        elseif ($ret['months']>5)
-          $SceneActor->sa_age_txt= $ret['months'].' m.';
-        elseif ($ret['months']>0)
-          $SceneActor->sa_age_txt= $ret['months'].' m. '.$ret['days'].' d.';
-        else
-          {
-          $SceneActor->sa_age_txt= $ret['days'].' d.';
-          }
-
+    if ($ret['years']>2)
+      $SceneActor->sa_age_txt= $ret['years'].' l.';
+    elseif ($ret['years']>0)
+      $SceneActor->sa_age_txt= $ret['years'].' l '.$ret['months'].' m.';
+    elseif ($ret['months']>5)
+      $SceneActor->sa_age_txt= $ret['months'].' m.';
+    elseif ($ret['months']>0)
+      $SceneActor->sa_age_txt= $ret['months'].' m. '.$ret['days'].' d.';
+    else
+      $SceneActor->sa_age_txt= $ret['days'].' d.';
 
     $SceneActor->actor_id = $actor_id;
     $SceneActor->sa_incoming_date = $actor_incoming_date;
@@ -182,8 +175,7 @@ public static function create_actor($scene_id,$actor_id,$actor_birth_date,$actor
     $SceneActor->sa_actor_simulation = $actor_simulation;
 
     $SceneActor->save();
-    }
-
+  } // end of public static function
 
 
 }

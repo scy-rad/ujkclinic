@@ -32,6 +32,10 @@ class SceneMaster extends Model
   {
     return $this->hasMany(SceneActor::class);
   }
+  public function laboratory_orders() 
+  {
+    return $this->hasManyThrough(SceneActorLabOrder::class,SceneActor::class);
+  }
   public function personels() 
   {
     return $this->hasMany(ScenePersonel::class);

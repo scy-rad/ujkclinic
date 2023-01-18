@@ -107,28 +107,63 @@
 
 
 <div class="row">
-<div class="col-2">
-@foreach ($actors as $actor)
-<div class="card mb-3">
-  <div class="card-header">
-   <i class="bi bi-file-person"></i>
-   {{$actor->sa_name}}
-  </div>
-   {{$actor->sa_actor_role_name}}
-   @if (!is_null($actor->sa_incoming_date))
-   <a href="{{ route('sceneactor.show',$actor->id) }}" class="btn btn-success btn-sm" > <i class="bi bi-incognito"></i> wybierz </a>
-    @else
-   <button class="btn btn-warning btn-sm" onClick="javascript:showActorModal({{$actor->id}})"> <i class="bi bi-incognito"></i> edytuj </button>
-  <form action="{{ route('sceneactor.update',$actor->id) }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    @method('PUT')
-    <input type="hidden" name="action" value="registry">
-    <button type="submit" class="btn btn-primary btn-sm col-12" > <i class="bi bi-pin-map"></i> rejestruj </button>
-  </form>
-  @endif
-</div>
-@endforeach
+  <div class="col-2">
+    @foreach ($actors as $actor)
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="bi bi-file-person"></i>
+          {{$actor->sa_name}}
+        </div>
+        {{$actor->sa_actor_role_name}}
+        @if (!is_null($actor->sa_incoming_date))
+          <a href="{{ route('sceneactor.show',$actor->id) }}" class="btn btn-success btn-sm" > <i class="bi bi-incognito"></i> wybierz </a>
+        @else
+          <button class="btn btn-warning btn-sm" onClick="javascript:showActorModal({{$actor->id}})"> <i class="bi bi-incognito"></i> edytuj </button>
+          <form action="{{ route('sceneactor.update',$actor->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <input type="hidden" name="action" value="registry">
+            <button type="submit" class="btn btn-primary btn-sm col-12" > <i class="bi bi-pin-map"></i> rejestruj </button>
+          </form>
+        @endif
+      </div>
+    @endforeach
+  </div>  <!-- col-2 -->
+  <div class="col-2">
+    <div class="card">
+      <div class="card-header">
+      <i class="bi bi-eyedropper"></i> 
+      Badania Laboratoryjne
+      </div>
+        <ul>
+          @foreach($scene->laboratory_orders as $lab_order)
+          <li onClick="javascript:fill_extra_body({{$lab_order->id}},'order')">{{$lab_order->scene_actor->sa_name}}: {{$lab_order->salo_date_order}}</li>
+            @if (is_null($lab_order->salo_date_take))
+              <i class="bi bi-bookmark"></i>
+            @endif
+            @if (is_null($lab_order->salo_date_income))
+              <i class="bi bi-bookmark"></i>
+            @endif
+            @if (is_null($lab_order->salo_date_accept))
+              <i class="bi bi-bookmark"></i>
+            @else
+              @if ($lab_order->salo_date_accept>$scene->scene_current_time())
+                <i class="bi bi-bookmark-fill text-success"></i>
+              @else
+                <i class="bi bi-bookmark-fill text-warning"></i>
+              @endif
+            @endif
+          @endforeach
+        </ul>
+      <div class="card-footer">
+      </div>
+    </div>
+  </div>  <!-- col-2 -->
+  <div id="extra_body" class="col-8 border border-2 rounded">
 
+  </div>  <!-- extra_body col-8 -->
+
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
@@ -136,6 +171,32 @@
 @include('scene.modal_scene_actor')
 
 @include('scene.modal_scene_master')
+
+<script type="text/javascript">
+  function clear_extra_body()
+  {
+    $('#extra_body').html('....');
+  }
+  function fill_extra_body(idvalue,what)
+  {
+    $.ajax({
+            type:'GET',
+            url:"{{ route('scene.getajax') }}",
+            data:{idvalue:idvalue,what:what},
+            success:function(data){
+                if($.isEmptyObject(data.error))
+                {
+                  // alert(JSON.stringify(data, null, 4));
+                  $('#extra_body').html(data.body);
+                }
+                else
+                {
+                  printErrorMsg(data.error);
+                }
+              }
+            });
+  }
+</script>
 
 
 @if (!is_null($scene->scene_relative_date))

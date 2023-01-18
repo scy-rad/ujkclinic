@@ -6,6 +6,7 @@ use App\Models\Actor;
 use App\Models\Scenario;
 use App\Models\SceneMaster;
 use App\Models\SceneActor;
+use App\Models\SceneActorLabOrder;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -158,6 +159,11 @@ class SceneController extends Controller
           $ret=json_decode(SceneActor::random_actor($request->birth_date,$request->actor_sex),true);
           // $ret = ['success' => 'Dane raczej wygenerowane prawidłowo :) .','scene_data' => $ret];  
         break;
+
+        case 'order':
+          $ret=['body' => SceneActorLabOrder::create_order_form($request->idvalue) ];
+
+          break;
       }
       return response()->json($ret);
     } // end of public function getajax
@@ -186,6 +192,12 @@ class SceneController extends Controller
           $scene->scene_relative_date = null; 
           $scene->save();
         break;
+        case 'order':
+          SceneActorLabOrder::update_order_form($request);
+          return back()->with('success', 'Powinno się udać...');    
+        break;
+        default:
+          dd('something wrong in updateajax Scene Controller function');
       }
 
       $ret = ['success' => 'Dane raczej zapisane prawidłowo :) .','table' => $ret];

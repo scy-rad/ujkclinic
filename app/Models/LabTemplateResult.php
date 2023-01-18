@@ -39,7 +39,7 @@ class LabTemplateResult extends Model
       $ret[2]['value']="błąd";
       $ret[2]['txt']="Laboratory error";
       $ret[3]['id']=3;
-      $ret[3]['value']="bad. niedostępne";
+      $ret[3]['value']="niedostępne";
       $ret[3]['txt']="Test unavailable";
 
       return $ret;

@@ -137,7 +137,7 @@ class SceneActorLabOrderController extends Controller
       switch ($request->what)
       {
         case 'lab_results':
-          $ret=['success' => 'Dane dla sceny 1 (wpisane ręczne) raczej pobrane prawidłowo :) .','salo_data' => SceneActorLabOrder::get_ajax_order($request->idvalue,'html')];  
+          $ret=['success' => 'Dane dla sceny 1 (wpisane ręczne) raczej pobrane prawidłowo :) .','salo_data' => SceneActorLabOrder::get_order_for_ajax($request->idvalue,'html')];  
         break;
         default:
           $ret = ['success' => 'Coś nie pykło... :) .'];

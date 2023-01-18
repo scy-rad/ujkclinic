@@ -141,5 +141,7 @@ php artisan make:model  SceneActorLabResult --migration
 ###################################################
 
 Show SceneActor LaboratoryTests Results
+Edit SceneActor LaboratoryTests Results (basic)
+
 
 

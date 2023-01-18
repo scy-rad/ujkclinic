@@ -28,7 +28,7 @@
     <span class="btn btn-outline-success" onClick="javascript:showTemplateEditModal()">Edytuj szablon badań laboratoryjnych</span>
     <p>
     <label>płeć:</label> {{$labtemplate->actor->sex_name()}} <br>
-    <label>wiek:</label> {{$labtemplate->actor->actor_age_from}} - {{$labtemplate->actor->actor_age_to}} {{$labtemplate->actor->age_interval_name}}<br>
+    <label>wiek:</label> {{$labtemplate->actor->actor_age_from}} - {{$labtemplate->actor->actor_age_to}} {{$labtemplate->actor->age_interval_name()}}<br>
     <label>rodzaj szablonu:</label> {{$labtemplate->name_of_type()}}<br>
     <label>cofnięcie w czasie badań o min.:</label> {{$labtemplate->calculate_time()}}<br>
     <label>kolejność:</label> {{$labtemplate->lrt_sort}}<br>
