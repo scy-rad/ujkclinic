@@ -58,7 +58,7 @@
       </div>
       <div class="card-body">
         <ul>
-          @foreach ($actor->lab_templates as $lrt)
+          @foreach ($actor->lab_order_templates as $lrt)
             <li><a href="{{route('laboratorynorm.template', $lrt->id)}}"><label class="small text-primary fw-bold">{{$lrt->id}} [{{$lrt->name_of_type()}}]:</label> {{$lrt->description_for_leader}} </a></li>
           @endforeach
         </ul>
@@ -108,7 +108,7 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
 <?php
-$labtemplate=new App\Models\LabTemplate();
+$lab_order_template=new App\Models\LabOrderTemplate();
 $actor_id=$actor->id;
 ?>
 @include('laboratorynorms.modal_template_edit')

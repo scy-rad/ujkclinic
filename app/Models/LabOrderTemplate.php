@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LabTemplate extends Model
+class LabOrderTemplate extends Model
 {
   protected $fillable = [
     'actor_id',
@@ -16,7 +16,7 @@ class LabTemplate extends Model
 
     public function results() 
     {
-      return $this->hasMany(LabTemplateResult::class);
+      return $this->hasMany(LabResultTemplate::class);
     }
     public function actor()
     {

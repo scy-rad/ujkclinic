@@ -18,7 +18,7 @@ return new class extends Migration
                   2:  template for future laboratory test
       */
 
-        Schema::create('lab_templates', function (Blueprint $table) {
+        Schema::create('lab_order_templates', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('actor_id')->nullable();
             $table->string('description_for_leader');
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->smallInteger('lrt_sort')->default(1);
             $table->timestamps();
         });
-        Schema::table('lab_templates', function (Blueprint $table) {
+        Schema::table('lab_order_templates', function (Blueprint $table) {
           $table->foreign('actor_id')
               ->references('id')
               ->on('actors');
@@ -42,9 +42,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('lab_templates', function (Blueprint $table) {
+        Schema::table('lab_order_templates', function (Blueprint $table) {
           $table->dropForeign(['actor_id']);
           });
-        Schema::dropIfExists('lab_templates');
+        Schema::dropIfExists('lab_order_templates');
     }
 };

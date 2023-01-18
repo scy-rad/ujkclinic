@@ -7,8 +7,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Scenario;
 use App\Models\Actor;
-use App\Models\LabTemplate;
-use App\Models\LabTemplateResult;
+use App\Models\LabOrderTemplate;
+use App\Models\LabResultTemplate;
 
 
 
@@ -24,8 +24,8 @@ class ScenariosSeeder extends Seeder
 
       function add_test_result($template_id,$norm_short,$result,$resulttxt,$addedtext,$type,$sort)
       {
-        $lr_t_result = new LabTemplateResult();
-        $lr_t_result->lab_template_id = $template_id;
+        $lr_t_result = new LabResultTemplate();
+        $lr_t_result->lab_order_template_id = $template_id;
         $lr_t_result->laboratory_test_id = \App\Models\LaboratoryTest::where('lt_short',$norm_short)->first()->id;;
         $lr_t_result->lrtr_result     = $result;
         $lr_t_result->lrtr_resulttxt  = $resulttxt;
@@ -68,7 +68,7 @@ class ScenariosSeeder extends Seeder
       $actor->actor_status = 1;
       $actor->save();	
 
-      $lr_template = new LabTemplate();
+      $lr_template = new LabOrderTemplate();
       $lr_template->actor_id    = $actor->id;
       $lr_template->description_for_leader = 'wyniki badań z wizyty w poradni dzień wcześniej';
       $lr_template->lrt_minutes_before = 60*24-72;  //24 godziny wczesniej bez 72 minut
@@ -83,7 +83,7 @@ class ScenariosSeeder extends Seeder
       add_test_result($lr_template->id,'MCH',39,'','',1,1);
       add_test_result($lr_template->id,'mocz_kolor',null,'pomarańczowy','',2,1);
 
-      $lr_template = new LabTemplate();
+      $lr_template = new LabOrderTemplate();
       $lr_template->actor_id    = $actor->id;
       $lr_template->description_for_leader = 'szablon wyników z Izby Przyjęć';
       $lr_template->lrt_minutes_before = 0;
@@ -114,7 +114,7 @@ class ScenariosSeeder extends Seeder
       $actor->actor_status = 1;
       $actor->save();	
 
-      $lr_template = new LabTemplate();
+      $lr_template = new LabOrderTemplate();
       $lr_template->actor_id    = $actor->id;
       $lr_template->description_for_leader = 'wyniki badań z przyjęcia';
       $lr_template->lrt_minutes_before = 23*60+33;  //23 godziny i 33 minuty wczesniej
@@ -129,7 +129,7 @@ class ScenariosSeeder extends Seeder
       add_test_result($lr_template->id,'MCH',39,'','',1,1);
       add_test_result($lr_template->id,'mocz_kolor',null,'pomarańczowy','',2,1);
 
-      $lr_template = new LabTemplate();
+      $lr_template = new LabOrderTemplate();
       $lr_template->actor_id    = $actor->id;
       $lr_template->description_for_leader = 'dzisiajesze wyniki';
       $lr_template->lrt_minutes_before = 32; // sprzed 32 minut
@@ -144,7 +144,7 @@ class ScenariosSeeder extends Seeder
       add_test_result($lr_template->id,'MCH',34,'','',2,1);
       add_test_result($lr_template->id,'mocz_kolor',null,'słomkowy','',2,1);
 
-      $lr_template = new LabTemplate();
+      $lr_template = new LabOrderTemplate();
       $lr_template->actor_id    = $actor->id;
       $lr_template->description_for_leader = 'bieżące wyniki po podaniu wapnia';
       $lr_template->lrt_minutes_before = 0;
@@ -159,7 +159,7 @@ class ScenariosSeeder extends Seeder
       add_test_result($lr_template->id,'MCH',28,'','',2,1);
       add_test_result($lr_template->id,'mocz_kolor',null,'biały','',2,1);
 
-      $lr_template = new LabTemplate();
+      $lr_template = new LabOrderTemplate();
       $lr_template->actor_id    = $actor->id;
       $lr_template->description_for_leader = 'bieżące wyniki bez podania wapnia';
       $lr_template->lrt_minutes_before = 0;

@@ -34,7 +34,7 @@ class LaboratoryTestNorm extends Model
 
   public function get_from_template($template_id)
   {
-    $ret= (LabTemplateResult::where('laboratory_test_id',$this->laboratory_test_id)->where('lab_template_id',$template_id)->firstOrNew());
+    $ret= (LabResultTemplate::where('laboratory_test_id',$this->laboratory_test_id)->where('lab_order_template_id',$template_id)->firstOrNew());
     if ($ret->id==0)
     {
       $ret->id = 0;

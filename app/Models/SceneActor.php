@@ -35,9 +35,9 @@ class SceneActor extends Model
   {
     return $this->hasOne(Actor::class, 'id', 'actor_id');
   }
-  public function scene_lab_templates() 
+  public function scene_actor_lab_order_templates() 
   {
-    return $this->hasMany(SceneLabTemplate::class);
+    return $this->hasMany(SceneActorLabOrderTemplate::class);
   }
 
 

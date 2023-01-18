@@ -90,8 +90,8 @@
             {!! $actor_one->actor_simulation !!}
           </p>
         <ul>DODATKI:
-          @if ($actor_one->lab_templates->count()>0)
-          <li><label class="small text-primary fw-bold">szablony badań laboratoryjnych:</label> {{$actor_one->lab_templates->count()}} </li>
+          @if ($actor_one->lab_order_templates->count()>0)
+          <li><label class="small text-primary fw-bold">szablony badań laboratoryjnych:</label> {{$actor_one->lab_order_templates->count()}} </li>
           @endif
         </ul>
 

@@ -4,27 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SceneLabResult extends Model
+class LabResultTemplate extends Model
 {
   protected $fillable = [
-    'scene_lab_template_id',
-    'laboratory_test_id',
-    'slr_result',
-    'slr_resulttxt',
-    'slr_addedtext',
-    'slr_type'
-    ];
+    'lab_order_template_id',
+    'laboratory_test_id',	
+    'lrtr_result',
+    'lrtr_resulttxt',
+    'lrtr_addedtext',	
+    'lrtr_type',	
+    'lrtr_sort',
+  ];
 
 
-  public function scene_lab_template()
+  public function template()
     {
-      return $this->hasOne(SceneLabTemplate::class, 'id', 'scene_lab_template_id');
+      return $this->hasOne(LabOrderTemplate::class, 'id', 'lab_order_template_id');
     }
-  public function laboratory_test()
-    {
-      return $this->hasOne(LaboratoryTest::class, 'id', 'laboratory_test_id');
-    }
-
   public function name_of_type()
     {
       switch ($this->lrtr_type)
@@ -43,7 +39,7 @@ class SceneLabResult extends Model
       $ret[2]['value']="błąd";
       $ret[2]['txt']="Laboratory error";
       $ret[3]['id']=3;
-      $ret[3]['value']="bad. niedostępne";
+      $ret[3]['value']="niedostępne";
       $ret[3]['txt']="Test unavailable";
 
       return $ret;

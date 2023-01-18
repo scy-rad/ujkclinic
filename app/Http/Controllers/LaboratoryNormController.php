@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LabTemplate;
-use App\Models\LabTemplateResult;
+use App\Models\LabOrderTemplate;
+use App\Models\LabResultTemplate;
 use App\Models\LaboratoryTestGroup;
 use App\Models\LaboratoryTest;
 use App\Models\LaboratoryTestNorm;
@@ -151,12 +151,12 @@ class LaboratoryNormController extends Controller
 
   public function template_show(Request $request,Int $id_lrt)
   {
-    $labtemplate=LabTemplate::where('id',$id_lrt)->first();
-    $labtemplate_results=LabTemplateResult::where('lab_template_id',$labtemplate->id)->get();
-    $result_type=LabTemplateResult::array_of_types();
-    $actor_id=$labtemplate->actor->id;
+    $lab_order_template=LabOrderTemplate::where('id',$id_lrt)->first();
+    $lab_order_template_results=LabResultTemplate::where('lab_order_template_id',$lab_order_template->id)->get();
+    $result_type=LabResultTemplate::array_of_types();
+    $actor_id=$lab_order_template->actor->id;
 
-    return view('laboratorynorms.template',compact('labtemplate'),['labtemplate_results' => $labtemplate_results, 'result_type' => $result_type, 'actor_id' => $actor_id]);    
+    return view('laboratorynorms.template',compact('lab_order_template'),['lab_order_template_results' => $lab_order_template_results, 'result_type' => $result_type, 'actor_id' => $actor_id]);    
   }
 
   public function templateupdateajax(Request $request)
@@ -173,7 +173,7 @@ class LaboratoryNormController extends Controller
         if ($request->labtype==1)
         {
         $validator = Validator::make($request->all(), [
-          'lab_template_id' => 'required',
+          'lab_order_template_id' => 'required',
           'laboratory_test_id' => 'required',
           // 'lrtr_result' => 'required',
           ]);
@@ -181,7 +181,7 @@ class LaboratoryNormController extends Controller
         else
         {
           $validator = Validator::make($request->all(), [
-            'lab_template_id' => 'required',
+            'lab_order_template_id' => 'required',
             'laboratory_test_id' => 'required',
             // 'lrtr_resulttxt' => 'required',
             ]);
@@ -193,10 +193,10 @@ class LaboratoryNormController extends Controller
               'error' => $validator->errors()->all()
           ]);
         }
-        if ($request->lab_template_result_id==0)
-          LabTemplateResult::create($request->post())->save();
+        if ($request->lab_result_template_id==0)
+          LabResultTemplate::create($request->post())->save();
         else
-          LabTemplateResult::find($request->lab_template_result_id)->fill($request->post())->save();
+          LabResultTemplate::find($request->lab_result_template_id)->fill($request->post())->save();
         
     $ret = ['success' => 'Dane raczej zapisane prawidłowo :) .','table' => $ret];
         
@@ -207,9 +207,9 @@ class LaboratoryNormController extends Controller
   {
     
     if ($request->id==0)
-     LabTemplate::create($request->post())->save();
+     LabOrderTemplate::create($request->post())->save();
     else
-      LabTemplate::find($request->id)->fill($request->post())->save();
+      LabOrderTemplate::find($request->id)->fill($request->post())->save();
 
     return back()->with('success', 'Edycja bądź dodawanie szablonu powiodło się... Możliwe, że tak... Chyba tak... Prawdopodobnie może...');    
   }

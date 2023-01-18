@@ -11,8 +11,8 @@
                 <ul></ul>
             </div>
             <div class="mb-3">
-              <input type="hidden" id="lab_template_result_id" name="lab_template_result_id" required="required">
-              <input type="hidden" id="lab_template_id" name="lab_template_id" required="required">
+              <input type="hidden" id="lab_result_template_id" name="lab_result_template_id" required="required">
+              <input type="hidden" id="lab_order_template_id" name="lab_order_template_id" required="required">
               <input type="hidden" id="laboratory_test_id" name="laboratory_test_id" required="required">
               <input type="hidden" id="labtype" name="labtype" required="required">
               <div class="input-group mb-3">
@@ -75,8 +75,8 @@
     $('#lrtr_resulttxt_label').show();
     }
     $('#labtype').val(labtype);
-    $('#lab_template_result_id').val(id_result);
-    $('#lab_template_id').val(id_tmpl);
+    $('#lab_result_template_id').val(id_result);
+    $('#lab_order_template_id').val(id_tmpl);
     $('#laboratory_test_id').val(id_lab);
     $('#lrtr_addedtext').val(document.getElementById('addedtext_'+id_lab).innerHTML);
     $('#decimal_prec').val(document.getElementById('decimal_'+id_lab).innerHTML);
@@ -102,8 +102,8 @@
            type:'POST',
            url:"{{ route('laboratorytemplate.updateajax') }}",
            data:{
-            lab_template_result_id: $('#lab_template_result_id').val(),
-            lab_template_id: $('#lab_template_id').val(),
+            lab_result_template_id: $('#lab_result_template_id').val(),
+            lab_order_template_id: $('#lab_order_template_id').val(),
             laboratory_test_id: $('#laboratory_test_id').val(),
             lrtr_resultX: $('#lrtr_result').val(),
             lrtr_resulttxt: $('#lrtr_resulttxt').val(),

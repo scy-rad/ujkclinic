@@ -81,8 +81,8 @@ https://github.com/vinorodrigues/bootstrap-dark-5/blob/main/docs/bootstrap-night
 php artisan make:controller SceneController --resource
 php artisan make:model SceneMaster -m
 php artisan make:model SceneActor -m
-php artisan make:model SceneLabTemplate -m
-php artisan make:model SceneLabResult -m
+php artisan make:model SceneActorLabOrderTemplate -m
+php artisan make:model SceneActorLabResultTemplate -m
 php artisan make:model ScenePersonelType -m
 php artisan make:model ScenePersonel -m
 php artisan make:seeder ScenePersonelTypesSeeder
@@ -142,6 +142,4 @@ php artisan make:model  SceneActorLabResult --migration
 
 Show SceneActor LaboratoryTests Results
 Edit SceneActor LaboratoryTests Results (basic)
-
-
-
+Change database structure for moving test results from scenario to scene

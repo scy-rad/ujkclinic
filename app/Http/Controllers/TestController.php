@@ -8,7 +8,7 @@ use App\Models\LaboratoryOrderGroup;
 use App\Models\SceneActor;
 use App\Models\SceneActorLabOrder;
 use App\Models\SceneActorLabResult;
-use App\Models\SceneLabResult;
+use App\Models\SceneActorLabResultTemplate;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

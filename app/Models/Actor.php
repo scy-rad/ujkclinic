@@ -38,9 +38,9 @@ class Actor extends Model
   {
     return $this->hasOne(Scenario::class, 'id', 'scenario_id');
   }
-  public function lab_templates() 
+  public function lab_order_templates() 
     {
-      return $this->hasMany(LabTemplate::class);
+      return $this->hasMany(LabOrderTemplate::class);
     }
 
 

@@ -23,18 +23,18 @@
 
     <h1></h1>
 
-    <h4><label>dla scenariusza:</label> {{$labtemplate->actor->scenario->scenario_name}}<br>
-    <label>dla aktora:</label><a class="text-decoration-none" href="{{ route('actor.show',$labtemplate->actor->id) }}"> <i class="bi bi-incognito"></i> {{$labtemplate->actor->actor_role_name}} </a> </h4>
+    <h4><label>dla scenariusza:</label> {{$lab_order_template->actor->scenario->scenario_name}}<br>
+    <label>dla aktora:</label><a class="text-decoration-none" href="{{ route('actor.show',$lab_order_template->actor->id) }}"> <i class="bi bi-incognito"></i> {{$lab_order_template->actor->actor_role_name}} </a> </h4>
     <span class="btn btn-outline-success" onClick="javascript:showTemplateEditModal()">Edytuj szablon badań laboratoryjnych</span>
     <p>
-    <label>płeć:</label> {{$labtemplate->actor->sex_name()}} <br>
-    <label>wiek:</label> {{$labtemplate->actor->actor_age_from}} - {{$labtemplate->actor->actor_age_to}} {{$labtemplate->actor->age_interval_name()}}<br>
-    <label>rodzaj szablonu:</label> {{$labtemplate->name_of_type()}}<br>
-    <label>cofnięcie w czasie badań o min.:</label> {{$labtemplate->calculate_time()}}<br>
-    <label>kolejność:</label> {{$labtemplate->lrt_sort}}<br>
+    <label>płeć:</label> {{$lab_order_template->actor->sex_name()}} <br>
+    <label>wiek:</label> {{$lab_order_template->actor->actor_age_from}} - {{$lab_order_template->actor->actor_age_to}} {{$lab_order_template->actor->age_interval_name()}}<br>
+    <label>rodzaj szablonu:</label> {{$lab_order_template->name_of_type()}}<br>
+    <label>cofnięcie w czasie badań o min.:</label> {{$lab_order_template->calculate_time()}}<br>
+    <label>kolejność:</label> {{$lab_order_template->lrt_sort}}<br>
     <label>opis dla instruktora:</label>
     </p>
-    <p>{!!$labtemplate->description_for_leader!!}</p>
+    <p>{!!$lab_order_template->description_for_leader!!}</p>
 
   </div>
 </div>
@@ -53,7 +53,7 @@
 
         @foreach(App\Models\LaboratoryTest::where('laboratory_test_group_id',$test_one->id)->get() as $lab_test_row)
             <?php 
-            $normy=App\Models\LaboratoryTestNorm::where('laboratory_test_id',$lab_test_row->id)->where('ltn_days_from','<=',$labtemplate->actor->actor_days_to())->Where('ltn_days_to','>=',$labtemplate->actor->actor_days_from())->get();
+            $normy=App\Models\LaboratoryTestNorm::where('laboratory_test_id',$lab_test_row->id)->where('ltn_days_from','<=',$lab_order_template->actor->actor_days_to())->Where('ltn_days_to','>=',$lab_order_template->actor->actor_days_from())->get();
             $count=$normy->count();
             // dump($lab_test_row);
             $next=""; ?>
@@ -103,20 +103,20 @@
 
                   <?php $next="</tr><tr>"; ?>
                 @endforeach 
-                <?php if ($test_three->get_from_template($labtemplate->id)['id']>0) {$hid=""; $but="edytuj"; $butclass="btn-outline-success";} else {$hid="d-none"; $but="dodaj"; $butclass="btn-outline-primary bg-warning";} ?>
+                <?php if ($test_three->get_from_template($lab_order_template->id)['id']>0) {$hid=""; $but="edytuj"; $butclass="btn-outline-success";} else {$hid="d-none"; $but="dodaj"; $butclass="btn-outline-primary bg-warning";} ?>
 
                 <td>
                     <h3 class="{{$hid}}">
                         @if ($lab_test_row->lt_result_type==1)
-                        <span id="result_{{$lab_test_row->id}}">{{intval($test_three->get_from_template($labtemplate->id)['lrtr_result'])/$test_three->ltn_decimal_prec}}</span>
+                        <span id="result_{{$lab_test_row->id}}">{{intval($test_three->get_from_template($lab_order_template->id)['lrtr_result'])/$test_three->ltn_decimal_prec}}</span>
                         @else
-                        <span id="result_{{$lab_test_row->id}}">{{$test_three->get_from_template($labtemplate->id)['lrtr_resulttxt']}}</span>
+                        <span id="result_{{$lab_test_row->id}}">{{$test_three->get_from_template($lab_order_template->id)['lrtr_resulttxt']}}</span>
                         @endif
                     </h3>
-                  <span class="text-danger {{$hid}}" id="addedtext_{{$lab_test_row->id}}">{{$test_three->get_from_template($labtemplate->id)['lrtr_addedtext']}}</span>
+                  <span class="text-danger {{$hid}}" id="addedtext_{{$lab_test_row->id}}">{{$test_three->get_from_template($lab_order_template->id)['lrtr_addedtext']}}</span>
 
                   <?php 
-                  $idx = $test_three->get_from_template($labtemplate->id)['lrtr_type'];
+                  $idx = $test_three->get_from_template($lab_order_template->id)['lrtr_type'];
                   ?>
 
                   <span class="d-none" id="type_{{$lab_test_row->id}}">{{$idx}}</span>
@@ -126,7 +126,7 @@
 
                   </td>
                   <td>
-                    <span class="btn {{$butclass}}" onClick="javascript:showTemplateModal({{$test_three->get_from_template($labtemplate->id)['id']}},{{$labtemplate->id}},{{$lab_test_row->id}},{{$lab_test_row->lt_result_type}})">{{$but}}</span>
+                    <span class="btn {{$butclass}}" onClick="javascript:showTemplateModal({{$test_three->get_from_template($lab_order_template->id)['id']}},{{$lab_order_template->id}},{{$lab_test_row->id}},{{$lab_test_row->lt_result_type}})">{{$but}}</span>
 
 </td>
             </tr>

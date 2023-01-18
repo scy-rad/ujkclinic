@@ -18,9 +18,9 @@ return new class extends Migration
                   2:  Laboratory error
                   3:  test unavailable
       */
-        Schema::create('lab_template_results', function (Blueprint $table) {
+        Schema::create('lab_result_templates', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('lab_template_id');
+            $table->unsignedBigInteger('lab_order_template_id');
             $table->unsignedBigInteger('laboratory_test_id');
             $table->Integer('lrtr_result')->nullable()->default(null);
             $table->string('lrtr_resulttxt')->nullable()->default(null);
@@ -29,12 +29,12 @@ return new class extends Migration
             $table->smallInteger('lrtr_sort')->default(1);            
             $table->timestamps();
         });
-        Schema::table('lab_template_results', function (Blueprint $table) {
-          $table->foreign('lab_template_id')
+        Schema::table('lab_result_templates', function (Blueprint $table) {
+          $table->foreign('lab_order_template_id')
               ->references('id')
-              ->on('lab_templates');
+              ->on('lab_order_templates');
         });
-        Schema::table('lab_template_results', function (Blueprint $table) {
+        Schema::table('lab_result_templates', function (Blueprint $table) {
           $table->foreign('laboratory_test_id')
               ->references('id')
               ->on('laboratory_tests');
@@ -49,12 +49,12 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('lab_template_results', function (Blueprint $table) {
-          $table->dropForeign(['lab_template_id']);
+        Schema::table('lab_result_templates', function (Blueprint $table) {
+          $table->dropForeign(['lab_order_template_id']);
           });
-        Schema::table('lab_template_results', function (Blueprint $table) {
+        Schema::table('lab_result_templates', function (Blueprint $table) {
           $table->dropForeign(['laboratory_test_id']);
           }); 
-        Schema::dropIfExists('lab_template_results');
+        Schema::dropIfExists('lab_result_templates');
     }
 };

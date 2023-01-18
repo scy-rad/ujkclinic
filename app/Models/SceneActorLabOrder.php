@@ -134,7 +134,7 @@ class SceneActorLabOrder extends Model
           case 3:
             $tab[$i]['type']="no_result";
             $tab[$i]['name']=$ret_one->lt_name;
-            $tab[$i]['value']=SceneLabResult::array_of_types()[$ret_one->salr_type]['txt'];
+            $tab[$i]['value']=SceneActorLabResultTemplate::array_of_types()[$ret_one->salr_type]['txt'];
             break;
         }
         // echo $ret_one->log_id.' - '.$ret_one->lo_id,' - '.$ret_one->lt_id.': '.$ret_one->log_name.' -> '.$ret_one->lo_name.' -> '.$ret_one->lt_name.'<br>';
@@ -191,7 +191,7 @@ class SceneActorLabOrder extends Model
     // $scene  =$actor->scene;
     // $scene_date = $scene->scene_current_time();
     $order = SceneActorLabOrder ::where('id',$id_order)->first();
-    $result_types=LabTemplateResult::array_of_types();
+    $result_types=LabResultTemplate::array_of_types();
 
     $ret='<p><label>pacjent:</label> '.$actor->sa_name.' <label>wiek:</label> '.$actor->sa_age_txt.' <label>PESEL:</label> '.$actor->sa_PESEL.'<br>';
     $ret.='<label>data zlecenia:</label> '.$order->salo_date_order;
