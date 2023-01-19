@@ -50,7 +50,7 @@ class LaboratoryNormController extends Controller
           $ret1=[];
         else
           $ret1 = LaboratoryTestNorm::where('id',$request->idvalue)->first()->toArray();
-        $ret2 = LaboratoryTest::select('lt_name')->where('id',$request->idLT)->first()->toArray();
+        $ret2 = LaboratoryTest::select('lt_name','lt_decimal_prec','lt_unit')->where('id',$request->idLT)->first()->toArray();
         $ret = array_merge($ret2,$ret1);
         $ret = ['success' => 'Dane raczej pobrane prawidłowo :) .','ltn_data' => $ret];
       break;
@@ -68,7 +68,6 @@ class LaboratoryNormController extends Controller
         $validator = Validator::make($request->all(), [
           'ltg_name' => 'required|max:128',
           'ltg_name_en' => 'required|max:128',
-          'ltg_levels_count' => 'required|digits_between:1,2',
           'ltg_sort' => 'required|digits_between:1,2',
           ]);
 
@@ -92,7 +91,9 @@ class LaboratoryNormController extends Controller
           'lt_name_en' => 'required|max:128',
           'lt_short' => 'required|max:16',
           'lt_short_en' => 'required|max:16',
-          'lt_level' => 'required|digits_between:1,2',
+          'lt_decimal_prec' => 'required|integer',
+          'lt_unit' => 'required|max:32',
+          'lt_unit_en' => 'required|max:32',
           'lt_sort' => 'required|digits_between:1,2',
           'lt_time' => 'required|integer',
           'lt_coast' => 'required|integer',
@@ -125,9 +126,6 @@ class LaboratoryNormController extends Controller
           'ltn_norm_w_max' => 'required|integer',
           'ltn_norm_p_min' => 'required|integer',
           'ltn_norm_p_max' => 'required|integer',
-          'ltn_decimal_prec' => 'required|integer',
-          'ltn_unit' => 'required|max:32',
-          'ltn_unit_en' => 'required|max:32',
           ]);
 
         if ($validator->fails())

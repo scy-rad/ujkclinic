@@ -23,9 +23,9 @@
             </div>
             <div class="row mb-3">
               <div class="col-6">
-                <label for="ltg_levels_count" class="form-label">Poziomy badania:</label>
-                <input  type="number" step="1" min="1" max="9" id="ltg_levels_count" name="ltg_levels_count" class="form-control" placeholder="Poziomy badania" required="required">
-              </div>
+
+
+            </div>
               <div class="col-6">
                 <label for="ltg_sort" class="form-label">Sortowanie:</label>
                 <input type="number" step="1" min="1" max="99" id="ltg_sort" name="ltg_sort" class="form-control" placeholder="Kolejnośc sortowania" required="required">
@@ -78,10 +78,21 @@
                 <input type="text" id="lt_short_en" name="lt_short_en" class="form-control" placeholder="Skrót angielski" required="required">
               </div>
             </div>
+            <div class="row mb-3"> 
+              <div class="col-6">
+                <label for="lt_unit" class="form-label">Jednostka:</label>
+                <input type="text" id="lt_unit" name="lt_unit" class="form-control" placeholder="Skrót" required="required">
+              </div>
+              <div class="col-6">
+                <label for="lt_unit_en" class="form-label">Jednostka En:</label>
+                <input type="text" id="lt_unit_en" name="lt_unit_en" class="form-control" placeholder="Skrót angielski" required="required">
+              </div>
+            </div>
+
             <div class="row mb-3">
               <div class="col-6">
-                <label for="lt_level" class="form-label">Poziom badania:</label>
-                <input type="number" step="1" min="1" max="9" id="lt_level" name="lt_level" class="form-control" placeholder="Poziom badania (1-9)" required="required">
+                <label for="lt_decimal_prec" class="form-label">Precyzja dziesiętna:</label>
+                <input type="number" min="1" max="1000" id="lt_decimal_prec" name="lt_decimal_prec" class="form-control" placeholder="ilość zer po przecinku" required="required">
               </div>
               <div class="col-6">
                 <label for="lt_sort" class="form-label">Sortowanie:</label>
@@ -141,6 +152,7 @@
               <input type="hidden" id="id" name="id" required="required">
               <input type="hidden" id="laboratory_test_id" name="laboratory_test_id" required="required">
               
+              
             </div>
             <div class="row mb-3">
               <div class="col-6">
@@ -158,8 +170,8 @@
                 <input type="number" step="1" id="ltn_norm_type" name="ltn_norm_type" class="form-control" placeholder="rodzaj zakresu" required="required">
               </div>
               <div class="col-6">
-                <label for="ltn_decimal_prec" class="form-label">dzielnik dla normy (wielokr. 10):</label>
-                <input type="number" step="1" id="ltn_decimal_prec" name="ltn_decimal_prec" class="form-control" placeholder="dzielnik dla normy" required="required">
+              <label for="ltn_norm_type" class="form-label"><abbr title="(pomnóż normę przez tą liczbę)">dzielnik normy:</abbr></label>
+              <input type="text" id="decimal_prec" name="decimal_prec" readonly="readonly">
               </div>
             </div>
 
@@ -194,16 +206,6 @@
               </div>
             </div>
 
-            <div class="row mb-3">
-              <div class="col-6">
-                <label for="ltn_unit" class="form-label">Jednostka:</label>
-                <input type="text" id="ltn_unit" name="ltn_unit" class="form-control" placeholder="Nazwa" required="required">
-              </div>
-              <div class="col-6">
-                <label for="ltn_unit_en" class="form-label">Jednostka EN:</label>
-                <input type="text" id="ltn_unit_en" name="ltn_unit_en" class="form-control" placeholder="Nazwa" required="required">
-              </div>
-            </div>
             <div class="mb-3 text-center">
               <button type="button" class="btn btn-success btn-submit btn-ltn">Potwierdź</button>
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">zamknij</button>
@@ -230,7 +232,6 @@
                   $('#id').val(data.ltg_data.id);
                   $('#ltg_name').val(data.ltg_data.ltg_name);
                   $('#ltg_name_en').val(data.ltg_data.ltg_name_en);
-                  $('#ltg_levels_count').val(data.ltg_data.ltg_levels_count);
                   $('#ltg_sort').val(data.ltg_data.ltg_sort);
                   }else{
                     printErrorMsg(data.error);
@@ -255,7 +256,9 @@ function showLTmodal(idvalue,idLTG)
                   $('#lt_name_en').val(data.lt_data.lt_name_en);
                   $('#lt_short').val(data.lt_data.lt_short);
                   $('#lt_short_en').val(data.lt_data.lt_short_en);
-                  $('#lt_level').val(data.lt_data.lt_level);
+                  $('#lt_unit').val(data.lt_data.lt_unit);
+                  $('#lt_unit_en').val(data.lt_data.lt_unit_en);
+                  $('#lt_decimal_prec').val(data.lt_data.lt_decimal_prec);
                   $('#lt_sort').val(data.lt_data.lt_sort);
                   $('#lt_time').val(data.lt_data.lt_time);
                   $('#lt_coast').val(data.lt_data.lt_coast);
@@ -285,7 +288,7 @@ function showLTmodal(idvalue,idLTG)
                   $('#ltn_days_to').val(data.ltn_data.ltn_days_to);
 
                   $('#ltn_norm_type').val(data.ltn_data.ltn_norm_type);
-                  $('#ltn_decimal_prec').val(data.ltn_data.ltn_decimal_prec);
+                  $('#decimal_prec').val(data.ltn_data.lt_decimal_prec);
 
                   $('#ltn_norm_m_min').val(data.ltn_data.ltn_norm_m_min);
                   $('#ltn_norm_m_max').val(data.ltn_data.ltn_norm_m_max);
@@ -294,8 +297,6 @@ function showLTmodal(idvalue,idLTG)
                   $('#ltn_norm_p_min').val(data.ltn_data.ltn_norm_p_min);
                   $('#ltn_norm_p_max').val(data.ltn_data.ltn_norm_p_max);
                   
-                  $('#ltn_unit').val(data.ltn_data.ltn_unit);
-                  $('#ltn_unit_en').val(data.ltn_data.ltn_unit_en);
                   }else{
                     printErrorMsg(data.error);
                   }
@@ -325,7 +326,6 @@ function showLTmodal(idvalue,idLTG)
                   id: $('#id').val(),
                   ltg_name: $('#ltg_name').val(),
                   ltg_name_en: $('#ltg_name_en').val(),
-                  ltg_levels_count: $('#ltg_levels_count').val(),
                   ltg_sort: $('#ltg_sort').val()
                 },
            success:function(data){
@@ -355,9 +355,11 @@ function showLTmodal(idvalue,idLTG)
                 lt_name_en: $('#lt_name_en').val(),
                 lt_short: $('#lt_short').val(),
                 lt_short_en: $('#lt_short_en').val(),
-                lt_level: $('#lt_level').val(),
                 lt_sort: $('#lt_sort').val(),
                 lt_time: $('#lt_time').val(),
+                lt_unit: $('#lt_unit').val(),
+                lt_unit_en: $('#lt_unit_en').val(),
+                lt_decimal_prec: $('#lt_decimal_prec').val(),
                 lt_coast: $('#lt_coast').val(),
                 lt_time_cito: $('#lt_time_cito').val(),
                 lt_coast_cito: $('#lt_coast_cito').val()                  
@@ -387,15 +389,13 @@ function showLTmodal(idvalue,idLTG)
                 ltn_days_from: $('#ltn_days_from').val(),
                 ltn_days_to: $('#ltn_days_to').val(),
                 ltn_norm_type: $('#ltn_norm_type').val(),
-                ltn_decimal_prec: $('#ltn_decimal_prec').val(),
                 ltn_norm_m_min: $('#ltn_norm_m_min').val(),
                 ltn_norm_m_max: $('#ltn_norm_m_max').val(),
                 ltn_norm_w_min: $('#ltn_norm_w_min').val(),
                 ltn_norm_w_max: $('#ltn_norm_w_max').val(),
                 ltn_norm_p_min: $('#ltn_norm_p_min').val(),
                 ltn_norm_p_max: $('#ltn_norm_p_max').val(),
-                ltn_unit: $('#ltn_unit').val(),
-                ltn_unit_en: $('#ltn_unit_en').val()
+                lt_decimal_prec: $('#decimal_prec').val()
               },
         success:function(data){
               if($.isEmptyObject(data.error)){

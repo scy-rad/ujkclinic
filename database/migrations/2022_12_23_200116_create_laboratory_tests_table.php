@@ -25,8 +25,10 @@ return new class extends Migration
             $table->string('lt_name_en');
             $table->string('lt_short');
             $table->string('lt_short_en');
+            $table->string('lt_unit');
+            $table->string('lt_unit_en');
+            $table->Integer('lt_decimal_prec');
             $table->smallInteger('lt_result_type')->default(1);
-            $table->smallInteger('lt_level');
             $table->smallInteger('lt_sort');
             $table->smallInteger('lt_time');
             $table->smallInteger('lt_coast');

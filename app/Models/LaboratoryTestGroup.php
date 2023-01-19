@@ -11,7 +11,6 @@ class LaboratoryTestGroup extends Model
   protected $fillable = [
     'ltg_name',
     'ltg_name_en',
-    'ltg_levels_count',
     'ltg_sort'
   ];
 

@@ -108,7 +108,7 @@
                 <td>
                     <h3 class="{{$hid}}">
                         @if ($lab_test_row->lt_result_type==1)
-                        <span id="result_{{$lab_test_row->id}}">{{intval($test_three->get_from_template($lab_order_template->id)['lrtr_result'])/$test_three->ltn_decimal_prec}}</span>
+                        <span id="result_{{$lab_test_row->id}}">{{intval($test_three->get_from_template($lab_order_template->id)['lrtr_result'])/$test_three->laboratory_test->lt_decimal_prec}}</span>
                         @else
                         <span id="result_{{$lab_test_row->id}}">{{$test_three->get_from_template($lab_order_template->id)['lrtr_resulttxt']}}</span>
                         @endif
@@ -120,7 +120,7 @@
                   ?>
 
                   <span class="d-none" id="type_{{$lab_test_row->id}}">{{$idx}}</span>
-                  <span class="d-none" id="decimal_{{$lab_test_row->id}}">{{$test_three->ltn_decimal_prec}}</span>
+                  <span class="d-none" id="decimal_{{$lab_test_row->id}}">{{$test_three->laboratory_test->lt_decimal_prec}}</span>
 
                   <span class="text-primary {{$hid}}">{{$result_type[$idx]['value']}}</span>
 

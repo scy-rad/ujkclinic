@@ -34,9 +34,6 @@ return new class extends Migration
             $table->BigInteger('ltn_norm_w_max')->nullable();
             $table->BigInteger('ltn_norm_p_min')->nullable();
             $table->BigInteger('ltn_norm_p_max')->nullable();
-            $table->string('ltn_unit');
-            $table->string('ltn_unit_en');
-            $table->Integer('ltn_decimal_prec');
 
             $table->timestamps();
         });

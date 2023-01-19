@@ -21,10 +21,7 @@ class LaboratoryTestNorm extends Model
     'ltn_norm_w_min',
     'ltn_norm_w_max',
     'ltn_norm_p_min',
-    'ltn_norm_p_max',
-    'ltn_decimal_prec',
-    'ltn_unit',
-    'ltn_unit_en'
+    'ltn_norm_p_max'
     ]; 
 
   public function laboratory_test()
@@ -119,7 +116,7 @@ class LaboratoryTestNorm extends Model
     {
       $same=false;
     }
-    if ($this->ltn_decimal_prec==0) dd($this);
+    if ($this->laboratory_test->lt_decimal_prec==0) dd($this);
       $ret='';
     switch ($this->ltn_norm_type)
     {
@@ -129,28 +126,28 @@ class LaboratoryTestNorm extends Model
         if ($ret!= '< ')     
           $ret= '≤ ';
         if ($same) 
-          $ret .= ($this->ltn_norm_m_max/$this->ltn_decimal_prec);
+          $ret .= ($this->ltn_norm_m_max/$this->laboratory_test->lt_decimal_prec);
         else
         {
           if (!is_null($this->ltn_norm_m_max))
-            $ret .= $man.": ".($this->ltn_norm_m_max/$this->ltn_decimal_prec).'; ';
+            $ret .= $man.": ".($this->ltn_norm_m_max/$this->laboratory_test->lt_decimal_prec).'; ';
           if (!is_null($this->ltn_norm_w_max))
-            $ret .= $woman.": ".($this->ltn_norm_w_max/$this->ltn_decimal_prec).'; ';
+            $ret .= $woman.": ".($this->ltn_norm_w_max/$this->laboratory_test->lt_decimal_prec).'; ';
           if ( (!is_null($this->ltn_norm_p_max)) &&  ($this->ltn_norm_w_max!=$this->ltn_norm_p_max) )
-            $ret .= $pregnant.": ".($this->ltn_norm_p_max/$this->ltn_decimal_prec).'; ';
+            $ret .= $pregnant.": ".($this->ltn_norm_p_max/$this->laboratory_test->lt_decimal_prec).'; ';
         }
       break;
       case 3 : // zakres od do 
         if ($same)           
-          $ret .= ($this->ltn_norm_m_min/$this->ltn_decimal_prec).' - '.($this->ltn_norm_m_max/$this->ltn_decimal_prec);
+          $ret .= ($this->ltn_norm_m_min/$this->laboratory_test->lt_decimal_prec).' - '.($this->ltn_norm_m_max/$this->laboratory_test->lt_decimal_prec);
         else
         {
           if (!is_null($this->ltn_norm_m_min))
-            $ret .= $man.": ".($this->ltn_norm_m_min/$this->ltn_decimal_prec).' - '.($this->ltn_norm_m_max/$this->ltn_decimal_prec).'; ';
+            $ret .= $man.": ".($this->ltn_norm_m_min/$this->laboratory_test->lt_decimal_prec).' - '.($this->ltn_norm_m_max/$this->laboratory_test->lt_decimal_prec).'; ';
           if (!is_null($this->ltn_norm_w_min))
-            $ret .= $woman.": ".($this->ltn_norm_w_min/$this->ltn_decimal_prec).' - '.($this->ltn_norm_w_max/$this->ltn_decimal_prec).'; ';
+            $ret .= $woman.": ".($this->ltn_norm_w_min/$this->laboratory_test->lt_decimal_prec).' - '.($this->ltn_norm_w_max/$this->laboratory_test->lt_decimal_prec).'; ';
           if ( (!is_null($this->ltn_norm_p_min)) && ( ($this->ltn_norm_w_min!=$this->ltn_norm_p_min) || ($this->ltn_norm_w_max!=$this->ltn_norm_p_max) ) )
-            $ret .= $pregnant.": ".($this->ltn_norm_p_min/$this->ltn_decimal_prec).' - '.($this->ltn_norm_p_max/$this->ltn_decimal_prec).'; ';
+            $ret .= $pregnant.": ".($this->ltn_norm_p_min/$this->laboratory_test->lt_decimal_prec).' - '.($this->ltn_norm_p_max/$this->laboratory_test->lt_decimal_prec).'; ';
         }
       break;
       case 4 : 

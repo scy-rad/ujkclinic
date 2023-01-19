@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('ltg_name');
             $table->string('ltg_name_en');
-            $table->smallInteger('ltg_levels_count');
             $table->smallInteger('ltg_sort');
             $table->timestamps();
         });

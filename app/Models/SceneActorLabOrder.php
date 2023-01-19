@@ -38,7 +38,7 @@ class SceneActorLabOrder extends Model
 
     $rety = $rety->leftJoin('scene_actors','scene_actor_id','scene_actors.id');
 
-    $rety = $rety->select('ltg_name', 'log_name', 'lo_name', 'lt_name', 'lt_short', 'ltn_unit', 'ltn_decimal_prec', 'ltn_norm_type', 'salr_date', 'salr_result', 'salr_resulttxt', 'salr_addedtext', 'salr_type');
+    $rety = $rety->select('ltg_name', 'log_name', 'lo_name', 'lt_name', 'lt_short', 'lt_unit', 'lt_decimal_prec', 'ltn_norm_type', 'salr_date', 'salr_result', 'salr_resulttxt', 'salr_addedtext', 'salr_type');
 
     if ($actor->sa_actor_sex==2)
     {
@@ -97,20 +97,20 @@ class SceneActorLabOrder extends Model
             switch ($ret_one->ltn_norm_type)
             {
               case 1 : // mniej niż MAX
-                $tab[$i]['norm'] = '< '.$ret_one->norm_max/$ret_one->ltn_decimal_prec;
+                $tab[$i]['norm'] = '< '.$ret_one->norm_max/$ret_one->laboratory_test->lt_decimal_prec;
                 break;          
               case 2 : // mniej niż MAX lub równo
-                $tab[$i]['norm'] = '≤ '.$ret_one->norm_max/$ret_one->ltn_decimal_prec;
+                $tab[$i]['norm'] = '≤ '.$ret_one->norm_max/$ret_one->laboratory_test->lt_decimal_prec;
                 break; 
               case 3 : // zakres od do 
-                $tab[$i]['norm'] = $ret_one->norm_min/$ret_one->ltn_decimal_prec.' ÷ '.$ret_one->norm_max/$ret_one->ltn_decimal_prec;
+                $tab[$i]['norm'] = $ret_one->norm_min/$ret_one->laboratory_test->lt_decimal_prec.' ÷ '.$ret_one->norm_max/$ret_one->laboratory_test->lt_decimal_prec;
                 break;
               case 4 : 
-                $tab[$i]['norm'] = '≥ '.$ret_one->norm_min/$ret_one->ltn_decimal_prec;
+                $tab[$i]['norm'] = '≥ '.$ret_one->norm_min/$ret_one->laboratory_test->lt_decimal_prec;
                 break;
               break;
               case 5 : 
-                $tab[$i]['norm'] = '> '.$ret_one->norm_min/$ret_one->ltn_decimal_prec;
+                $tab[$i]['norm'] = '> '.$ret_one->norm_min/$ret_one->laboratory_test->lt_decimal_prec;
               break;
               case 6 : 
                 $tab[$i]['norm'] = '';
@@ -118,7 +118,7 @@ class SceneActorLabOrder extends Model
             }
             $tab[$i]['unit'] = $ret_one->ltn_unit;
             if ($ret_one->result_no == (int)$ret_one->result_no)
-              $tab[$i]['result'] = number_format($ret_one->result_no/$ret_one->ltn_decimal_prec,strlen($ret_one->ltn_decimal_prec)-1,',',' ');
+              $tab[$i]['result'] = number_format($ret_one->result_no/$ret_one->laboratory_test->lt_decimal_prec,strlen($ret_one->laboratory_test->lt_decimal_prec)-1,',',' ');
             else
               $tab[$i]['result'] = $ret_one->result_no;
             $tab[$i]['result_txt'] = $ret_one->result_txt;
@@ -212,7 +212,7 @@ class SceneActorLabOrder extends Model
     $ret.='<tr>';
     $ret.='<td>'.$result_one->id.'</td>';
     $ret.='<td>'.$result_one->laboratory_test->lt_name.'</td>';
-    $ret.='<td><input id="'.$result_one->laboratory_test->lt_short.'" name="salr-'.$result_one->id.'" type="text" value="'.$result_one->salr_result/$result_one->laboratory_test->laboratory_test_norms->first()->ltn_decimal_prec.'"></td>';
+    $ret.='<td><input id="'.$result_one->laboratory_test->lt_short.'" name="salr-'.$result_one->id.'" type="text" value="'.$result_one->salr_result/$result_one->laboratory_test->laboratory_test_norms->first()->laboratory_test->lt_decimal_prec.'"></td>';
     $ret.='<td>'.$result_one->laboratory_test->laboratory_test_norms->first()->ltn_unit.'</td>';
     $ret.='<td class="text-success text-center">'.$result_one->laboratory_norm().'</td>';
     
@@ -248,7 +248,7 @@ class SceneActorLabOrder extends Model
           {
             $value=str_replace(',','.',$value);
             $change=SceneActorLabResult::where('id',substr($key,5,10))->first();
-            $change->salr_result=$value*$change->laboratory_norm_row()->ltn_decimal_prec;
+            $change->salr_result=$value*$change->laboratory_norm_row()->laboratory_test->lt_decimal_prec;
             $change->save();
           }
         }

@@ -26,19 +26,19 @@ class SceneActorLabResult extends Model
           ;
       if ($this->lab_order->scene_actor->sa_actor_sex==2) // man
         { 
-          $norm_min=number_format($ret->ltn_norm_m_min/$ret->ltn_decimal_prec,strlen($ret->ltn_decimal_prec)-1,',',' ');
-          $norm_max=number_format($ret->ltn_norm_m_max/$ret->ltn_decimal_prec,strlen($ret->ltn_decimal_prec)-1,',',' ');
+          $norm_min=number_format($ret->ltn_norm_m_min/$ret->laboratory_test->lt_decimal_prec,strlen($ret->laboratory_test->lt_decimal_prec)-1,',',' ');
+          $norm_max=number_format($ret->ltn_norm_m_max/$ret->laboratory_test->lt_decimal_prec,strlen($ret->laboratory_test->lt_decimal_prec)-1,',',' ');
         }
       if ($this->lab_order->scene_actor->sa_actor_sex==3) // woman
         if ($this->lab_order->is_pregnant)
           { 
-            $norm_min=number_format($ret->ltn_norm_p_min/$ret->ltn_decimal_prec,strlen($ret->ltn_decimal_prec)-1,',',' ');
-            $norm_max=number_format($ret->ltn_norm_p_max/$ret->ltn_decimal_prec,strlen($ret->ltn_decimal_prec)-1,',',' ');
+            $norm_min=number_format($ret->ltn_norm_p_min/$ret->laboratory_test->lt_decimal_prec,strlen($ret->laboratory_test->lt_decimal_prec)-1,',',' ');
+            $norm_max=number_format($ret->ltn_norm_p_max/$ret->laboratory_test->lt_decimal_prec,strlen($ret->laboratory_test->lt_decimal_prec)-1,',',' ');
           }
         else
           { 
-            $norm_min=number_format($ret->ltn_norm_w_min/$ret->ltn_decimal_prec,strlen($ret->ltn_decimal_prec)-1,',',' ');
-            $norm_max=number_format($ret->ltn_norm_w_max/$ret->ltn_decimal_prec,strlen($ret->ltn_decimal_prec)-1,',',' ');
+            $norm_min=number_format($ret->ltn_norm_w_min/$ret->laboratory_test->lt_decimal_prec,strlen($ret->laboratory_test->lt_decimal_prec)-1,',',' ');
+            $norm_max=number_format($ret->ltn_norm_w_max/$ret->laboratory_test->lt_decimal_prec,strlen($ret->laboratory_test->lt_decimal_prec)-1,',',' ');
           }
       
       switch ($ret->ltn_norm_type)

@@ -145,3 +145,5 @@ Edit SceneActor LaboratoryTests Results (basic)
 Change database structure for moving test results from scenario to scene
 Edit SceneActor LaboratoryTests Results (advanced):
    -> adding laboratory tests templates when creating a scene from scenario
+
+moving laboratory test decimal precision and units from norm to test (one level up)
