@@ -45,7 +45,10 @@ class SceneController extends Controller
 
       $request->merge(['scene_owner_id' => Auth::user()->id]);
       $request->request->remove('id');
-      
+      if ($request->scene_lab_automatic_time == "on")
+        $request->merge(['scene_lab_automatic_time' => "1"]);
+      else
+        $request->merge(['scene_lab_automatic_time' => "0"]);
       $scene=SceneMaster::create($request->post());
 
       if ($request->scenario_id>0)
@@ -139,6 +142,11 @@ class SceneController extends Controller
     public function update(Request $request, $id)
     {
       $scene=SceneMaster::where('id',$id)->first();
+
+      if ($request->scene_lab_automatic_time == "on")
+        $request->merge(['scene_lab_automatic_time' => "1"]);
+      else
+        $request->merge(['scene_lab_automatic_time' => "0"]);
       
       $scene->fill($request->post())->save();
 

@@ -52,7 +52,7 @@ class SceneActorLabOrderController extends Controller
       $new_order->salo_cito = $request->cito*1;
       $new_order->salo_date_order = $scene->scene_current_time() ;
       // $new_order->salo_date_take = null;
-      // $new_order->salo_date_income = null;
+      // $new_order->salo_date_delivery = null;
       // $new_order->salo_date_accept = null;
       $new_order->salo_descript = '';
       $new_order->save();

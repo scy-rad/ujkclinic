@@ -3,6 +3,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\SceneParam;
 use App\Models\ScenePersonelType;
 use Illuminate\Database\Seeder;
 
@@ -15,6 +16,10 @@ class ScenePersonelTypesSeeder extends Seeder
      */
     public function run()
     {
+
+      $scene_param = new SceneParam();
+      $scene_param->save();
+
       $personel_type = new ScenePersonelType();
       $personel_type->spt_name="edytor";
       $personel_type->spt_name_w="edytorka";

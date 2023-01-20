@@ -11,19 +11,17 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-      <h5 class="modal-title" id="SceneModalTitle">Edycja sceny {{$scene->id}}</h5>
+      <h5 class="modal-title" id="SceneModalTitle">@if ($scene->id>0) Edycja sceny {{$scene->id}} @else Tworzenie sceny @endif</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         @if ($scene->id>0)
           <form action="{{ route('scene.update',$scene->id)}}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" required="required" value="{{$scene->id}}">
-            <span class="text-danger">akcja PUT - update - >0</span>
             {{ method_field('PUT') }}
         @else
           <form action="{{ route('scene.store')}}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" required="required" value="">
-            <span class="text-danger">akcja POST - store - =0</span>
         @endif
             {{ csrf_field() }}
             <div class="alert alert-danger print-error-msg" style="display:none">
@@ -59,16 +57,42 @@
                 </select>
               </div>
             </div>
+
+            <div class="row mb-3">
+              <div class="col-3">
+                <label for="scene_lab_take_seconds_from" class="form-label">pobranie od (s):</label>
+                <input type="number" step="5" min="0" max="300" name="scene_lab_take_seconds_from" class="form-control" placeholder="ilość sekund od zlecenie do pobrania" value="{{$scene->scene_lab_take_seconds_from}}">
+              </div>
+              <div class="col-3">
+                <label for="scene_lab_take_seconds_to" class="form-label">pobranie do (s):</label>
+                <input type="number" step="5" min="0" max="300" name="scene_lab_take_seconds_to" class="form-control" placeholder="ilość sekund od zlecenie do pobrania" value="{{$scene->scene_lab_take_seconds_to}}">
+              </div>
+              <div class="col-3">
+                <label for="scene_lab_delivery_seconds_from" class="form-label">dostarcz. od (s):</label>
+                <input type="number" step="5" min="0" max="600" name="scene_lab_delivery_seconds_from" class="form-control" placeholder="ilość sekund od pobrania do przekaznia do laboratorium" value="{{$scene->scene_lab_delivery_seconds_from}}">
+              </div>
+              <div class="col-3">
+                <label for="scene_lab_take_seconds_to" class="form-label">dostarcz. do (s):</label>
+                <input type="number" step="5" min="0" max="720" name="scene_lab_delivery_seconds_to" class="form-control" placeholder="ilość sekund od pobrania do przekaznia do laboratorium" value="{{$scene->scene_lab_delivery_seconds_to}}">
+              </div>
+              <div class="col-12">
+                <div class="form-check form-switch">
+                  <label for="scene_lab_automatic_time" class="form-check-label">: zastosuj czasy automatycznie</label>
+                  <input class="form-check-input" type="checkbox" name="scene_lab_automatic_time"@if ($scene->scene_lab_automatic_time==1) checked @endif>
+                </div>
+              </div>
+            </div>
+            
             <div class="row mb-3">
               <div class="col-12">
-                <label for="scene_scenario_description" class="form-label">Opis scenariusza:</label>
-                <textarea name="scene_scenario_description" class="form-control">{!!$scene->scene_scenario_description!!}</textarea>
+                <label for="scene_scenario_description" class="form-label">Opis sceny:</label>
+                <textarea name="scene_scenario_description" class="form-control" placeholder="Napisz informacje dla prowadzącego">{!!$scene->scene_scenario_description!!}</textarea>
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-12">
                 <label for="scene_scenario_for_students" class="form-label">Opis dla studenta:</label>
-                <textarea name="scene_scenario_for_students" class="form-control">{!!$scene->scene_scenario_for_students!!}</textarea>
+                <textarea name="scene_scenario_for_students" class="form-control" placeholder="Informacje dla studentów przed rozpoczęciem scenariusza">{!!$scene->scene_scenario_for_students!!}</textarea>
               </div>
             </div>
             <div class="mb-3 text-center">

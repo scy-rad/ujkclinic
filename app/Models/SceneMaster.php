@@ -15,6 +15,11 @@ class SceneMaster extends Model
     'scene_relative_date',
     'scene_relative_id',
     'scene_step_minutes',
+    'scene_lab_take_seconds_from',
+    'scene_lab_take_seconds_to',
+    'scene_lab_delivery_seconds_from',
+    'scene_lab_delivery_seconds_to',
+    'scene_lab_automatic_time',
     'scene_scenario_description',
     'scene_scenario_for_students',
     'scene_status'

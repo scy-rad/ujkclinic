@@ -141,7 +141,7 @@
             @if (is_null($lab_order->salo_date_take))
               <i class="bi bi-bookmark"></i>
             @endif
-            @if (is_null($lab_order->salo_date_income))
+            @if (is_null($lab_order->salo_date_delivery))
               <i class="bi bi-bookmark"></i>
             @endif
             @if (is_null($lab_order->salo_date_accept))

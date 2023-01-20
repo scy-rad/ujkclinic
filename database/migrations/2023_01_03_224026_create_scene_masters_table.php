@@ -29,6 +29,11 @@ return new class extends Migration
             $table->datetime('scene_relative_date')->nullable();
             $table->Integer('scene_relative_id')->default(1);
             $table->Integer('scene_step_minutes');
+            $table->Integer('scene_lab_take_seconds_from');
+            $table->Integer('scene_lab_take_seconds_to');
+            $table->Integer('scene_lab_delivery_seconds_from');
+            $table->Integer('scene_lab_delivery_seconds_to');
+            $table->smallInteger('scene_lab_automatic_time')->default(1);            
             $table->text('scene_scenario_description');
             $table->text('scene_scenario_for_students');
             $table->smallInteger('scene_status')->default(1);            

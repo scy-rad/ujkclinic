@@ -87,9 +87,10 @@ class LaboratoryNormsSeeder extends Seeder
       }
       function insert_ltn($data_row)
       {
-        $tab=explode(";",str_replace([',',' '],['.',''],$data_row));
-        // echo $tab[0]."\n";
+        $tab=explode(";",str_replace(',','.',$data_row));
+        // echo $tab[0];
         $lt_id=LaboratoryTest::where('lt_name',$tab[0])->first()->id;
+        // echo ' - '.$lt_id."\n";
         $table = new LaboratoryTestNorm();
         $table->laboratory_test_id = $lt_id;
         $table->ltn_days_from = $tab[1];
@@ -122,10 +123,10 @@ class LaboratoryNormsSeeder extends Seeder
     insert_lt("Morfologia krwi;1;MCHC;EN_MCHC;MCHC;MCHC;g/dl;g/dl;1;1;1;6;5;250;3;350");	insert_ltn("MCHC;0;43800;3;32;36;32;36;32;36;g/dl;g/dl;1");
     insert_lt("Morfologia krwi;1;Trombocyty;EN_Trombocyty;PLT;PLT;1000/μI;1000/μI;1;1;1;7;5;250;3;350");	insert_ltn("Trombocyty;0;43800;3;150;400;150;400;150;400;1000/μI;1000/μI;1");
     insert_lt("Morfologia krwi;1;Retikulocyty;EN_Retikulocyty;RC;RC;%;%;10;1;1;8;5;250;3;350");	insert_ltn("Retikulocyty;0;43800;3;0,5;2;0,5;2;0,5;2;%;%;10");
-    insert_lt("Morfologia krwi;1;Leukocyty ( łącznie);EN_Leukocyty ( łącznie);WBC;WBC;/μI;/μI;1;1;1;9;5;250;3;350");	insert_ltn("Leukocyty ( łącznie);0;43800;3;4000;11000;4000;11000;4000;11000;/μI;/μI;1");
+    insert_lt("Morfologia krwi;1;Leukocyty (łącznie);EN_Leukocyty (łącznie);WBC;WBC;/μI;/μI;1;1;1;9;5;250;3;350");	insert_ltn("Leukocyty (łącznie);0;43800;3;4000;11000;4000;11000;4000;11000;/μI;/μI;1");
 insert_ltg("Morfologia krwi - rozmaz (Leukogram);EN_Morfologia krwi - rozmaz (Leukogram);1;2");		insert_lo("Krew pełna;Rozm. mikros.;EN_Rozm. mikros.;2");	insert_lt("Morfologia krwi - rozmaz (Leukogram);2;Neutrofile;EN_Neutrofile;NEUT;NEUT;%;%;1;1;1;10;5;250;3;350");	insert_ltn("Neutrofile;0;43800;3;45;78;45;78;45;78;%;%;1");
-    insert_lt("Morfologia krwi - rozmaz (Leukogram);2;- pałki;EN_- pałki;NEUT-pałki;NEUT-banded;%;%;1;1;1;11;5;250;3;350");	insert_ltn("- pałki;0;43800;3;0;4;0;4;0;4;%;%;1");
-    insert_lt("Morfologia krwi - rozmaz (Leukogram);2;- segmenty;EN_- segmenty;NEUT-segmenty;NEUT-segmented;%;%;1;1;1;12;5;250;3;350");	insert_ltn("- segmenty;0;43800;3;45;74;45;74;45;74;%;%;1");
+    insert_lt("Morfologia krwi - rozmaz (Leukogram);2;Neut. - pałki;EN_Neut. - pałki;NEUT-pałki;NEUT-banded;%;%;1;1;1;11;5;250;3;350");	insert_ltn("Neut. - pałki;0;43800;3;0;4;0;4;0;4;%;%;1");
+    insert_lt("Morfologia krwi - rozmaz (Leukogram);2;Neut. - segmenty;EN_Neut. - segmenty;NEUT-segmenty;NEUT-segmented;%;%;1;1;1;12;5;250;3;350");	insert_ltn("Neut. - segmenty;0;43800;3;45;74;45;74;45;74;%;%;1");
     insert_lt("Morfologia krwi - rozmaz (Leukogram);2;Eozynofile;EN_Eozynofile;EOS;EOS;%;%;1;1;1;13;5;250;3;350");	insert_ltn("Eozynofile;0;43800;3;0;7;0;7;0;7;%;%;1");
     insert_lt("Morfologia krwi - rozmaz (Leukogram);2;Bazofile;EN_Bazofile;BASO;BASO;%;%;1;1;1;14;5;250;3;350");	insert_ltn("Bazofile;0;43800;3;0;2;0;2;0;2;%;%;1");
     insert_lt("Morfologia krwi - rozmaz (Leukogram);2;Limfocyty;EN_Limfocyty;LYM;LYM;%;%;1;1;1;15;5;250;3;350");	insert_ltn("Limfocyty;0;43800;3;16;45;16;45;16;45;%;%;1");
@@ -175,7 +176,7 @@ insert_ltg("Enzymy trzustkowe;EN_Enzymy trzustkowe;1;10");		insert_lo("Surowice;
   insert_lo("Surowice;Lipaza;EN_Lipaza;39");	insert_lt("Enzymy trzustkowe;39;Lipaza;EN_Lipaza;S-69;E-69;j.m./l;IU/l;1;1;1;58;5;250;3;350");	insert_ltn("Lipaza;0;43800;2;;190;;190;;190;j.m./l;IU/l;1");
   insert_lo("Surowice;Elastaza 1;EN_Elastaza 1;40");	insert_lt("Enzymy trzustkowe;40;Elastaza 1;EN_Elastaza 1;S-70;E-70;ng/ml;ng/ml;1;1;1;59;5;250;3;350");	insert_ltn("Elastaza 1;0;43800;2;;2;;2;;2;ng/ml;ng/ml;1");
 insert_ltg("Badanie ogólne moczu;EN_Badanie ogólne moczu;1;11");	insert_log("Mocz;EN_Mocz;69");	insert_lo("Mocz;pH moczu;EN_pH moczu;41");	insert_lt("Badanie ogólne moczu;41;pH moczu;EN_pH moczu;S-71;E-71;j.m./l;IU/l;10;1;1;60;5;250;3;350");	insert_ltn("pH moczu;0;43800;3;4,8;7,5;4,8;7,5;4,8;7,5;j.m./l;IU/l;10");
-insert_lo("Mocz;kolor;EN_kolor;42");	insert_lt("Badanie ogólne moczu;42;kolor;EN_kolor;mocz_kolor;E-72;;;1;2;1;61;5;250;3;350");	insert_ltn("kolor;0;43800;6;;;;;;;;;1");
+  insert_lo("Mocz;kolor;EN_kolor;42");	insert_lt("Badanie ogólne moczu;42;kolor;EN_kolor;mocz_kolor;E-72;;;1;2;1;61;5;250;3;350");	insert_ltn("kolor;0;43800;6;;;;;;;;;1");
 
     }
 }

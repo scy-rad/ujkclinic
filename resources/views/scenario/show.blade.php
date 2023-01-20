@@ -135,6 +135,12 @@
  $scene->scene_scenario_description=$scenario->scenario_description;
  $scene->scene_scenario_for_students=$scenario->scenario_for_students;
  $scene->scene_date=date("Y-m-d H:i");
+ $scene_params = App\Models\SceneParam::all()->first();
+ $scene->scene_lab_take_seconds_from     = $scene_params->lab_take_seconds_from;
+ $scene->scene_lab_take_seconds_to       = $scene_params->lab_take_seconds_to;
+ $scene->scene_lab_delivery_seconds_from = $scene_params->lab_delivery_seconds_from;
+ $scene->scene_lab_delivery_seconds_to   = $scene_params->lab_delivery_seconds_to;
+ $scene->scene_lab_automatic_time        = 1;
  ?>
 @include('scene.modal_scene_master')
 

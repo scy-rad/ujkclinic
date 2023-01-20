@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('salo_cito')->default(0);
             $table->dateTime('salo_date_order');
             $table->dateTime('salo_date_take')->nullable();
-            $table->dateTime('salo_date_income')->nullable();
+            $table->dateTime('salo_date_delivery')->nullable();
             $table->dateTime('salo_date_accept')->nullable();
             $table->string('salo_descript')->nullable();
             $table->timestamps();

@@ -197,7 +197,7 @@ class SceneActorLabOrder extends Model
     $ret.='<label>data zlecenia:</label> '.$order->salo_date_order;
     if (is_null($order->salo_date_take))
       $ret.='<span class="text-danger"> - materiał nie pobrany</span>';
-      elseif (is_null($order->salo_date_income))
+      elseif (is_null($order->salo_date_delivery))
         $ret.='<span class="text-danger"> - materiał nie dostarczony</span>';
         elseif (is_null($order->salo_date_accept))
           $ret.='<span class="text-danger"> - wyniki nie zatwierdzone</span>';
