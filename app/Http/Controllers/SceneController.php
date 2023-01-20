@@ -186,9 +186,12 @@ class SceneController extends Controller
           // $ret = ['success' => 'Dane raczej wygenerowane prawidłowo :) .','scene_data' => $ret];  
         break;
 
-        case 'order':
+        case 'lab_order':
           $ret=['body' => SceneActorLabOrder::create_order_form($request->idvalue) ];
+          break;
 
+        case 'order_from_template':
+          $ret=['body' => SceneActorLabResultTemplate::template_to_order($request->template_id, $request->order_id) ];
           break;
       }
       return response()->json($ret);

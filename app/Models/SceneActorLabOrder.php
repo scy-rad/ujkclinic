@@ -21,8 +21,8 @@ class SceneActorLabOrder extends Model
 
   public static function get_order_for_ajax($id_order,$ret_type)
   {
-    $actor  =SceneActorLabOrder::where('id',$id_order)->first()->scene_actor;
-    $scene  =$actor->scene;
+    $scene_actor  =SceneActorLabOrder::where('id',$id_order)->first()->scene_actor;
+    $scene  =$scene_actor->scene;
     $scene_date = $scene->scene_current_time();
     $order = SceneActorLabOrder ::where('id',$id_order)->first();
     // $rety = SceneActorLabResult::where('scene_actor_lab_order_id',$id_order)->with('laboratory_test')->get();
@@ -40,11 +40,11 @@ class SceneActorLabOrder extends Model
 
     $rety = $rety->select('ltg_name', 'log_name', 'lo_name', 'lt_name', 'lt_short', 'lt_unit', 'lt_decimal_prec', 'ltn_norm_type', 'salr_date', 'salr_result', 'salr_resulttxt', 'salr_addedtext', 'salr_type');
 
-    if ($actor->sa_actor_sex==2)
+    if ($scene_actor->sa_actor_sex==2)
     {
       $rety = $rety->addSelect(DB::raw('ltn_norm_m_min AS norm_min, ltn_norm_m_max AS norm_max'));
     }
-    if ($actor->sa_actor_sex==3)
+    if ($scene_actor->sa_actor_sex==3)
     {
       if ($order->is_pregnant)
         $rety = $rety->addSelect(DB::raw('ltn_norm_p_min AS norm_min, ltn_norm_p_max AS norm_max'));
@@ -187,13 +187,13 @@ class SceneActorLabOrder extends Model
 
   public static function create_order_form($id_order)
   {
-    $actor  =SceneActorLabOrder::where('id',$id_order)->first()->scene_actor;
-    // $scene  =$actor->scene;
+    $scene_actor  =SceneActorLabOrder::where('id',$id_order)->first()->scene_actor;
+    
     // $scene_date = $scene->scene_current_time();
     $order = SceneActorLabOrder ::where('id',$id_order)->first();
     $result_types=LabResultTemplate::array_of_types();
 
-    $ret='<p><label>pacjent:</label> '.$actor->sa_name.' <label>wiek:</label> '.$actor->sa_age_txt.' <label>PESEL:</label> '.$actor->sa_PESEL.'<br>';
+    $ret='<p><label>pacjent:</label> '.$scene_actor->sa_name.' <label>wiek:</label> '.$scene_actor->sa_age_txt.' <label>PESEL:</label> '.$scene_actor->sa_PESEL.' - ';
     $ret.='<label>data zlecenia:</label> '.$order->salo_date_order;
     if (is_null($order->salo_date_take))
       $ret.='<span class="text-danger"> - materiał nie pobrany</span>';
@@ -202,9 +202,20 @@ class SceneActorLabOrder extends Model
         elseif (is_null($order->salo_date_accept))
           $ret.='<span class="text-danger"> - wyniki nie zatwierdzone</span>';
 
+    $ret.='<div class="input-group mb-3">';
+    $ret.='<select id="template_id" class="form-select">'; 
+      foreach ($scene_actor->scene_actor_lab_order_templates as $template_one)
+      {
+        $ret.='<option value='.$template_one->id;
+        $ret.='>'.$template_one->salo_descript.'</option>';
+      }
+    $ret.='</select>';
+
+    $ret.='<button class="btn btn-outline-secondary" type="button" id="button-feel" onClick="javascript:fill_results()">zastosuj</button>
+      </div>';
     $ret.='<form action="'.route('scene.updateajax').'" method="post" enctype="multipart/form-data">';
     $ret.='<input type="hidden" name="what" value="order">';
-    $ret.='<input type="hidden" name="id" value="'.$order->id.'">';
+    $ret.='<input type="hidden" id="order_id" name="id" value="'.$order->id.'">';
     $ret.=csrf_field();
     $ret.='<table class="mb-3">';
     foreach ($order->lab_results as $result_one)
@@ -212,16 +223,30 @@ class SceneActorLabOrder extends Model
     $ret.='<tr>';
     $ret.='<td>'.$result_one->id.'</td>';
     $ret.='<td>'.$result_one->laboratory_test->lt_name.'</td>';
-    $ret.='<td><input id="'.$result_one->laboratory_test->lt_short.'" name="salr-'.$result_one->id.'" type="text" value="'.$result_one->salr_result/$result_one->laboratory_test->laboratory_test_norms->first()->laboratory_test->lt_decimal_prec.'"></td>';
+    $ret.='<td><input id="lt-'.$result_one->laboratory_test->id.'" name="salr-'.$result_one->id.'" placeholder="wpisz wartość" ';
+    if ($result_one->laboratory_test->lt_result_type == 2)
+        $ret.='type="hidden" value="';
+    else
+      $ret.='type="text" value="';
+    if (!is_null($result_one->salr_result)) 
+      $ret.=$result_one->salr_result/$result_one->laboratory_test->lt_decimal_prec;
+    $ret.='">';
+    $ret.='<input id="lttxt-'.$result_one->laboratory_test->id.'" name="rtxt-'.$result_one->id.'" placeholder="opisz wynik" ';
+    if ($result_one->laboratory_test->lt_result_type == 1)
+        $ret.='type="hidden"';
+    else
+      $ret.='type="text"';
+    $ret.=' value="'.$result_one->salr_resulttxt.'">';
+    $ret.='</td>';
     $ret.='<td>'.$result_one->laboratory_test->laboratory_test_norms->first()->ltn_unit.'</td>';
     $ret.='<td class="text-success text-center">'.$result_one->laboratory_norm().'</td>';
     
-    $ret.='<td><input id="'.$result_one->laboratory_test->lt_short.'" name="addtxt-'.$result_one->id.'" type="text" value="'.$result_one->salr_addedtext.'"></td>';
+    $ret.='<td><input id="ltadd-'.$result_one->laboratory_test->id.'" name="addt-'.$result_one->id.'" type="text" value="'.$result_one->salr_addedtext.'"></td>';
     $ret.='<td>';
-    $ret.='<select name="salr_type" class="form-select">'; 
+    $ret.='<select id="lttyp-'.$result_one->laboratory_test->id.'" name="type-'.$result_one->id.'" class="form-select">'; 
       foreach ($result_types as $type_one)
       {
-        $ret.='<option value='.$type_one['value'];
+        $ret.='<option value='.$type_one['id'];
         if ($type_one['id'] == $result_one->salr_type)
           $ret.=' selected="selected"';
         $ret.='>'.$type_one['value'].'</option>';
@@ -236,6 +261,38 @@ class SceneActorLabOrder extends Model
     <button type="button" class="col-4 m-2 float-end btn btn-secondary" onClick="javascript:clear_extra_body()">anuluj??</button>';
     $ret.='</form>';
 
+    $ret.='
+    <script>
+    function fill_results()
+    {
+      var e = document.getElementById("template_id");
+      var template_id = e.value;
+      var text = e.options[e.selectedIndex].text;
+      var order_id = document.getElementById("order_id").value;
+      $.ajax({
+        type:"GET",
+        url:"'.route('scene.getajax').'",
+        data:{template_id:template_id,what:"order_from_template",order_id:order_id},
+        success:function(data){
+          if($.isEmptyObject(data.error))
+          {
+            for (var row_one of data.body) 
+              {
+                document.getElementById("lt-"+row_one.laboratory_test_id).value=row_one.salr_result_dec*1;
+                document.getElementById("ltadd-"+row_one.laboratory_test_id).value=row_one.salr_addedtext;
+                document.getElementById("lttxt-"+row_one.laboratory_test_id).value=row_one.salr_resulttxt;
+                $("#lttyp-"+row_one.laboratory_test_id).val(row_one.salr_type);
+              }
+            }
+            else
+            {
+              printErrorMsg(data.error);
+            }
+          }
+        });
+    }
+    </script>';
+
     return $ret;
   } // end of function create_order_form($id_order)
 
@@ -246,9 +303,31 @@ class SceneActorLabOrder extends Model
         {
           if (substr($key,0,5) == 'salr-')
           {
-            $value=str_replace(',','.',$value);
+            $value=str_replace([',',' '],['.',''],$value);
             $change=SceneActorLabResult::where('id',substr($key,5,10))->first();
-            $change->salr_result=$value*$change->laboratory_norm_row()->laboratory_test->lt_decimal_prec;
+            if ($value=='')
+              $change->salr_result=null;
+            else
+              $change->salr_result=$value*$change->laboratory_norm_row()->laboratory_test->lt_decimal_prec;
+            $change->save();
+          }
+          if (substr($key,0,5) == 'rtxt-')
+          {
+            $change=SceneActorLabResult::where('id',substr($key,5,10))->first();
+            $change->salr_resulttxt=$value;
+            $change->save();
+          }
+
+          elseif (substr($key,0,5) == 'addt-')
+          {
+            $change=SceneActorLabResult::where('id',substr($key,5,10))->first();
+            $change->salr_addedtext=$value;
+            $change->save();
+          }
+          elseif (substr($key,0,5) == 'type-')
+          {
+            $change=SceneActorLabResult::where('id',substr($key,5,10))->first();
+            $change->salr_type=$value;
             $change->save();
           }
         }

@@ -137,7 +137,7 @@
       </div>
         <ul>
           @foreach($scene->laboratory_orders as $lab_order)
-          <li onClick="javascript:fill_extra_body({{$lab_order->id}},'order')">{{$lab_order->scene_actor->sa_name}}: {{$lab_order->salo_date_order}}</li>
+          <li onClick="javascript:fill_extra_body({{$lab_order->id}},'lab_order')">{{$lab_order->scene_actor->sa_name}}: {{$lab_order->salo_date_order}}</li>
             @if (is_null($lab_order->salo_date_take))
               <i class="bi bi-bookmark"></i>
             @endif

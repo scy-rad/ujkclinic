@@ -87,7 +87,7 @@ class LaboratoryNormsSeeder extends Seeder
       }
       function insert_ltn($data_row)
       {
-        $tab=explode(";",str_replace(',','.',$data_row));
+        $tab=explode(";",str_replace([',',' '],['.',''],$data_row));
         // echo $tab[0]."\n";
         $lt_id=LaboratoryTest::where('lt_name',$tab[0])->first()->id;
         $table = new LaboratoryTestNorm();

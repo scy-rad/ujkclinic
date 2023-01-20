@@ -164,7 +164,7 @@ class LaboratoryNormController extends Controller
 
         if (!is_null($request->lrtr_resultX))
           {
-            $request_lrtr_result = str_replace(',','.',$request->lrtr_resultX)*$request->decimal_prec;
+            $request_lrtr_result = str_replace([',',' '],['.',''],$request->lrtr_resultX)*$request->decimal_prec;
             $request->merge(['lrtr_result' => $request_lrtr_result]);
           }
 

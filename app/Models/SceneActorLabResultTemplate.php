@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class SceneActorLabResultTemplate extends Model
 {
@@ -48,4 +49,18 @@ class SceneActorLabResultTemplate extends Model
 
       return $ret;
      }
+
+     public static function template_to_order($template_id, $order_id)
+     {
+      $test_tab=SceneActorLabResult::where('scene_actor_lab_order_id',$order_id)->pluck('laboratory_test_id');
+      $rety = DB::table('scene_actor_lab_result_templates')
+        ->leftJoin('laboratory_tests','scene_actor_lab_result_templates.laboratory_test_id','laboratory_tests.id')
+        ->where('salot_id',$template_id)
+        ->whereIn('laboratory_test_id',$test_tab)
+        ->select('laboratory_test_id', 'lt_decimal_prec', 'salr_resulttxt', 'salr_addedtext', 'salr_type')
+        ->addSelect(DB::raw('salr_result/lt_decimal_prec AS salr_result_dec'));
+
+       return $rety->get();
+     }
+   
 }
