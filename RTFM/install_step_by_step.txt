@@ -147,6 +147,6 @@ Change database structure for moving test results from scenario to scene
 Edit SceneActor LaboratoryTests Results (advanced):
    -> adding laboratory tests templates when creating a scene from scenario
    -> apply laboratory tests template to laboratory tests order
-
     php artisan make:model SceneParam -m
-    add times (take & delivery) to params of scene
+    add times (take & delivery) to params of scene  
+  -> aply times to laboratory orders (time of take, delivery and accept)

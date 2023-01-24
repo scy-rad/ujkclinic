@@ -17,6 +17,15 @@ class SceneActorLabResult extends Model
     {
       return $this->hasOne(LaboratoryTest::class, 'id', 'laboratory_test_id');
     }
+    public function name_of_type()
+    {
+      switch ($this->salr_type)
+      {
+        case '1': return ''; break;
+        case '2': return 'Laboratory error'; break;
+        case '3': return 'test unavailable'; break;
+      }
+    }
     public function laboratory_norm()
     {
       $ret=$this->laboratory_test->laboratory_test_norms

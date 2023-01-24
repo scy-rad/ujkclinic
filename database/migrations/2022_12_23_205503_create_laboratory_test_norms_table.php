@@ -35,6 +35,8 @@ return new class extends Migration
             $table->BigInteger('ltn_norm_p_min')->nullable();
             $table->BigInteger('ltn_norm_p_max')->nullable();
 
+            $table->string('ltn_source');
+
             $table->timestamps();
         });
     }

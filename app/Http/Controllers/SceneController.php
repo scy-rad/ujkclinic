@@ -205,7 +205,7 @@ class SceneController extends Controller
       return response()->json($ret);
     } // end of public function getajax
 
-    public function updateajax(Request $request)
+    public function update_scene_ajax(Request $request)
     {
       $ret = $request->toArray(); 
 

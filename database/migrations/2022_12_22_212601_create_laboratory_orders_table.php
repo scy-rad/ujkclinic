@@ -19,7 +19,7 @@ return new class extends Migration
           $table->string('lo_name');
           $table->string('lo_name_en');
           $table->boolean('lo_break')->default(0);
-          $table->tinyInteger('lo_sort');
+          $table->Integer('lo_sort');
           $table->timestamps();
       });
       Schema::table('laboratory_orders', function (Blueprint $table) {

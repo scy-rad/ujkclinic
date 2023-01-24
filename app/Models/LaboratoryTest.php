@@ -33,4 +33,8 @@ class LaboratoryTest extends Model
   {
     return $this->hasOne(LaboratoryTestGroup::class, 'id', 'laboratory_test_group_id');
   }
+  public function laboratory_order()
+  {
+    return $this->hasOne(LaboratoryOrder::class, 'id', 'laboratory_order_id');
+  }
 }

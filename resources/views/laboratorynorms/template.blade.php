@@ -84,6 +84,10 @@
               @if ($lang=="pl") {{$lab_test_row->lt_short}} @endif
               @if ($lang=="en") {{$lab_test_row->lt_short_en}} @endif
               </td>
+              <td>
+                @if ($lang=="pl") {{$lab_test_row->lt_unit}} @endif
+                @if ($lang=="en") {{$lab_test_row->ltnunit_en}} @endif
+              </td>
               <?php $next=""; ?>
                 @foreach($normy as $test_three)
                 {!!$next!!}
@@ -96,12 +100,7 @@
                   <td>
                     {{$test_three->write_norm()}}
                   </td>
-                  <td>
-                    @if ($lang=="pl") {{$test_three->ltn_unit}} @endif
-                    @if ($lang=="en") {{$test_three->ltn_unit_en}} @endif
-                  </td>
-
-                  <?php $next="</tr><tr>"; ?>
+                   <?php $next="</tr><tr>"; ?>
                 @endforeach 
                 <?php if ($test_three->get_from_template($lab_order_template->id)['id']>0) {$hid=""; $but="edytuj"; $butclass="btn-outline-success";} else {$hid="d-none"; $but="dodaj"; $butclass="btn-outline-primary bg-warning";} ?>
 

@@ -51,7 +51,9 @@ class SceneActorLabOrderController extends Controller
       $new_order->scene_actor_id = $request->scene_actor_id;
       $new_order->salo_cito = $request->cito*1;
       $new_order->salo_date_order = $scene->scene_current_time() ;
-      // $new_order->salo_date_take = null;
+      if ($scene->scene_lab_automatic_time)
+          $new_order->salo_date_take = date('Y-m-d H:i:s',strtotime($new_order->salo_date_order.' + '.rand($scene->scene_lab_take_seconds_from,$scene->scene_lab_take_seconds_to).' seconds'));
+
       // $new_order->salo_date_delivery = null;
       // $new_order->salo_date_accept = null;
       $new_order->salo_descript = '';
@@ -131,7 +133,7 @@ class SceneActorLabOrderController extends Controller
     }
 
 
-    public function getajax(Request $request)
+    public function get_salo_ajax(Request $request)
     {
       $ret=$request->idvalue;
       switch ($request->what)
@@ -145,7 +147,7 @@ class SceneActorLabOrderController extends Controller
         
       }
       return response()->json($ret);
-    } // end of public function getajax
+    } // end of public function get_salo_ajax
 
 
 

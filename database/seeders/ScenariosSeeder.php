@@ -9,8 +9,7 @@ use App\Models\Scenario;
 use App\Models\Actor;
 use App\Models\LabOrderTemplate;
 use App\Models\LabResultTemplate;
-
-
+use Illuminate\Support\Facades\Schema;
 
 class ScenariosSeeder extends Seeder
 {
@@ -21,6 +20,13 @@ class ScenariosSeeder extends Seeder
      */
     public function run()
     {
+
+      Schema::disableForeignKeyConstraints();
+      LabResultTemplate::truncate();
+      LabOrderTemplate::truncate();
+      Actor::truncate();
+      Scenario::truncate();
+      Schema::enableForeignKeyConstraints();
 
       function add_test_result($template_id,$norm_short,$result,$resulttxt,$addedtext,$type,$sort)
       {
@@ -81,7 +87,11 @@ class ScenariosSeeder extends Seeder
       add_test_result($lr_template->id,'RBC',49,'','',1,1);
       add_test_result($lr_template->id,'MCV',72,'','',1,1);
       add_test_result($lr_template->id,'MCH',39,'','',1,1);
-      add_test_result($lr_template->id,'mocz_kolor',null,'pomarańczowy','',2,1);
+      add_test_result($lr_template->id,'Szybki',312,'','',1,1);
+      add_test_result($lr_template->id,'Średni',150,'','',1,1);
+      add_test_result($lr_template->id,'Wolny',150,'','',1,1);
+      add_test_result($lr_template->id,'Opis',null,'zielony','',1,1);
+      add_test_result($lr_template->id,'Minus',-21,'','',1,1);
 
       $lr_template = new LabOrderTemplate();
       $lr_template->actor_id    = $actor->id;
@@ -96,8 +106,11 @@ class ScenariosSeeder extends Seeder
       add_test_result($lr_template->id,'RBC',48,'','',2,1);
       add_test_result($lr_template->id,'MCV',80,'','',2,1);
       add_test_result($lr_template->id,'MCH',34,'','',2,1);
-      add_test_result($lr_template->id,'mocz_kolor',null,'słomkowy','',2,1);
-
+      add_test_result($lr_template->id,'Szybki',312,'','',1,1);
+      add_test_result($lr_template->id,'Średni',149,'','',1,1);
+      add_test_result($lr_template->id,'Wolny',149,'','',1,1);
+      add_test_result($lr_template->id,'Opis',null,'pomarańczowy','',1,1);
+      add_test_result($lr_template->id,'Minus',-21,'','',1,1);
 
       $actor = new Actor();
       $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','PIEL-INT-PED-01')->first()->id;
@@ -127,7 +140,11 @@ class ScenariosSeeder extends Seeder
       add_test_result($lr_template->id,'RBC',49,'','',1,1);
       add_test_result($lr_template->id,'MCV',72,'','',1,1);
       add_test_result($lr_template->id,'MCH',39,'','',1,1);
-      add_test_result($lr_template->id,'mocz_kolor',null,'pomarańczowy','',2,1);
+      add_test_result($lr_template->id,'Szybki',312,'','',1,1);
+      add_test_result($lr_template->id,'Średni',150,'','',1,1);
+      add_test_result($lr_template->id,'Wolny',150,'','',1,1);
+      add_test_result($lr_template->id,'Opis',null,'pomarańczowy','',1,1);
+      add_test_result($lr_template->id,'Minus',-21,'','',1,1);
 
       $lr_template = new LabOrderTemplate();
       $lr_template->actor_id    = $actor->id;
@@ -142,7 +159,11 @@ class ScenariosSeeder extends Seeder
       add_test_result($lr_template->id,'RBC',48,'','',2,1);
       add_test_result($lr_template->id,'MCV',80,'','',2,1);
       add_test_result($lr_template->id,'MCH',34,'','',2,1);
-      add_test_result($lr_template->id,'mocz_kolor',null,'słomkowy','',2,1);
+      add_test_result($lr_template->id,'Szybki',312,'','',1,1);
+      add_test_result($lr_template->id,'Średni',150,'','',1,1);
+      add_test_result($lr_template->id,'Wolny',150,'','',1,1);
+      add_test_result($lr_template->id,'Opis',null,'pomarańczowy','',1,1);
+      add_test_result($lr_template->id,'Minus',-21,'','',1,1);
 
       $lr_template = new LabOrderTemplate();
       $lr_template->actor_id    = $actor->id;
@@ -157,7 +178,11 @@ class ScenariosSeeder extends Seeder
       add_test_result($lr_template->id,'RBC',43,'','',2,1);
       add_test_result($lr_template->id,'MCV',60,'','',2,1);
       add_test_result($lr_template->id,'MCH',28,'','',2,1);
-      add_test_result($lr_template->id,'mocz_kolor',null,'biały','',2,1);
+      add_test_result($lr_template->id,'Szybki',312,'','',1,1);
+      add_test_result($lr_template->id,'Średni',150,'','',1,1);
+      add_test_result($lr_template->id,'Wolny',150,'','',1,1);
+      add_test_result($lr_template->id,'Opis',null,'pomarańczowy','',1,1);
+      add_test_result($lr_template->id,'Minus',-21,'','',1,1);
 
       $lr_template = new LabOrderTemplate();
       $lr_template->actor_id    = $actor->id;
@@ -172,7 +197,11 @@ class ScenariosSeeder extends Seeder
       add_test_result($lr_template->id,'RBC',33,'','',2,1);
       add_test_result($lr_template->id,'MCV',72,'','',2,1);
       add_test_result($lr_template->id,'MCH',39,'','',2,1);
-      add_test_result($lr_template->id,'mocz_kolor',null,'tęczowy','',2,1);
+      add_test_result($lr_template->id,'Szybki',312,'','',1,1);
+      add_test_result($lr_template->id,'Średni',150,'','',1,1);
+      add_test_result($lr_template->id,'Wolny',150,'','',1,1);
+      add_test_result($lr_template->id,'Opis',null,'pomarańczowy','',1,1);
+      add_test_result($lr_template->id,'Minus',-21,'','',1,1);
 
 
       // ####################################################################################

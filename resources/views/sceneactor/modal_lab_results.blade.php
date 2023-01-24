@@ -22,7 +22,7 @@
   {
     $.ajax({
             type:'GET',
-            url:"{{ route('salaborder.getajax') }}",
+            url:"{{ route('salaborder.get_salo_ajax') }}",
             data:{idvalue:idvalue,what:'lab_results'},
             success:function(data){
                 if($.isEmptyObject(data.error))

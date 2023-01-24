@@ -61,6 +61,10 @@
               @if ($lang=="pl") {{$test_two->lt_short}} @endif
               @if ($lang=="en") {{$test_two->lt_short_en}} @endif
               </td>
+              <td>
+                @if ($lang=="pl") {{$test_two->lt_unit}} @endif
+                @if ($lang=="en") {{$test_two->lt_unit_en}} @endif
+              </td>
 
                 @foreach($normy as $test_three)
                 {!!$next!!}
@@ -72,10 +76,6 @@
                   </td>
                   <td>
                     {{$test_three->write_norm()}}
-                  </td>
-                  <td>
-                    @if ($lang=="pl") {{$test_three->ltn_unit}} @endif
-                    @if ($lang=="en") {{$test_three->ltn_unit_en}} @endif
                   </td>
                   <td>
                     <span class="btn btn-outline-success" onClick="javascript:showLTNmodal({{$test_three->id}},{{$test_two->id}})"> Edit Norm</span>

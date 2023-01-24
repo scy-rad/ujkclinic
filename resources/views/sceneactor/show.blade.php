@@ -49,7 +49,9 @@
         <label>nr KG:</label> {{$sceneactor->sa_main_book}}<br>
         <label>wiek:</label> {{$sceneactor->sa_age_txt}}<br>
         <label>PESEL:</label> {{$sceneactor->sa_PESEL}}<br>
-        <label>data prz.:</label> {{$sceneactor->sa_incoming_date}}
+        <label>data prz.:</label> {{$sceneactor->sa_incoming_date}}<br>
+        <i class="bi bi-hospital"></i> <a href="{{ route('scene.show',$sceneactor->scene->id) }}">{{$sceneactor->scene->scene_code}}: {{$sceneactor->scene->scene_name}} </a>
+
       </p>
     </div>
   </div>
