@@ -22,6 +22,7 @@ return new class extends Migration
             $table->dateTime('salo_date_delivery')->nullable();
             $table->dateTime('salo_date_accept')->nullable();
             $table->string('salo_descript')->nullable();
+            $table->string('salo_diagnostician');
             $table->timestamps();
         });
 

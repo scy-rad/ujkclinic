@@ -150,3 +150,7 @@ Edit SceneActor LaboratoryTests Results (advanced):
     php artisan make:model SceneParam -m
     add times (take & delivery) to params of scene  
   -> aply times to laboratory orders (time of take, delivery and accept)
+
+  
+  -> add LabTechnician name to LabOrder.
+  -> add lab norms on Lab Results

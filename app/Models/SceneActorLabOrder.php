@@ -191,28 +191,31 @@ class SceneActorLabOrder extends Model
           $ret.='<tr><td>'.$result_one->laboratory_test->lt_name.'</td>';
           if (is_null($result_one->salr_date))
             {
-            $ret.= '<td class="text-warning">???</td>';
+            $ret.= '<td></td><td></td><td class="text-warning">???</td><td></td>';
             }
           elseif ($result_one->salr_date>$scene_date)
             {
-            $ret.= '<td class="text-warning">???</td>';
+            $ret.= '<td></td><td></td><td class="text-warning">???</td><td></td>';
             }
           else
           {
             if ($result_one->salr_type>1)
-              $ret.='<td class="text-danger">'.$result_one->name_of_type().'</td>';
+              $ret.='<td></td><td colspan="3" class="text-danger">'.$result_one->name_of_type().'</td>';
             else
               if ($result_one->laboratory_test->lt_result_type==2)
               {
-                $ret.='<td>'.$result_one->salr_resulttxt.'</td>';
+                $ret.='<td></td><td></td><td colspan="2">'.$result_one->salr_resulttxt.'</td>';
               }
               else
               {
-                $ret.='<td>'.$result_one->salr_result.'</td>';
+                $ret.='<td>'.$result_one->laboratory_norm()['range'].'</td>';
+                $ret.='<td class="text-danger fw-bold">'.$result_one->laboratory_norm()['HL'].'</td>';
+                $ret.='<td>'.number_format($result_one->salr_result/$result_one->laboratory_test->lt_decimal_prec,strlen($result_one->laboratory_test->lt_decimal_prec)-1,',',' ').'</td>';
+                $ret.='<td>'.$result_one->laboratory_test->lt_unit.'</td>';
               }
           }
           $ret.="</tr>";
-       
+
         }
 
         $ret.="</table>";
@@ -227,7 +230,7 @@ class SceneActorLabOrder extends Model
         $ret.='<div class="col-4 text-end"><label>data wydruku:</label> '.$scene_date.'</div></div>';
         
         if (!( (is_null($order->salo_date_accept)) || ($order->salo_date_accept>$scene_date) ))
-          $ret.='<label>wynik autoryzował:</label> diagnosta laboratoryjny <strong>mgr '.json_decode(SceneActor::random_actor('2022-01-01',1),true)['name'].'</strong><br>';
+          $ret.='<label>wynik autoryzował:</label> diagnosta laboratoryjny <strong>mgr '.$order->salo_diagnostician.'</strong><br>';
         
         return $ret;
 
@@ -290,7 +293,7 @@ class SceneActorLabOrder extends Model
     $ret.=' value="'.$result_one->salr_resulttxt.'">';
     $ret.='</td>';
     $ret.='<td>'.$result_one->laboratory_test->lt_unit.'</td>';
-    $ret.='<td class="text-success text-center">'.$result_one->laboratory_norm().'</td>';
+    $ret.='<td class="text-success text-center">'.$result_one->laboratory_norm()['range'].'</td>';
     
     $ret.='<td><input id="ltadd-'.$result_one->laboratory_test->id.'" name="addt-'.$result_one->id.'" type="text" value="'.$result_one->salr_addedtext.'"></td>';
     $ret.='<td>';

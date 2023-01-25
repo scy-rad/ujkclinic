@@ -57,6 +57,7 @@ class SceneActorLabOrderController extends Controller
       // $new_order->salo_date_delivery = null;
       // $new_order->salo_date_accept = null;
       $new_order->salo_descript = '';
+      $new_order->salo_diagnostician = json_decode(SceneActor::random_actor('2022-01-01',1),true)['name'];
       $new_order->save();
 
       foreach ($request->request as $key => $value)
