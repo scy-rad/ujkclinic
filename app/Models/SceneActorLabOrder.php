@@ -11,12 +11,18 @@ class SceneActorLabOrder extends Model
 {
     use HasFactory;
 
-  public function lab_results() {
+  public function lab_results() 
+  {
     return $this->hasMany(SceneActorLabResult::class);
   }
+
   public function scene_actor()
     {
       return $this->hasOne(SceneActor::class, 'id', 'scene_actor_id');
+    }
+  public function laboratory_test()
+    {
+      return $this->hasOne(LaboratoryTest::class, 'id', 'laboratory_test_id');
     }
 
   public static function get_order_for_ajax($id_order,$ret_type)
@@ -155,7 +161,7 @@ class SceneActorLabOrder extends Model
         $scene_actor  =SceneActorLabOrder::where('id',$id_order)->first()->scene_actor;
         $scene  =$scene_actor->scene;
         $scene_date = $scene->scene_current_time();
-        $order = SceneActorLabOrder ::where('id',$id_order)->first();
+        $order = SceneActorLabOrder::where('id',$id_order)->first();
     
         $ret='<div class="row">';
         $ret.='<div class="col-5">';

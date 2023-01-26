@@ -24,7 +24,8 @@ class TestController extends Controller
         public function index()
     {
 
-      $ret=SceneActorLabOrder::get_order_for_ajax(4,'html');
+      $order=SceneActorLabOrder::where('id',1)->first();
+      $ret=$order->scene_actor_order_lab_results();
       return view('tests.test',['wynik' => $ret]);
 
     }

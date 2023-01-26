@@ -153,3 +153,7 @@ Edit SceneActor LaboratoryTests Results (advanced):
   -> add LabTechnician name to LabOrder.
   -> add lab norms on Lab Results
   -> change newborn name
+
+###################################################
+
+  testing scenaros, scenes and lab results on true simulation data 

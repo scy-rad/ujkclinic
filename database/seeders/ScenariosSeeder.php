@@ -43,6 +43,188 @@ class ScenariosSeeder extends Seeder
       }
 
       
+      
+
+      $scenario = new Scenario();
+      // $scenario->scenario_author_id = null;
+      $scenario->scenario_author_id = \App\Models\User::where('name','instruktor')->first()->id;
+      $scenario->center_id        =  \App\Models\Center::where('center_short','Piel')->first()->id;
+      $scenario->scenario_type_id =  \App\Models\ScenarioType::where('short','sym')->first()->id;
+      $scenario->scenario_name  = 'niedokrwistość';
+      $scenario->scenario_code  = 'ZK-HEM-01';
+      $scenario->scenario_main_problem = '';
+      $scenario->scenario_description = 'Pacjentka przetransportowana przez ZRM do SOR zgłasza utratę przytomności, duszność, zawroty głowy, zwiększoną męczliwość. Po zebraniu wywiadu grupa powinna wykluczyć możliwe przyczyny zgłaszanych objawów takie jak ponowny zawał serca, zatorowość płucna, ostre choroby układu oddechowego oraz ukierunkować swoje podejrzenia na niedokrwistość. Zaplanować wstępną diagnostykę różnicową niedokrwistości, wykonać podstawowe badania pomocnicze (morfologia krwi obwodowej, parametry gospodarki żelazowej, ewentualne badania obrazowe przewodu pokarmowego dostępne na SOR), włączyć konieczne leczenie (w sytuacji konieczności przygotowanie do zamówienia, zamówienie i przetoczenie KKCz, lub skierowanie na oddział wewnętrzny celem przetoczenia składników krwi i dalszej diagnostyki)';
+      $scenario->scenario_for_students = '70-letnia kobieta została przetransportowana do SOR  przez ZRM z powodu utraty przytomności, podczas spaceru.';
+      $scenario->scenario_for_leader  = '<p>
+      <b>Główne dolegliwości</b>: Utrata przytomności, duszność, bóle i zawroty głowy, osłabienie i łatwa męczliwość<br>
+      <b>Dotychczasowy przebieg choroby</b>: Od miesiąca odczuwa nasilającą się męczliwość, musi odpoczywać jak wchodzi po schodach. Bóle brzucha nasilające się na czczo, ustępujące po spożyciu pokarmu.<br>
+      <b>Choroby przewlekłe</b>: Przebyty STEMI ściany dolnej 6 lat temu powikłany niedomykalnością zastawki mitralnej, nadciśnienie tętnicze od 20 lat, miażdżyca, przewlekłe bóle kręgosłupa.<br>
+      <b>Leki</b>: Acard 75mg/d; Bibloc 10mg/d; Lisiprol 20mg/d; Atoris 10mg/d; Ibalgin MAXI doraźnie<br>
+      <b>Zabiegi operacyjne</b>: Angioplastyka naczyń wieńcowych z wszczepieniem DES 6 lat temu, usunięty pęcherzyk zółciowy 15 lat temu.<br>
+      <b>Uczulenia</b>: neguje<br>
+      <b>Nałogi</b>: tytoń - neguje; alkohol - okazjonalnie<br>
+      <b>Wywiad rodzinny</b>: ojciec rak jelita grubego, matka cukrzyca, nadciśnienie tętnicze, nowotwór żeńskich narządów rodnych. <br>
+      <b>Wywiad społeczny</b>: emerytka, mieszka z mężem
+      </p>';
+      $scenario->scenario_helpers_for_students= '';
+      $scenario->scenario_logs_for_students   = '';
+      $scenario->scenario_status	= 1;
+      $scenario->save();
+
+      $actor = new Actor();
+      $actor->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','PIEL-INT-PED-01')->first()->id;
+      $actor->actor_incoming_recalculate      = 0;
+      $actor->actor_age_from      = 65;
+      $actor->actor_age_to        = 78;
+      $actor->actor_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
+      $actor->actor_sex           = 3;  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
+      $actor->actor_role_plan_id  = \App\Models\ActorRolePlan::where('short','pierwszoplanowa')->first()->id;
+      $actor->actor_role_name     = 'Konieta z niedokrwistością';
+      $actor->actor_type_id       = \App\Models\ActorType::where('short','SYM WW')->first()->id;
+      $actor->history_for_actor   = 'Zgłaszasz utratę przytomności, duszność, zawroty głowy, zwiększoną męczliwość. Nie miałaś wcześniej problemów z sercem.';
+      $actor->actor_simulation = "Starsza kobieta";
+      $actor->actor_status = 1;
+      $actor->save();	
+
+
+      $lr_template = new LabOrderTemplate();
+      $lr_template->actor_id    = $actor->id;
+      $lr_template->description_for_leader = 'wyniki badań z SOR';
+      $lr_template->lrt_minutes_before = 0;
+      $lr_template->lrt_type    = 1;
+      $lr_template->lrt_sort    = 2;
+      $lr_template->save();
+
+     
+      
+
+
+      add_test_result($lr_template->id,'RBC','33','','',1,1);
+add_test_result($lr_template->id,'RTC','700','','',1,1);
+add_test_result($lr_template->id,'MCV','730','','',1,1);
+add_test_result($lr_template->id,'MCH','240','','',1,1);
+add_test_result($lr_template->id,'MCHC','310','','',1,1);
+add_test_result($lr_template->id,'Hb','68','','',1,1);
+add_test_result($lr_template->id,'HCT','310','','',1,1);
+add_test_result($lr_template->id,'WBC','51000','','',1,1);
+
+add_test_result($lr_template->id,'NEUT','17','','',1,1);
+add_test_result($lr_template->id,'EOS','3','','',1,1);
+add_test_result($lr_template->id,'BASO','1','','',1,1);
+add_test_result($lr_template->id,'LYM','24','','',1,1);
+add_test_result($lr_template->id,'MONO','5','','',1,1);
+add_test_result($lr_template->id,'PLT','350','','',1,1);
+
+
+add_test_result($lr_template->id,'PT','14','','',1,1);
+add_test_result($lr_template->id,'INR','97','','',1,1);
+add_test_result($lr_template->id,'aPTT','31','','',1,1);
+add_test_result($lr_template->id,'TT','17','','',1,1);
+
+
+add_test_result($lr_template->id,'D-DIMERY','4890','','',1,1);
+
+add_test_result($lr_template->id,'RBC','33','','',1,1);
+add_test_result($lr_template->id,'RTC','700','','',1,1);
+add_test_result($lr_template->id,'MCV','730','','',1,1);
+add_test_result($lr_template->id,'MCH','240','','',1,1);
+add_test_result($lr_template->id,'MCHC','310','','',1,1);
+add_test_result($lr_template->id,'Hb','68','','',1,1);
+add_test_result($lr_template->id,'HCT','31','','',1,1);
+add_test_result($lr_template->id,'WBC','51000','','',1,1);
+
+add_test_result($lr_template->id,'NEUT','17','','',1,1);
+add_test_result($lr_template->id,'EOS','3','','',1,1);
+add_test_result($lr_template->id,'BASO','1','','',1,1);
+add_test_result($lr_template->id,'LYM','24','','',1,1);
+add_test_result($lr_template->id,'MONO','5','','',1,1);
+add_test_result($lr_template->id,'PLT','350','','',1,1);
+
+
+add_test_result($lr_template->id,'PT','14','','',1,1);
+add_test_result($lr_template->id,'INR','97','','',1,1);
+add_test_result($lr_template->id,'aPTT','31','','',1,1);
+add_test_result($lr_template->id,'TT','17','','',1,1);
+
+
+add_test_result($lr_template->id,'D-DIMERY','4890','','',1,1);
+
+add_test_result($lr_template->id,'OB','12','','',1,1);
+add_test_result($lr_template->id,'CRP','1700','','',1,1);
+add_test_result($lr_template->id,'LDH','270','','',1,1);
+add_test_result($lr_template->id,'UA','234','','',1,1);
+
+add_test_result($lr_template->id,'GLUKOZA','1700','','',1,1);
+
+add_test_result($lr_template->id,'KREATYNINA','85','','',1,1);
+add_test_result($lr_template->id,'MOCZNIK','210','','',1,1);
+
+add_test_result($lr_template->id,'POTAS','42','','',1,1);
+add_test_result($lr_template->id,'SÓD','142','','',1,1);
+add_test_result($lr_template->id,'Chlorki','101','','',1,1);
+add_test_result($lr_template->id,'FOSFOR','92','','',1,1);
+add_test_result($lr_template->id,'WAPŃ całkowity','25','','',1,1);
+
+add_test_result($lr_template->id,'AlAT','32','','',1,1);
+add_test_result($lr_template->id,'AspAT','21','','',1,1);
+
+add_test_result($lr_template->id,'BILIRUBINA','8','','',1,1);
+add_test_result($lr_template->id,'AMYLAZA','270','','',1,1);
+
+add_test_result($lr_template->id,'CK','201','','',1,1);
+
+
+
+
+
+
+
+
+add_test_result($lr_template->id,'pH (BOM)','55','','',1,1);
+add_test_result($lr_template->id,'ciężar_właściwy','1030','','',1,1);
+add_test_result($lr_template->id,'kolor','0','żółty','',1,1);
+add_test_result($lr_template->id,'białko (BOM)','0','nieobecne','',1,1);
+add_test_result($lr_template->id,'glukoza (BOM)','0','nieobecna','',1,1);
+add_test_result($lr_template->id,'ketony','0','nieobecne','',1,1);
+add_test_result($lr_template->id,'bilirubina','0','nieobecna','',1,1);
+add_test_result($lr_template->id,'urobilinogen','10','','',1,1);
+
+
+
+
+
+
+
+add_test_result($lr_template->id,'OB','12','','',1,1);
+add_test_result($lr_template->id,'CRP','1700','','',1,1);
+add_test_result($lr_template->id,'LDH','270','','',1,1);
+add_test_result($lr_template->id,'UA','234','','',1,1);
+
+add_test_result($lr_template->id,'GLUKOZA','1700','','',1,1);
+
+add_test_result($lr_template->id,'KREATYNINA','85','','',1,1);
+add_test_result($lr_template->id,'MOCZNIK','210','','',1,1);
+
+add_test_result($lr_template->id,'POTAS','42','','',1,1);
+add_test_result($lr_template->id,'SÓD','142','','',1,1);
+add_test_result($lr_template->id,'CHLORki','101','','',1,1);
+add_test_result($lr_template->id,'FOSFOR','92','','',1,1);
+
+
+add_test_result($lr_template->id,'AlAT','32','','',1,1);
+add_test_result($lr_template->id,'AspAT','21','','',1,1);
+
+
+add_test_result($lr_template->id,'AMYLAZA','270','','',1,1);
+
+add_test_result($lr_template->id,'CK','201','','',1,1);
+
+
+
+
+
+
+
       $scenario = new Scenario();
       // $scenario->scenario_author_id = null;
       $scenario->scenario_author_id = \App\Models\User::where('name','instruktor')->first()->id;
@@ -83,7 +265,7 @@ class ScenariosSeeder extends Seeder
       $lr_template->save();
 
       add_test_result($lr_template->id,'Hb',113,'','',1,1);
-      add_test_result($lr_template->id,'Ht',38,'','',1,1);
+      add_test_result($lr_template->id,'HCT',38,'','',1,1);
       add_test_result($lr_template->id,'RBC',49,'','',1,1);
       add_test_result($lr_template->id,'MCV',72,'','',1,1);
       add_test_result($lr_template->id,'MCH',39,'','',1,1);
@@ -102,7 +284,7 @@ class ScenariosSeeder extends Seeder
       $lr_template->save();
 
       add_test_result($lr_template->id,'Hb',109,'','',2,1);
-      add_test_result($lr_template->id,'Ht',375,'','',2,1);
+      add_test_result($lr_template->id,'HCT',375,'','',2,1);
       add_test_result($lr_template->id,'RBC',48,'','',2,1);
       add_test_result($lr_template->id,'MCV',80,'','',2,1);
       add_test_result($lr_template->id,'MCH',34,'','',2,1);
@@ -136,7 +318,7 @@ class ScenariosSeeder extends Seeder
       $lr_template->save();
 
       add_test_result($lr_template->id,'Hb',113,'','',1,1);
-      add_test_result($lr_template->id,'Ht',38,'','',1,1);
+      add_test_result($lr_template->id,'HCT',38,'','',1,1);
       add_test_result($lr_template->id,'RBC',49,'','',1,1);
       add_test_result($lr_template->id,'MCV',72,'','',1,1);
       add_test_result($lr_template->id,'MCH',39,'','',1,1);
@@ -155,7 +337,7 @@ class ScenariosSeeder extends Seeder
       $lr_template->save();
 
       add_test_result($lr_template->id,'Hb',109,'','',2,1);
-      add_test_result($lr_template->id,'Ht',375,'','',2,1);
+      add_test_result($lr_template->id,'HCT',375,'','',2,1);
       add_test_result($lr_template->id,'RBC',48,'','',2,1);
       add_test_result($lr_template->id,'MCV',80,'','',2,1);
       add_test_result($lr_template->id,'MCH',34,'','',2,1);
@@ -174,7 +356,7 @@ class ScenariosSeeder extends Seeder
       $lr_template->save();
 
       add_test_result($lr_template->id,'Hb',129,'','',2,1);
-      add_test_result($lr_template->id,'Ht',325,'','',2,1);
+      add_test_result($lr_template->id,'HCT',325,'','',2,1);
       add_test_result($lr_template->id,'RBC',43,'','',2,1);
       add_test_result($lr_template->id,'MCV',60,'','',2,1);
       add_test_result($lr_template->id,'MCH',28,'','',2,1);
@@ -193,7 +375,7 @@ class ScenariosSeeder extends Seeder
       $lr_template->save();
 
       add_test_result($lr_template->id,'Hb',99,'','',2,1);
-      add_test_result($lr_template->id,'Ht',447,'','',2,1);
+      add_test_result($lr_template->id,'HCT',447,'','',2,1);
       add_test_result($lr_template->id,'RBC',33,'','',2,1);
       add_test_result($lr_template->id,'MCV',72,'','',2,1);
       add_test_result($lr_template->id,'MCH',39,'','',2,1);

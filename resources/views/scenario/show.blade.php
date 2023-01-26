@@ -36,16 +36,16 @@
                 {{$scenario->type->name}}
           </p>
           <p><label>główny problem:</label><br>
-                {{$scenario->scenario_main_problem}}
+                {!!$scenario->scenario_main_problem!!}
           </p>
           <p><label>opis:</label><br>
-                {{$scenario->scenario_description}}
+                {!!$scenario->scenario_description!!}
           </p>
           <p><label>opis dla studentów:</label><br>
-                {{$scenario->scenario_for_students}}
+                {!!$scenario->scenario_for_students!!}
           </p>
           <p><label>opis dla instruktora:</label><br>
-                {{$scenario->scenario_for_leader}}
+                {!!$scenario->scenario_for_leader!!}
           </p>
       </div>
       <div class="card-footer">

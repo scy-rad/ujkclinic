@@ -35,13 +35,13 @@
 
             <div class="row mb-3">
               <div class="col col-auto">
-                @foreach (App\Models\LaboratoryOrderGroup::all() as $group_one)
+                @foreach (App\Models\LaboratoryOrderGroup::orderBy('log_sort')->get() as $group_one)
                   {{$group_one->log_name}}
-                    @foreach (App\Models\LaboratoryOrder::where('laboratory_order_group_id',$group_one->id)->get() as $test_one)
+                    @foreach (App\Models\LaboratoryOrder::orderBy('lo_sort')->where('laboratory_order_group_id',$group_one->id)->get() as $test_one)
                       <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="{{$test_one->id}}" id="test{{$test_one->id}}" name="test{{$test_one->id}}">
                         <label class="form-check-label" for="flexCheckDefault">
-                          {{$test_one->lo_name}}
+                         {{$test_one->lo_name}}
                         </label>
                       </div>
                       @if ($test_one->lo_break)

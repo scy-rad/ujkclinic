@@ -77,7 +77,7 @@
               <label>scenario_main_problem:</label> {{$base_scenario->scenario_main_problem}}<br>
               <label>scenario_description:</label> {!!$base_scenario->scenario_description!!}<br>
               <label>scenario_for_students:</label> {!!$base_scenario->scenario_for_students!!}<br>
-              <label>scenario_for_leader:</label> {{$base_scenario->scenario_for_leader}}<br>
+              <label>scenario_for_leader:</label> {!!$base_scenario->scenario_for_leader!!}<br>
               <label>scenario_helpers_for_students:</label> {!!$base_scenario->scenario_helpers_for_students!!}<br>
               <label>scenario_logs_for_students:</label> {!!$base_scenario->scenario_logs_for_students!!}
               <p>

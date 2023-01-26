@@ -11,7 +11,7 @@ class Actor extends Model
 
     protected $fillable = [
       'scenario_id',
-      'actor_incoming_recalculate',
+      'actor_incoming_recalculate', // ile minut przed rozpoczęciem scenariusza pacjent ma być przyjęty do Szpital/Przychodni
       'actor_age_from',
       'actor_age_to',
       'actor_age_interval',
