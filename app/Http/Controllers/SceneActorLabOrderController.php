@@ -70,6 +70,8 @@ class SceneActorLabOrderController extends Controller
                   $new_result = new SceneActorLabResult();
                   $new_result->scene_actor_lab_order_id = $new_order->id;
                   $new_result->laboratory_test_id = $lab_one->id;
+                  $new_result->salr_lo_sort = $lab_one->laboratory_order->lo_sort;
+                  $new_result->salr_log_sort = $lab_one->laboratory_order->laboratory_order_group->log_sort;
                   // $new_result->laboratory_test_norm_id = LaboratoryTestNorm::where('laboratory_test_id',$lab_one->id)
                   // ->where('ltn_days_from','<=',$actor=>sa_age)
                   // ->where('ltn_days_to','<=',$actor=<sa_age)

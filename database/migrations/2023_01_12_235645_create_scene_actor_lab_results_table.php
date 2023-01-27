@@ -26,6 +26,8 @@ return new class extends Migration
             $table->Integer('salr_result')->nullable()->default(null);
             $table->string('salr_resulttxt')->nullable()->default(null);
             $table->string('salr_addedtext')->nullable()->default(null);
+            $table->Integer('salr_lo_sort');
+            $table->Integer('salr_log_sort');
             $table->smallInteger('salr_type')->default(3);
             $table->timestamps();
         });

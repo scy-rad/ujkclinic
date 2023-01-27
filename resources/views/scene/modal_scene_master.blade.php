@@ -41,7 +41,7 @@
             <div class="row mb-3">
               <div class="col-5">
                 <label for="scene_date" class="form-label">data akcji:</label>
-                <input type="datetime-local" name="scene_date" class="form-control" placeholder="data akcji" value="{{$scene->scene_date}}">
+                <input type="datetime" name="scene_date" class="form-control" placeholder="data akcji" value="{{$scene->scene_date}}">
               </div>
               <div class="col-3">
                 <label for="scene_step_minutes" class="form-label">Krok (min):</label>

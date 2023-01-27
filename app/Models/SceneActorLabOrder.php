@@ -170,7 +170,7 @@ class SceneActorLabOrder extends Model
         $ret.='<div class="col-3">';
         $ret.='</div>';
         $ret.='<div class="col-4 text-end">';
-        $ret.='<label>nr zlecenia:</label> '.date("s/iH",strtotime($order->salo_date_order)).'/'.$order->id.'<br>';
+        $ret.='<label>nr zlecenia:</label> '.date("z/i",strtotime($order->salo_date_order)).'/'.$order->id.'<br>';
         $ret.='<label>zlecono:</label> '.$order->salo_date_order.'<br>';
         $ret.='<label>pobrano:</label> '.$order->salo_date_take.'<br>';
         $ret.='<label>dostarczono:</label> '.$order->salo_date_delivery.'<br>';
@@ -181,6 +181,9 @@ class SceneActorLabOrder extends Model
         $ret.='<table class="table">';
         $order_group_id=0;
         $order_id=0;
+        $suborder='';
+        // $result_one->salr_log_sort
+        // $result_one->salr_lo_sort
         foreach ($order->lab_results as $result_one)
         {
           if ($order_group_id!=$result_one->laboratory_test->laboratory_order->laboratory_order_group_id)
@@ -188,37 +191,32 @@ class SceneActorLabOrder extends Model
               $order_group_id=$result_one->laboratory_test->laboratory_order->laboratory_order_group_id;
               $ret.='<tr><td class="bg-dark text-secondary h2" colspan="5">'.$result_one->laboratory_test->laboratory_order->laboratory_order_group->log_name.'</td></tr>';
             }
-          if ( ($result_one->laboratory_test->laboratory_order->laboratory_tests->count()>1) && ($order_id!=$result_one->laboratory_test->laboratory_order->id) )
+          if ($result_one->laboratory_test->laboratory_order->laboratory_tests->count()>1) 
           {
-            $ret.='<tr><td class="text-secondary h4" colspan="5">'.$result_one->laboratory_test->laboratory_order->lo_name.'</td></tr>';
-            $order_id=$result_one->laboratory_test->laboratory_order->id;
+            $suborder=' - ';
+            if ($order_id!=$result_one->laboratory_test->laboratory_order->id)
+            {
+              $ret.='<tr><td class="text-secondary h4" colspan="5">'.$result_one->laboratory_test->laboratory_order->lo_name.'</td></tr>';
+              $order_id=$result_one->laboratory_test->laboratory_order->id;
+            }
           }
           
-          $ret.='<tr><td>'.$result_one->laboratory_test->lt_name.'</td>';
-          if (is_null($result_one->salr_date))
-            {
+          $ret.='<tr><td>'.$suborder.$result_one->laboratory_test->lt_name.'</td>';
+          $suborder='';
+          if ($result_one->salr_type>1)
+            $ret.='<td></td><td colspan="3" class="text-danger">'.$result_one->name_of_type().'</td>';
+          elseif (is_null($result_one->salr_date))
             $ret.= '<td></td><td></td><td class="text-warning">???</td><td></td>';
-            }
           elseif ($result_one->salr_date>$scene_date)
-            {
             $ret.= '<td></td><td></td><td class="text-warning">???</td><td></td>';
-            }
+          elseif ($result_one->laboratory_test->lt_result_type==2)
+                $ret.='<td></td><td></td><td colspan="2">'.$result_one->salr_resulttxt.'</td>';
           else
           {
-            if ($result_one->salr_type>1)
-              $ret.='<td></td><td colspan="3" class="text-danger">'.$result_one->name_of_type().'</td>';
-            else
-              if ($result_one->laboratory_test->lt_result_type==2)
-              {
-                $ret.='<td></td><td></td><td colspan="2">'.$result_one->salr_resulttxt.'</td>';
-              }
-              else
-              {
-                $ret.='<td>'.$result_one->laboratory_norm()['range'].'</td>';
-                $ret.='<td class="text-danger fw-bold">'.$result_one->laboratory_norm()['HL'].'</td>';
-                $ret.='<td>'.number_format($result_one->salr_result/$result_one->laboratory_test->lt_decimal_prec,strlen($result_one->laboratory_test->lt_decimal_prec)-1,',',' ').'</td>';
-                $ret.='<td>'.$result_one->laboratory_test->lt_unit.'</td>';
-              }
+            $ret.='<td>'.$result_one->laboratory_norm()['range'].'</td>';
+            $ret.='<td class="text-danger fw-bold">'.$result_one->laboratory_norm()['HL'].'</td>';
+            $ret.='<td>'.number_format($result_one->salr_result/$result_one->laboratory_test->lt_decimal_prec,strlen($result_one->laboratory_test->lt_decimal_prec)-1,',',' ').'</td>';
+            $ret.='<td>'.$result_one->laboratory_test->lt_unit.'</td>';
           }
           $ret.="</tr>";
 
@@ -261,6 +259,9 @@ class SceneActorLabOrder extends Model
         $ret.='<span class="text-danger"> - materiał nie dostarczony</span>';
         elseif (is_null($order->salo_date_accept))
           $ret.='<span class="text-danger"> - wyniki nie zatwierdzone</span>';
+          else
+            $ret.=' <label>zatwierdzono:</label> '.$order->salo_date_accept;
+     
 
     $ret.='<div class="input-group mb-3">';
     $ret.='<select id="template_id" class="form-select">'; 
@@ -278,11 +279,29 @@ class SceneActorLabOrder extends Model
     $ret.='<input type="hidden" id="order_id" name="id" value="'.$order->id.'">';
     $ret.=csrf_field();
     $ret.='<table class="mb-3">';
+    $order_sort=0;
+    $order_group_sort=0;
+    $suborder='';
     foreach ($order->lab_results as $result_one)
     {
+    if ($order_group_sort != $result_one->salr_log_sort)
+    {
+      $ret.='<tr><td colspan="6" class="text-secondary h5">'.$result_one->laboratory_test->laboratory_order->laboratory_order_group->log_name.'</td></tr>';
+      $order_group_sort = $result_one->salr_log_sort;
+    }
+    if ($result_one->laboratory_test->laboratory_order->laboratory_tests->count()>1)
+    {
+      $suborder=' - ';
+      if ($order_sort!=$result_one->salr_lo_sort)
+      {
+        $ret.='<tr><td class="text-secondary" colspan="6">'.$result_one->laboratory_test->laboratory_order->lo_name.'</td></tr>';
+        $order_sort = $result_one->salr_lo_sort;
+      }
+    }
     $ret.='<tr>';
-    $ret.='<td>'.$result_one->id.'</td>';
-    $ret.='<td>'.$result_one->laboratory_test->lt_name.'</td>';
+    $ret.='<td>'."".'</td>';
+    $ret.='<td>'.$suborder.$result_one->laboratory_test->lt_name.'</td>';
+    $suborder='';
     $ret.='<td><input id="lt-'.$result_one->laboratory_test->id.'" name="salr-'.$result_one->id.'" placeholder="wpisz wartość" ';
     if ($result_one->laboratory_test->lt_result_type == 2)
         $ret.='type="hidden" value="';
@@ -387,15 +406,6 @@ class SceneActorLabOrder extends Model
         $scene=$order->scene_actor->scene;
         $last_date=$scene->scene_date;
 
-        if (isset($request->accept))
-          $accept=true;
-        else
-          $accept=false;
-        if (isset($request->change_stat))
-          $change_stat=true;
-        else
-          $change_stat=false;
-
         $ret = $request->toArray();
         foreach ($ret as $key => $value)
         {
@@ -404,22 +414,23 @@ class SceneActorLabOrder extends Model
             $value=str_replace([',',' '],['.',''],$value);
             $change=SceneActorLabResult::where('id',substr($key,5,10))->first();
             if ($value=='')
-              {
+            {
               $change->salr_result=null;
-              $change->salr_type=3; // Test unavailable
-              }
+              if ($change->salr_type==1) $change->salr_type=3; // Test unavailable
+            }
             else
-              {
+            {
               $change->salr_result=$value*$change->laboratory_norm_row()->laboratory_test->lt_decimal_prec;
-              $change->salr_type=1; // Test done
-              }
+              if ($change->salr_type==3) $change->salr_type=1; // Test done
+            }
             $change->save();
           }
           elseif (substr($key,0,5) == 'rtxt-')
           {
             $change=SceneActorLabResult::where('id',substr($key,5,10))->first();
             $change->salr_resulttxt=$value;
-            $change->salr_type=1; // Test done
+            if ( ($change->salr_type == 3) && ($value != '') ) 
+              $change->salr_type=1; // Test done
             $change->save();
           }
           elseif (substr($key,0,5) == 'addt-')
@@ -431,16 +442,19 @@ class SceneActorLabOrder extends Model
           elseif (substr($key,0,5) == 'type-')
           {
             $change=SceneActorLabResult::where('id',substr($key,5,10))->first();
-            if ($change_stat==null)
-              $change->salr_type=$value;
+            
+            if (!(isset($request->change_stat)))
+              $change->salr_type=$value;  // zmiany były wprowadzone, ale trzeba je wycofać
+
             if ($order->salo_cito)
-                $change->salr_date=date('Y-m-d H:i:s',strtotime($order->salo_date_delivery.' + '.$change->laboratory_norm_row()->laboratory_test->lt_time_cito.' minutes'));
-              else
-                $change->salr_date=date('Y-m-d H:i:s',strtotime($order->salo_date_delivery.' + '.$change->laboratory_norm_row()->laboratory_test->lt_time.' minutes'));
+              $change->salr_date=date('Y-m-d H:i:s',strtotime($order->salo_date_delivery.' + '.$change->laboratory_norm_row()->laboratory_test->lt_time_cito.' minutes'));
+            else
+              $change->salr_date=date('Y-m-d H:i:s',strtotime($order->salo_date_delivery.' + '.$change->laboratory_norm_row()->laboratory_test->lt_time.' minutes'));
             $change->save();
 
-            if ($last_date<$change->salr_date)
-              $last_date=$change->salr_date;
+            if ( ($last_date<$change->salr_date) && ($change->salr_type == 1) )
+                $last_date=$change->salr_date;
+    
           }
         }
         
@@ -450,7 +464,7 @@ class SceneActorLabOrder extends Model
           $order->salo_date_delivery = date('Y-m-d H:i:s',strtotime($order->salo_date_take.' + '.rand($scene->scene_lab_delivery_seconds_from,$scene->scene_lab_delivery_seconds_to).' seconds'));
           $order->save();
         }
-      if ($accept && (is_null($order->salo_date_accept)) )
+      if ((isset($request->accept)))
         {
           $order->salo_date_accept = date('Y-m-d H:i:s',strtotime($last_date.' + 45 seconds'));
           $order->save();

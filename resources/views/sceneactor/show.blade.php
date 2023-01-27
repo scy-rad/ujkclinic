@@ -63,7 +63,25 @@
       </div>
         <ul>
           @foreach ($laborders as $order_one)
-            <li onClick="javascript:showLabResultModal({{$order_one->id}})">{{$order_one->salo_date_order}}</li>
+            <li onClick="javascript:showLabResultModal({{$order_one->id}})">{{$order_one->id}}: {{$order_one->salo_date_order}}
+
+            @if (is_null($order_one->salo_date_take))
+              <i class="bi bi-bookmark"></i>
+            @endif
+            @if (is_null($order_one->salo_date_delivery))
+              <i class="bi bi-bookmark"></i>
+            @endif
+            @if (is_null($order_one->salo_date_accept))
+              <i class="bi bi-bookmark"></i>
+            @else
+              @if ($order_one->salo_date_accept>$sceneactor->scene->scene_current_time())
+                <i class="bi bi-bookmark-fill text-warning"></i>
+              @else
+                <i class="bi bi-bookmark-fill text-success"></i>
+              @endif
+            @endif
+
+            </li>
           @endforeach
         </ul>
       <div class="card-footer">
