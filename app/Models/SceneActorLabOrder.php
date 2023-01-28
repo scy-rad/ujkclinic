@@ -251,8 +251,8 @@ class SceneActorLabOrder extends Model
     $order = SceneActorLabOrder ::where('id',$id_order)->first();
     $result_types=LabResultTemplate::array_of_types();
 
-    $ret='<p><label>pacjent:</label> '.$scene_actor->sa_name.' <label>wiek:</label> '.$scene_actor->sa_age_txt.' <label>PESEL:</label> '.$scene_actor->sa_PESEL.' - ';
-    $ret.='<label>data zlecenia:</label> '.$order->salo_date_order;
+    $ret='<p><label>pacjent:</label> '.$scene_actor->sa_name.' <label>wiek:</label> '.$scene_actor->sa_age_txt.' <label>PESEL:</label> '.$scene_actor->sa_PESEL.' <br> ';
+    $ret.='<label>nr zlecenia:</label> '.date("z/i",strtotime($order->salo_date_order)).'/'.$order->id.' <label>data zlecenia:</label> '.$order->salo_date_order;
     if (is_null($order->salo_date_take))
       $ret.='<span class="text-danger"> - materiał nie pobrany</span>';
       elseif (is_null($order->salo_date_delivery))
