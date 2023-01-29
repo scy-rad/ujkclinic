@@ -9,6 +9,7 @@ use App\Models\SceneActor;
 use App\Models\SceneActorLabOrder;
 use App\Models\SceneActorLabOrderTemplate;
 use App\Models\SceneActorLabResultTemplate;
+use App\Models\ScenePersonel;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -118,6 +119,8 @@ class SceneController extends Controller
       $ret['base_scenario']=Scenario::where('id',$ret['scene']->scenario_id)->first();
       $ret['diff_sec'] = (strtotime($ret['scene']->scene_date) - strtotime($ret['scene']->scene_relative_date));
       $ret['actors']=SceneActor::where('scene_master_id',$id)->get();
+      $ret['free_personels']=ScenePersonel::free_personel($ret['scene']);
+
       return view('scene.show',$ret);
     }
 
@@ -201,6 +204,7 @@ class SceneController extends Controller
         case 'order_from_template':
           $ret=['body' => SceneActorLabResultTemplate::template_to_order($request->template_id, $request->order_id) ];
           break;
+
       }
       return response()->json($ret);
     } // end of public function getajax
@@ -233,8 +237,12 @@ class SceneController extends Controller
           SceneActorLabOrder::update_order_form($request);
           return back()->with('success', 'Powinno się udać...');    
         break;
+        case 'personel':
+          ScenePersonel::update_personel($request);
+          return back()->with('success', 'Powinno się udać...');    
+        break;
         default:
-          dd('something wrong in updateajax Scene Controller function');
+          dd('something wrong in updateajax Scene Controller function..: '.$request->what);
       }
 
       $ret = ['success' => 'Dane raczej zapisane prawidłowo :) .','table' => $ret];

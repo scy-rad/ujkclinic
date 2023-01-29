@@ -30,6 +30,58 @@
                     </ul>
                   </li>
 
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Personel
+                    </a>
+                    <ul class="dropdown-menu">
+                    <?php
+                      if ( ((Auth::user()->hasRoleCode('hroperators')) ||
+                        (Auth::user()->hasRoleCode('technicians'))   || 
+                        (Auth::user()->hasRoleCode('coordinators'))
+                        ))
+                        { 
+                          $roles_list = App\Models\UserHasRole::get();
+                        }
+                        else
+                        {
+                          $roles_list = DB::table('user_roles')
+                          ->where('role_code', 'technicians')
+                          ->orWhere('role_code', 'instructors')
+                          ->orWhere('role_code', 'coordinators')
+                          ->get();
+                        }
+                      ?>
+                      @foreach ($roles_list as $row)
+                      @if ($row->role_code!='')
+                      <li><a class="dropdown-item" href="/users/{{$row->role_code}}">{{$row->role_names}}</a></li>
+                      @endif
+                      @endforeach
+                      @if ( (Auth::user()->hasRoleCode('coordinators')) ||
+                      (Auth::user()->hasRoleCode('hroperators')) ||
+                      (Auth::user()->hasRoleCode('technicians'))
+                      )
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                      <li><a class="dropdown-item" href="{_{ route('worktime.month') }_}">Czas pracy</a></li>
+                      <li><a class="dropdown-item" href="{_{ route('worktime.statistics_overhours') }_}">Statystyki</a></li>
+                      @endif
+                      @if (Auth::user()->hasRoleCode('hroperators'))
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                      <div style="background-color: #FF0;">
+                        <li><a class="dropdown-item" href="/users/everybody">Wszyscy</a></li>
+                        <li><a class="dropdown-item" href="{_{ route('libraries.user_titles') }_}"> Tytuły naukowe </a></li>
+                        <li><a class="dropdown-item" href="{_{ route('libraries.workmonths') }_}"> Miesięczny czas pracy </a></li>
+                        <li><a class="dropdown-item" href="{_{ route('worktime.show_attendances') }_}"> Listy obecności </a></li>
+                      </div>
+                      @endif
+                    </ul>
+                  </li>
+
+
                   @if (Auth::user()->hasRoleCode('administrators'))
 
                   <li class="nav-item dropdown">

@@ -210,7 +210,7 @@
     $('#change_relative_time').hide();
     $.ajax({
         type:'POST',
-        url:"{{ route('scene.updateajax') }}",
+        url:"{{ route('scene.update_scene_ajax') }}",
         data:{
               what: 'relative_time',
               id: idvalue

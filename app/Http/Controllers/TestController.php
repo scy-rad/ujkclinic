@@ -9,6 +9,7 @@ use App\Models\SceneActor;
 use App\Models\SceneActorLabOrder;
 use App\Models\SceneActorLabResult;
 use App\Models\SceneActorLabResultTemplate;
+use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -24,17 +25,13 @@ class TestController extends Controller
         public function index()
     {
 
+
+
+
+      dump($all_list);
+
       $ret='<table>';
-      $rety=SceneActorLabOrder::get_order_for_ajax(1,'html');
 
-      dump($rety);
-      // foreach ($rety as $ret2)
-      // foreach ($ret2 as $ret3)
-      // foreach ($ret3 as $ret4)
-      // $ret.=$ret4;
-      // $ret.='</ table>';
-
-      $ret=$rety;
       dump($ret);
       return view('tests.test',['wynik' => $ret]);
 

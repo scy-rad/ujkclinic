@@ -12,16 +12,42 @@
 
 @include('layouts.success_error')
 
-<h1>Scenes list</h1>
+<h1>{{ __('Scenes') }}</h1>
 
-<ul>
-@foreach ($scenes as $scene)
-<li> <a href="{{ route('scene.show',$scene->id) }}"><i class="bi bi-hospital"></i> {{$scene->scene_code}}: {{$scene->scene_name}} </a> </li>
-<?php //dump($scene); ?>
-@endforeach
-</ul>
+<div class="row">
 
-<button class="btn btn-warning btn-lg" onClick="javascript:showSceneModal()"> <h1><i class="bi bi-hospital"></i> Stwórz scenę</h1> </button>
+  @foreach ($scenes as $scene)
+    <div class="col-sm-2 p-2">
+      <a class="text-decoration-none" href="{{ route('scene.show',$scene->id) }}">
+        <div class="card bg-primary text-white text-truncate">
+          <div class="card-body text-center">
+            <h1 class="card-title"><i class="bi bi-hospital"></i> {{$scene->scene_code}}</h5>
+            <p class="card-text">{{$scene->scene_name}}</p>
+          </div>
+          <div class="card-footer m-0 p-0 text-end">
+          {{$scene->owner->name}}
+          </div>
+        </div>
+      </a>
+    </div>
+  @endforeach
+
+    <div class="col-sm-2 p-2">
+      <a class="text-decoration-none" onClick="javascript:showSceneModal()" href="#">
+        <div class="card bg-warning text-black text-truncate">
+          <div class="card-body text-center">
+            <h1 class="card-title"><i class="bi bi-hospital"></i> </h5>
+            <p class="card-text fw-bold">stwórz scenę</p>
+            <!--a href="#" class="btn btn-primary">Go somewhere</a-->
+          </div>
+          <div class="card-footer m-0 p-0 text-end">
+          {{Auth::user()->name}}
+          </div>
+        </div>
+      </a>
+    </div>
+
+  </div>
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 

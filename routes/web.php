@@ -37,7 +37,7 @@ Route::resource('/salaborder', App\Http\Controllers\SceneActorLabOrderController
 
 
 Route::get('/scenegetajax', [App\Http\Controllers\SceneController::class, 'getajax'])->name('scene.getajax');
-Route::post('/sceneupdateajax', [App\Http\Controllers\SceneController::class, 'update_scene_ajax'])->name('scene.updateajax');
+Route::post('/sceneupdateajax', [App\Http\Controllers\SceneController::class, 'update_scene_ajax'])->name('scene.update_scene_ajax');
 
 Route::post('/sceneactorsave', [App\Http\Controllers\SceneActorController::class, 'actor_scene_save_ajax'])->name('actor.actor_save_ajax');
 
@@ -65,12 +65,12 @@ Route::get('mainprofile', [
 ]);
 
 Route::get('users/{type}', [
-  'uses' => 'UserController@users',
+  'uses' => 'App\Http\Controllers\UserController@users',
   'as' => 'user.userlist'
 ]);
 
 Route::get('user/{user_id}', [
-  'uses' => 'UserController@userprofile',
+  'uses' => 'App\Http\Controllers\UserController@userprofile',
   'as' => 'user.profile'
 ]);
 

@@ -71,17 +71,22 @@ class SceneActor extends Model
     $actor_sex=rand(2,3);
   if ($actor_sex==2)
     {
-    $sex++;
-    $mother=ActorFirstname::inRandomOrder()->first()->firstname_woman;
+    $sex++; // for right sex digit in PESEL
     if ($is_child)
+    {
+      $mother=ActorFirstname::inRandomOrder()->first()->firstname_woman;
       $ret['name']=ActorLastname::inRandomOrder()->first()->lastname_man.' "syn" '.substr($mother,0,strlen($mother)-1).'y';
+    }
     else
       $ret['name']=ActorFirstname::inRandomOrder()->first()->firstname_man.' '.ActorLastname::inRandomOrder()->first()->lastname_man;
     }
   else
     {
       if ($is_child)
-      $ret['name']=ActorLastname::inRandomOrder()->first()->lastname_woman.' "córka" '.substr($mother,0,strlen($mother)-1).'y';
+      {
+        $mother=ActorFirstname::inRandomOrder()->first()->firstname_woman;
+        $ret['name']=ActorLastname::inRandomOrder()->first()->lastname_woman.' "córka" '.substr($mother,0,strlen($mother)-1).'y';
+      }
     else
       $ret['name']=ActorFirstname::inRandomOrder()->first()->firstname_woman.' '.ActorLastname::inRandomOrder()->first()->lastname_woman;
     }

@@ -28,10 +28,10 @@ class UsersSeeder extends Seeder
       $hroperator_role = UserRole::where('role_code','hroperators')->first()->id;      
       $leader_role = UserRole::where('role_code','leaders')->first()->id;
       $worker_role = UserRole::where('role_code','workers')->first()->id;      
-      $labtechnician_role = UserRole::where('role_code','labtechnicians')->first()->id;
-      $medujk_doctor_role = UserRole::where('role_code','medujk_doctor')->first()->id;
-      $medujk_nurse_role = UserRole::where('role_code','medujk_nurse')->first()->id;
-      $student_role = UserRole::where('role_code','students')->first()->id;
+      $scene_doctor_role = UserRole::where('role_code','scene_doctor')->first()->id;
+      $scene_nurse_role = UserRole::where('role_code','scene_nurse')->first()->id;
+      $scene_midwife_role = UserRole::where('role_code','scene_midwife')->first()->id;
+      $scene_paramedic_role = UserRole::where('role_code','scene_paramedic')->first()->id;
       
 
       $no_title = UserTitle::where('user_title_short','')->first()->id;
@@ -47,6 +47,10 @@ class UsersSeeder extends Seeder
       $dr_title = UserTitle::where('user_title_short','dr hab.')->first()->id;
       $dr_title = UserTitle::where('user_title_short','dr hab. prof. UJK')->first()->id;
       $prof_title = UserTitle::where('user_title_short','prof. dr hab.')->first()->id;
+
+      $mgrpiel_title = UserTitle::where('user_title_short','mgr piel.')->first()->id;
+      $mgrpol_title = UserTitle::where('user_title_short','mgr poł.')->first()->id;
+      $ratmed_title = UserTitle::where('user_title_short','rat-med.')->first()->id;
 
 
 
@@ -107,10 +111,10 @@ class UsersSeeder extends Seeder
 
       $user = new User();
       $user->name = 'instruktor';
-      $user->user_title_id = $lekarz_title;
-      $user->lastname = 'Lekarz';
-      $user->firstname = 'Pan';
-      $user->about = 'Lekarz - instruktor pracująy w CSM.';
+      $user->user_title_id = $no_title;
+      $user->lastname = 'Lekarka/Pielęgniarka/Ratowniczka';
+      $user->firstname = 'Pan lub Pani';
+      $user->about = 'instruktor pracująy w CSM.';
       $user->email = 'instruktor@mailtrap.io';
       $user->user_status = 1;
       $user->password = bcrypt('medujk');
@@ -119,7 +123,7 @@ class UsersSeeder extends Seeder
 
       $user = new User();
       $user->name = 'technik';
-      $user->user_title_id = $lekarz_title;
+      $user->user_title_id = $mgrinz_title;
       $user->lastname = 'Technik';
       $user->firstname = 'Pan';
       $user->about = 'Technik Symulacji Medycznej pracująy w CSM.';
@@ -131,7 +135,7 @@ class UsersSeeder extends Seeder
 
       $user = new User();
       $user->name = 'koordynator';
-      $user->user_title_id = $lekarz_title;
+      $user->user_title_id = $lekmed_title;
       $user->lastname = 'Koordynator';
       $user->firstname = 'Pan';
       $user->about = 'koordynator CSM.';
@@ -143,7 +147,7 @@ class UsersSeeder extends Seeder
 
       $user = new User();
       $user->name = 'SimOp';
-      $user->user_title_id = $lekarz_title;
+      $user->user_title_id = $no_title;
       $user->lastname = 'Operator';
       $user->firstname = 'Symulacji';
       $user->about = 'Operator symulacji.';
@@ -155,7 +159,7 @@ class UsersSeeder extends Seeder
 
       $user = new User();
       $user->name = 'HrOp';
-      $user->user_title_id = $lekarz_title;
+      $user->user_title_id = $no_title;
       $user->lastname = 'Operator';
       $user->firstname = 'Kadr';
       $user->about = 'Operator kadr.';
@@ -164,45 +168,60 @@ class UsersSeeder extends Seeder
       $user->password = bcrypt('medujk');
       $user->save();
       $user->add_role($hroperator_role);
-    
 
-    $user = new User();
-      $user->name = 'Technik laboratorium';
-      $user->user_title_id = $lekarz_title;
-      $user->lastname = 'Laboratorium';
-      $user->firstname = 'Technik';
-      $user->about = 'Pracownik Laboratorium MedUJK';
-      $user->email = 'labtechnician@mailtrap.io';
-      $user->user_status = 1;
-      $user->password = bcrypt('medujk');
-      $user->save();
-      $user->add_role($labtechnician_role);
-    
 
-    $user = new User();
-      $user->name = 'Lekarz z MedUJK';
-      $user->user_title_id = $lekarz_title;
-      $user->lastname = 'Lakarz';
-      $user->firstname = 'MedUJK';
-      $user->about = 'Lekarz MedUJK';
-      $user->email = 'doctormedujk@mailtrap.io';
-      $user->user_status = 1;
-      $user->password = bcrypt('medujk');
-      $user->save();
-      $user->add_role($medujk_doctor_role);
+
+
+
 
       $user = new User();
-      $user->name = 'Pielęgniarz z MedUJK';
-      $user->user_title_id = $mgr_title;
-      $user->lastname = 'Pielegniarz';
-      $user->firstname = 'MedUJK';
-      $user->about = 'Pielęgniarz MedUJK';
-      $user->email = 'nursemedujk@mailtrap.io';
+      $user->name = 'Lekarz z MedUJK';
+      $user->user_title_id = $lekmed_title;
+      $user->lastname = 'Lakarz';
+      $user->firstname = 'C2.07';
+      $user->about = 'Lekarka/Lekarz MedUJK';
+      $user->email = 'scene_doctor@mailtrap.io';
       $user->user_status = 1;
       $user->password = bcrypt('medujk');
       $user->save();
-      $user->add_role($medujk_nurse_role);
-      
+      $user->add_role($scene_doctor_role);
+
+      $user = new User();
+      $user->name = 'Pielęgniarka z MedUJK';
+      $user->user_title_id = $mgrpiel_title;
+      $user->lastname = 'Pielegniarka';
+      $user->firstname = 'C2.07';
+      $user->about = 'Pielęgniarka/Pielęgniarz MedUJK';
+      $user->email = 'scene_nurse@mailtrap.io';
+      $user->user_status = 1;
+      $user->password = bcrypt('medujk');
+      $user->save();
+      $user->add_role($scene_nurse_role);
+
+      $user = new User();
+      $user->name = 'Położna z MedUJK';
+      $user->user_title_id = $mgrpol_title;
+      $user->lastname = 'Położna';
+      $user->firstname = 'C2.07';
+      $user->about = 'Położna/Położny MedUJK';
+      $user->email = 'scene_midwife@mailtrap.io';
+      $user->user_status = 1;
+      $user->password = bcrypt('medujk');
+      $user->save();
+      $user->add_role($scene_midwife_role);
+
+      $user = new User();
+      $user->name = 'Ratownik Medyczny z MedUJK';
+      $user->user_title_id = $ratmed_title;
+      $user->lastname = 'Ratownik';
+      $user->firstname = 'C2.07';
+      $user->about = 'Ratownik/Ratowniczka Medyczna MedUJK';
+      $user->email = 'scene_paramedic@mailtrap.io';
+      $user->user_status = 1;
+      $user->password = bcrypt('medujk');
+      $user->save();
+      $user->add_role($scene_paramedic_role);
+
     }
 
   }

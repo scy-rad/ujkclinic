@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Models\Role;
+use App\Models\UserRole;
 use App\Models\UserHasRole;
 use App\Models\UserPhone;
 
@@ -27,7 +27,7 @@ class UserController extends Controller
         $users = $users->where('user_status', '=', 1);
       // $users = $users->paginate(6);
     } else {
-      $role_id = Role::select('id')->where('role_code', $type)->first()->id;
+      $role_id = UserRole::select('id')->where('role_code', $type)->first()->id;
       $roles_users = UserHasRole::select('user_id')->where('role_id', '=', $role_id)->get();
       $users = User::whereIn('id', $roles_users);
       if (!(Auth::user()->hasRoleCode('administrators')))
@@ -69,7 +69,7 @@ class UserController extends Controller
       (Auth::user()->hasRoleCode('coordinators'))
       )) 
     {
-      $role_id = Role::select('id')
+      $role_id = UserRole::select('id')
         ->where('role_code', 'technicians')
         ->orWhere('role_code', 'instructors')
         ->orWhere('role_code', 'coordinators')

@@ -274,7 +274,7 @@ class SceneActorLabOrder extends Model
 
     $ret.='<button class="btn btn-outline-secondary" type="button" id="button-feel" onClick="javascript:fill_results()">zastosuj</button>
       </div>';
-    $ret.='<form action="'.route('scene.updateajax').'" method="post" enctype="multipart/form-data">';
+    $ret.='<form action="'.route('scene.update_scene_ajax').'" method="post" enctype="multipart/form-data">';
     $ret.='<input type="hidden" name="what" value="order">';
     $ret.='<input type="hidden" id="order_id" name="id" value="'.$order->id.'">';
     $ret.=csrf_field();

@@ -101,29 +101,11 @@ class UserAddonsSeeder extends Seeder
       $user_role->save();
 
       $user_role = new UserRole();
-      $user_role->role_name="Student";
-      $user_role->role_names="Studenci";
-      $user_role->role_short="stud";
-      $user_role->role_description="Personel medyczny Centrum Symulacji";
-      $user_role->role_code="students";
-      $user_role->role_color="green";
-      $user_role->save();
-
-      $user_role = new UserRole();
-      $user_role->role_name="Laborant";
-      $user_role->role_names="Laboranci";
-      $user_role->role_short="lab";
-      $user_role->role_description="Pracownik laboratorium Centrum Symulacji";
-      $user_role->role_code="labtechnicians";
-      $user_role->role_color="green";
-      $user_role->save();
-
-      $user_role = new UserRole();
       $user_role->role_name="Lekarz";
       $user_role->role_names="Lekarze";
       $user_role->role_short="lek";
       $user_role->role_description="Lekarze Centrum Symulacji";
-      $user_role->role_code="medujk_doctor";
+      $user_role->role_code="scene_doctor";
       $user_role->role_color="green";
       $user_role->save();
 
@@ -132,11 +114,27 @@ class UserAddonsSeeder extends Seeder
       $user_role->role_names="Pielęgniarze";
       $user_role->role_short="piel";
       $user_role->role_description="Pielęgniarze Centrum Symulacji";
-      $user_role->role_code="medujk_nurse";
+      $user_role->role_code="scene_nurse";
       $user_role->role_color="green";
       $user_role->save();
 
+      $user_role = new UserRole();
+      $user_role->role_name="Położny";
+      $user_role->role_names="Położni";
+      $user_role->role_short="poł";
+      $user_role->role_description="Położni Centrum Symulacji";
+      $user_role->role_code="scene_midwife";
+      $user_role->role_color="green";
+      $user_role->save();
 
+      $user_role = new UserRole();
+      $user_role->role_name="Ratowik Medyczny";
+      $user_role->role_names="Ratowicy Medyczni";
+      $user_role->role_short="rat-med";
+      $user_role->role_description="Ratownicy Centrum Symulacji";
+      $user_role->role_code="scene_paramedic";
+      $user_role->role_color="green";
+      $user_role->save();
 
 
 
@@ -215,6 +213,20 @@ class UserAddonsSeeder extends Seeder
       $title->user_title_sort = $sort++;
       $title->save();
 
+      $title = new UserTitle();
+      $title->user_title_short = 'mgr piel.';
+      $title->user_title_sort = $sort++;
+      $title->save();
+
+      $title = new UserTitle();
+      $title->user_title_short = 'mgr poł.';
+      $title->user_title_sort = $sort++;
+      $title->save();
+
+      $title = new UserTitle();
+      $title->user_title_short = 'rat-med.';
+      $title->user_title_sort = $sort++;
+      $title->save();
 
 
 

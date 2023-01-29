@@ -85,16 +85,40 @@
             @endif
             
             <div class="tab-pane fade" id="admin">
-              <p><label>data początku:</label> {{$scene->scene_date}}<br>
-              <label>status:</label> {{$scene->status_name()}}<br>
-              <label>reżyser sceny:</label> {{$scene->owner->name}}<br>
-              </p>
-              @if (!is_null($scene->scene_relative_date))
-              <button class="btn btn-lg btn-danger" onClick="javascript:stop_scene({{$scene->id}})"> <span id="status_txt"><h1><i class="bi bi-stop-btn-fill"></i> Stop</h1></span> </button>
-              @endif
+              <div class="row">
+                <div class="col-4">
+                  <p><label>data początku:</label> {{$scene->scene_date}}<br>
+                  <label>status:</label> {{$scene->status_name()}}<br>
+                  <label>reżyser sceny:</label> {{$scene->owner->name}}<br>
+                  </p>
+                </div>
+                <div class="col-6">
+                  <ul><label>personel:</label>
+                    @foreach ($scene->personels as $personel_one)
+                      <form action="{{ route('scene.update_scene_ajax') }}" method="post" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="what" value="personel">
+                        <input type="hidden" name="action" value="remove">
+                        <input type="hidden" name="scene_personel_id" value="{{$personel_one->id}}">
+                        <li> {{$personel_one->user->title->user_title_short}} <abbr title="{{$personel_one->user->firstname}} {{$personel_one->user->lastname}}">{{$personel_one->scene_personel_name}}</abbr>
+                          <button type="submit" class="btn btn-outline-danger btn-submit btn-sm p-0 mb-1">Usuń</button>
+                          </li>
+                      </form>
+                    @endforeach
+                  </ul>
+                </div>
+                <div class="col-2">
+                  @if (!is_null($scene->scene_relative_date))
+                  <button class="btn btn-lg btn-danger col-12" onClick="javascript:stop_scene({{$scene->id}})"> <span id="status_txt"><h1><i class="bi bi-stop-btn-fill"></i> Stop</h1></span> </button>
+                  @endif
+                </div>
+              </div>
 
               <button class="btn btn-warning btn-lg" onClick="javascript:showSceneModal()"> <h1><i class="bi bi-hospital"></i> Edytuj scenę</h1> </button>
               <button class="btn btn-warning btn-lg" onClick="javascript:showActorModal(0)"> <h1><i class="bi bi-incognito"></i> Dodaj aktora</h1> </button>
+              @if ($free_personels->count()>0)
+              <button class="btn btn-warning btn-lg" onClick="javascript:showPersonelModal(0)"> <h1><i class="bi bi-mortarboard-fill"></i> Dodaj personel</h1> </button>
+              @endif
             </div>
 
             <div class="tab-pane fade" id="nothing">
@@ -171,6 +195,10 @@
 @include('scene.modal_scene_actor')
 
 @include('scene.modal_scene_master')
+
+@if ($free_personels->count()>0)
+  @include('scene.modal_scene_personel')
+@endif
 
 <script type="text/javascript">
   function clear_extra_body()
@@ -280,7 +308,7 @@
     $('#change_relative_time').hide();
     $.ajax({
         type:'POST',
-        url:"{{ route('scene.updateajax') }}",
+        url:"{{ route('scene.update_scene_ajax') }}",
         data:{
               what: 'relative_time',
               id: idvalue
@@ -312,7 +340,7 @@
   {
     $.ajax({
         type:'POST',
-        url:"{{ route('scene.updateajax') }}",
+        url:"{{ route('scene.update_scene_ajax') }}",
         data:{
               what: 'stop_scene',
               id: idvalue
@@ -341,7 +369,7 @@
   {
     $.ajax({
         type:'POST',
-        url:"{{ route('scene.updateajax') }}",
+        url:"{{ route('scene.update_scene_ajax') }}",
         data:{
               what: 'start_scene',
               id: idvalue
