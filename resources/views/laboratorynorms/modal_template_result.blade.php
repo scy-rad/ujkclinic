@@ -100,7 +100,7 @@
         $('#TemplateModalTitle').html('zapisywanie szablonu badań');
         $.ajax({
            type:'POST',
-           url:"{{ route('laboratorytemplate.updateajax') }}",
+           url:"{{ route('laboratorytemplate.update_laboratory_norm_ajax') }}",
            data:{
             lab_result_template_id: $('#lab_result_template_id').val(),
             lab_order_template_id: $('#lab_order_template_id').val(),
@@ -117,7 +117,8 @@
                     // alert(data.success);
                     location.reload();
                 }else{
-                    printErrorMsg(data.error);
+                  printErrorMsg(data.error);
+                  alert('coś poszło nie tak modal_template_results');
                 }
             }
         });    

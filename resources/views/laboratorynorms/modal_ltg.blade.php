@@ -223,7 +223,7 @@
   {
     $.ajax({
             type:'GET',
-            url:"{{ route('laboratorynorms.getajax') }}",
+            url:"{{ route('laboratorynorms.get_laboratory_normm_ajax') }}",
             data:{idvalue:idvalue,table:'ltg'},
             success:function(data){
                 if($.isEmptyObject(data.error)){
@@ -235,6 +235,7 @@
                   $('#ltg_sort').val(data.ltg_data.ltg_sort);
                   }else{
                     printErrorMsg(data.error);
+                    alert('coś poszło nie tak: modal_ltg - showLTGmodal');
                   }
                 }
             });
@@ -244,7 +245,7 @@ function showLTmodal(idvalue,idLTG)
   {
     $.ajax({
             type:'GET',
-            url:"{{ route('laboratorynorms.getajax') }}",
+            url:"{{ route('laboratorynorms.get_laboratory_normm_ajax') }}",
             data:{idvalue:idvalue,table:'lt',idLTG:idLTG},
             success:function(data){
                 if($.isEmptyObject(data.error)){
@@ -266,6 +267,7 @@ function showLTmodal(idvalue,idLTG)
                   $('#lt_coast_cito').val(data.lt_data.lt_coast_cito);
                   }else{
                     printErrorMsg(data.error);
+                    alert('coś poszło nie tak: modal_ltg - showLTmodal');
                   }
                 }
             });
@@ -276,7 +278,7 @@ function showLTmodal(idvalue,idLTG)
   {
     $.ajax({
             type:'GET',
-            url:"{{ route('laboratorynorms.getajax') }}",
+            url:"{{ route('laboratorynorms.get_laboratory_normm_ajax') }}",
             data:{idvalue:idvalue,table:'ltn',idLT:idLT},
             success:function(data){
                 if($.isEmptyObject(data.error)){
@@ -299,6 +301,7 @@ function showLTmodal(idvalue,idLTG)
                   
                   }else{
                     printErrorMsg(data.error);
+                    alert('coś poszło nie tak: modal_ltg - showLTNmodal');
                   }
                 }
             });
@@ -320,7 +323,7 @@ function showLTmodal(idvalue,idLTG)
         $('#LTGModalTitle').html('zapisywanie nazwy grupy badań');
         $.ajax({
            type:'POST',
-           url:"{{ route('laboratorynorms.updateajax') }}",
+           url:"{{ route('laboratorynorms.update_laboratory_norm_ajax') }}",
            data:{
                   table: 'ltg',
                   id: $('#id').val(),
@@ -335,6 +338,7 @@ function showLTmodal(idvalue,idLTG)
                     location.reload();
                 }else{
                     printErrorMsg(data.error);
+                    alert('coś poszło nie tak: modal_ltg - click btn-ltg');
                 }
             }
         });    
@@ -346,7 +350,7 @@ function showLTmodal(idvalue,idLTG)
         $('#LTModalTitle').html('zapisywanie nazwy badania');
         $.ajax({
           type:'POST',
-          url:"{{ route('laboratorynorms.updateajax') }}",
+          url:"{{ route('laboratorynorms.update_laboratory_norm_ajax') }}",
           data:{
                 table: 'lt',
                 id: $('#id').val(),
@@ -371,6 +375,7 @@ function showLTmodal(idvalue,idLTG)
                 location.reload();
               }else{
                 printErrorMsg(data.error);
+                alert('coś poszło nie tak: modal_ltg - click btn-lt');
               }
             }
         });    
@@ -381,7 +386,7 @@ function showLTmodal(idvalue,idLTG)
         $('#LTNModalTitle').html('zapisywanie normy');
         $.ajax({
           type:'POST',
-          url:"{{ route('laboratorynorms.updateajax') }}",
+          url:"{{ route('laboratorynorms.update_laboratory_norm_ajax') }}",
           data:{
                 table: 'ltn',
                 id: $('#id').val(),
@@ -404,6 +409,7 @@ function showLTmodal(idvalue,idLTG)
                 location.reload();
               }else{
                 printErrorMsg(data.error);
+                alert('coś poszło nie tak: modal_ltg - click btn-ltn');
               }
             }
         });    
@@ -420,4 +426,3 @@ function showLTmodal(idvalue,idLTG)
     }
   
 </script>
-

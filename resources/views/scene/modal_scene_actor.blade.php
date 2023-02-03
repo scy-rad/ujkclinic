@@ -33,7 +33,7 @@
       <div class="modal-body">
 
 
-          <form action="{{ route('actor.actor_save_ajax') }}" method="post" enctype="multipart/form-data">
+          <form action="{{ route('sceneactor.scene_actor_save_ajax') }}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="alert alert-danger print-error-msg" style="display:none">
                 <ul></ul>
@@ -120,7 +120,7 @@
   {
     $.ajax({
             type:'GET',
-            url:"{{ route('scene.getajax') }}",
+            url:"{{ route('scene.get_scene_ajax') }}",
             data:{idvalue:idvalue,what:'actor'},
             success:function(data){
                 if($.isEmptyObject(data.error))
@@ -177,7 +177,7 @@
   {
     $.ajax({
             type:'GET',
-            url:"{{ route('scene.getajax') }}",
+            url:"{{ route('scene.get_scene_ajax') }}",
             data:{actor_sex:$('#sa_actor_sex').val(),
               birth_date:$('#sa_birth_date').val(),
               what:'actor_propose'},

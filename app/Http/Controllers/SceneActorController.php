@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SceneActor;
 use App\Models\SceneActorLabOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class SceneActorController extends Controller
@@ -74,6 +75,11 @@ class SceneActorController extends Controller
      */
     public function update(Request $request, SceneActor $sceneactor)
     {
+      if ((!Auth::user()->hasRoleCode('technicians'))
+      // && (!Auth::user()->hasRoleCode('coordinators'))
+      )
+      return back()->withErrors('błąd wywołania funkcji update kontrolera SceneActor. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+
       switch ($request->action)
         {
           case 'registry':
@@ -108,6 +114,11 @@ dd('nic');
 
     public function actor_scene_save_ajax(Request $request)
     {
+      if ((!Auth::user()->hasRoleCode('technicians'))
+      // && (!Auth::user()->hasRoleCode('coordinators'))
+      )
+      return back()->withErrors('błąd wywołania funkcji actor_scene_ajax_update kontrolera Scene. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+
       $request->validate([
         'scene_master_id' => 'required',
         'sa_birth_date' => 'required'

@@ -68,24 +68,29 @@ class LaboratoryTestNorm extends Model
       $ret.='≤ ';
     else
     {
-      if (($something % 365 == 0) || ($something % 365 == 1) )
+      if ($something > 365*2 )
         $ret .= (($something-($something % 365))/365)." ".$years;
-      else 
+      elseif ($something == 366 )
+        $ret .= "1 ".$years;
+      else
         $ret .= $something." ".$days;
     }
       
     $something=$this->ltn_days_to;
 
-    if ($something==(120*365))
+    if ($something==(120*365.25))
       $ret='> '.$ret;
     else
     {
       if ($this->ltn_days_from>0)
         $ret .= ' - ';
-      if (($something % 365 == 0) || ($something % 365 == 1) )
-        $ret .= (($something-($something % 365))/365)." ".$years;
+      if ($something > 365*2 )
+        $ret .= (($something-($something % 366))/366)." ".$years;
+      elseif ($something == 365 )
+        $ret .= "1 ".$years;
       else 
         $ret .= $something." ".$days;
+
     }
 
     return $ret;

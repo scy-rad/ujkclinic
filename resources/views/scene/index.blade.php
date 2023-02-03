@@ -9,10 +9,38 @@
 @endsection
 
 @section('content')
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <h1>{{ __('Scenes') }}</h1>
+    </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            {{ Auth::user()->name }}
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <a class="dropdown-item" href="#" id="your-darkmode-button-id">{{ __('Change theme') }}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                  document.getElementById('logout-form').submit();">
+                {{ __('Logout') }}
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+              </form>
+            </li>
+          </ul>
+        </li>
+      </ul>
+  </div>
+</nav>
+
 
 @include('layouts.success_error')
 
-<h1>{{ __('Scenes') }}</h1>
 
 <div class="row">
 
@@ -21,7 +49,7 @@
       <a class="text-decoration-none" href="{{ route('scene.show',$scene->id) }}">
         <div class="card bg-primary text-white text-truncate">
           <div class="card-body text-center">
-            <h1 class="card-title"><i class="bi bi-hospital"></i> {{$scene->scene_code}}</h5>
+            <h1 class="card-title"><i class="bi bi-hospital"></i> {{$scene->scene_code}}</h1>
             <p class="card-text">{{$scene->scene_name}}</p>
           </div>
           <div class="card-footer m-0 p-0 text-end">
@@ -32,11 +60,12 @@
     </div>
   @endforeach
 
+  @if (Auth::user()->hasRoleCode('technicians')) 
     <div class="col-sm-2 p-2">
       <a class="text-decoration-none" onClick="javascript:showSceneModal()" href="#">
         <div class="card bg-warning text-black text-truncate">
           <div class="card-body text-center">
-            <h1 class="card-title"><i class="bi bi-hospital"></i> </h5>
+            <h1 class="card-title"><i class="bi bi-hospital"></i> </h1>
             <p class="card-text fw-bold">stwórz scenę</p>
             <!--a href="#" class="btn btn-primary">Go somewhere</a-->
           </div>
@@ -46,6 +75,7 @@
         </div>
       </a>
     </div>
+  @endif
 
   </div>
 

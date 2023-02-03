@@ -33,6 +33,12 @@ class SceneActorLabResult extends Model
           ->where('ltn_days_to','>=',$this->lab_order->scene_actor->sa_age)
           ->first()
           ;
+        if ($ret==null)
+          {
+          $ret['range']='sysERR (salr)';
+          return $ret;
+          }
+
       if ($this->lab_order->scene_actor->sa_actor_sex==2) // man
         {
           $norm_min=$ret->ltn_norm_m_min;

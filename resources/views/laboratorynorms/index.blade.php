@@ -80,7 +80,7 @@
                   <td>
                     <span class="btn btn-outline-success" onClick="javascript:showLTNmodal({{$test_three->id}},{{$test_two->id}})"> Edit Norm</span>
                   </td>
-                  <?php $next="</tr><tr>"; ?>
+                  <?php $next="</tr><tr><td></td>"; ?>
                 @endforeach  
             </tr>
         @endforeach

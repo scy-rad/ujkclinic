@@ -15,9 +15,17 @@
 </head>
 <body>
 
+@if (!( (Auth::user()->hasRoleCode('scene_doctor')) ||
+      (Auth::user()->hasRoleCode('scene_nurse'))   ||
+      (Auth::user()->hasRoleCode('scene_midwife')) ||
+      (Auth::user()->hasRoleCode('scene_paramedic'))
+      ))
+
 @include('layoutparts.header')
 
-<main class="p-5" style="width: 100%">
+@endif
+
+<main class="p-2" style="width: 100%">
 @yield('content')
 </main>
 

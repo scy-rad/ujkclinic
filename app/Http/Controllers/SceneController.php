@@ -24,7 +24,15 @@ class SceneController extends Controller
      */
     public function index()
     {
-      $scenes=SceneMaster::all();
+      if (Auth::user()->hasRoleCode('technicians'))
+        $scenes=SceneMaster::all();
+      elseif (
+        (Auth::user()->hasRoleCode('scene_doctor')) ||
+        (Auth::user()->hasRoleCode('scene_nurse')) ||
+        (Auth::user()->hasRoleCode('scene_midwife')) ||
+        (Auth::user()->hasRoleCode('scene_paramedic'))
+        )
+        $scenes=SceneMaster::whereIn('id',Auth::user()->personel_scenes->pluck('scene_master_id'))->get();
 
       return view('scene.index',[ 'scenes' => $scenes]);
     }
@@ -37,6 +45,11 @@ class SceneController extends Controller
      */
     public function store(Request $request)
     {
+      if ((!Auth::user()->hasRoleCode('technicians'))
+        // && (!Auth::user()->hasRoleCode('coordinators'))
+        )
+        return back()->withErrors('błąd wywołania funkcji store kontrolera Scene. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+
       $request->validate([
         'scene_code' => 'required',
         'scene_name' => 'required',
@@ -144,6 +157,11 @@ class SceneController extends Controller
      */
     public function update(Request $request, $id)
     {
+      if ((!Auth::user()->hasRoleCode('technicians'))
+        // && (!Auth::user()->hasRoleCode('coordinators'))
+        )
+        return back()->withErrors('błąd wywołania funkcji update kontrolera Scene. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+
       $scene=SceneMaster::where('id',$id)->first();
 
       if ($request->scene_lab_automatic_time == "on")
@@ -169,7 +187,7 @@ class SceneController extends Controller
 
 
 
-    public function getajax(Request $request)
+    public function get_scene_ajax(Request $request)
     {
       $ret=$request->idvalue;
       switch ($request->what)
@@ -207,11 +225,11 @@ class SceneController extends Controller
 
       }
       return response()->json($ret);
-    } // end of public function getajax
+    } // end of public function get_scene_ajax
 
     public function update_scene_ajax(Request $request)
     {
-      $ret = $request->toArray(); 
+      $ret = $request->toArray();
 
       switch ($request->what)
       {
@@ -222,30 +240,56 @@ class SceneController extends Controller
 
           $ret['scene']=$scene->toArray();
           $ret['step'] = SceneMaster::where('id',$request->id)->first()->scene_step_minutes;
+
+          $ret = ['success' => 'Dane raczej zapisane prawidłowo :) .','table' => $ret];
         break;
         case 'start_scene':
-          $scene = SceneMaster::where('id',$request->id)->first();
-          $scene->scene_relative_date = date('Y-m-d H:i:s'); 
-          $scene->save();
+          if (Auth::user()->hasRoleCode('technicians'))
+          {
+            $scene = SceneMaster::where('id',$request->id)->first();
+            $scene->scene_relative_date = date('Y-m-d H:i:s'); 
+            $scene->save();
+            
+            $ret = ['success' => 'Dane raczej zapisane prawidłowo :) .','table' => $ret];
+          }
+          else
+            $ret = ['errors' => 'Nie można wystartować sceny. Błąd uprawnień!','table' => $ret];
         break;
         case 'stop_scene':
-          $scene = SceneMaster::where('id',$request->id)->first();
-          $scene->scene_relative_date = null; 
-          $scene->save();
+          if (Auth::user()->hasRoleCode('technicians'))
+          {
+            $scene = SceneMaster::where('id',$request->id)->first();
+            $scene->scene_relative_date = null; 
+            $scene->save();
+            
+            $ret = ['success' => 'Dane raczej zapisane prawidłowo :) .','table' => $ret];
+          }
+          else
+            $ret = ['errors' => 'Nie można zastopować sceny. Błąd uprawnień!','table' => $ret];
         break;
         case 'order':
-          SceneActorLabOrder::update_order_form($request);
-          return back()->with('success', 'Powinno się udać...');    
+          if (Auth::user()->hasRoleCode('technicians'))
+          {
+            SceneActorLabOrder::update_order_form($request);
+            return back()->with('success', 'Powinno się udać...');
+          }
+          else
+            return back()->withErrors('Aktualizacja wyników badań nie powiodła się...');    
         break;
         case 'personel':
-          ScenePersonel::update_personel($request);
-          return back()->with('success', 'Powinno się udać...');    
+          if (Auth::user()->hasRoleCode('technicians'))
+          {
+            ScenePersonel::update_personel($request);
+            return back()->with('success', 'Powinno się udać...');
+          }
+          else
+            return back()->withErrors('Aktualizacja personelu nie powiodła się...');    
         break;
         default:
           dd('something wrong in updateajax Scene Controller function..: '.$request->what);
       }
 
-      $ret = ['success' => 'Dane raczej zapisane prawidłowo :) .','table' => $ret];
+      
    
       return response()->json($ret);
     } // emd of public function updateajax

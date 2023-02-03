@@ -19,6 +19,14 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+  if (
+    (Auth::user()->hasRoleCode('scene_doctor')) ||
+    (Auth::user()->hasRoleCode('scene_nurse')) ||
+    (Auth::user()->hasRoleCode('scene_midwife')) ||
+    (Auth::user()->hasRoleCode('scene_paramedic'))
+    )
+    return Redirect::route('scene.index');
+  else
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -36,19 +44,19 @@ Route::resource('/sceneactor', App\Http\Controllers\SceneActorController::class)
 Route::resource('/salaborder', App\Http\Controllers\SceneActorLabOrderController::class);
 
 
-Route::get('/scenegetajax', [App\Http\Controllers\SceneController::class, 'getajax'])->name('scene.getajax');
+Route::get('/scenegetajax', [App\Http\Controllers\SceneController::class, 'get_scene_ajax'])->name('scene.get_scene_ajax');
 Route::post('/sceneupdateajax', [App\Http\Controllers\SceneController::class, 'update_scene_ajax'])->name('scene.update_scene_ajax');
 
-Route::post('/sceneactorsave', [App\Http\Controllers\SceneActorController::class, 'actor_scene_save_ajax'])->name('actor.actor_save_ajax');
+Route::post('/sceneactorsave', [App\Http\Controllers\SceneActorController::class, 'actor_scene_save_ajax'])->name('sceneactor.scene_actor_save_ajax');
 
 Route::get('/saloajax', [App\Http\Controllers\SceneActorLabOrderController::class, 'get_salo_ajax'])->name('salaborder.get_salo_ajax');
 
 
 Route::get('/laboratorynorms', [App\Http\Controllers\LaboratoryNormController::class, 'index'])->name('laboratorynorms.index');
-Route::get('/laboratorynormajx', [App\Http\Controllers\LaboratoryNormController::class, 'getajax'])->name('laboratorynorms.getajax');
+Route::get('/laboratorynormajx', [App\Http\Controllers\LaboratoryNormController::class, 'get_laboratory_normm_ajax'])->name('laboratorynorms.get_laboratory_normm_ajax');
 Route::get('/laboratorynormtemplate/{template_id}', [App\Http\Controllers\LaboratoryNormController::class, 'template_show'])->name('laboratorynorm.template');
-Route::post('/laboratorynormajx', [App\Http\Controllers\LaboratoryNormController::class, 'updateajax'])->name('laboratorynorms.updateajax');
-Route::post('/laboratorytemplateajx', [App\Http\Controllers\LaboratoryNormController::class, 'templateupdateajax'])->name('laboratorytemplate.updateajax');
+Route::post('/laboratorynormajx', [App\Http\Controllers\LaboratoryNormController::class, 'update_laboratory_norm_ajax'])->name('laboratorynorms.update_laboratory_norm_ajax');
+Route::post('/laboratorytemplateajx', [App\Http\Controllers\LaboratoryNormController::class, 'update_laboratory_norm_template_ajax'])->name('laboratorytemplate.update_laboratory_norm_ajax');
 Route::post('/laboratorytemplate', [App\Http\Controllers\LaboratoryNormController::class, 'templateupdate'])->name('laboratorytemplate.update');
 
 

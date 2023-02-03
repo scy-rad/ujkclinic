@@ -8,6 +8,7 @@ use App\Models\LaboratoryTestGroup;
 use App\Models\LaboratoryTest;
 use App\Models\LaboratoryTestNorm;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class LaboratoryNormController extends Controller
@@ -19,12 +20,18 @@ class LaboratoryNormController extends Controller
      */
   public function index()
   {
+    if (!Auth::user()->hasRoleCode('technicians'))
+      return back()->withErrors('błąd wywołania funkcji index kontrolera LaboratoryNorm. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+
     return view('laboratorynorms.index');
   }
 
 
-  public function getajax(Request $request)
+  public function get_laboratory_normm_ajax(Request $request)
   {
+    if (!Auth::user()->hasRoleCode('technicians'))
+      return response()->json(['errors' => 'Nie można pobrać danych. Błąd uprawnień!']);
+
     switch ($request->table)
     {
       case 'ltg':
@@ -56,10 +63,13 @@ class LaboratoryNormController extends Controller
       break;
     }
     return response()->json($ret);
-  } // end of public function getajax
+  } // end of public function get_laboratory_normm_ajax
 
-  public function updateajax(Request $request)
+  public function update_laboratory_norm_ajax(Request $request)
   {
+    if (!Auth::user()->hasRoleCode('technicians'))
+      return response()->json(['errors' => 'Nie można zaktualizować norm. Błąd uprawnień!']);
+
     switch ($request->table)
     {
       case 'ltg':
@@ -144,11 +154,14 @@ class LaboratoryNormController extends Controller
     $ret = ['success' => 'Dane raczej zapisane prawidłowo :) .','table' => $ret];
         
     return response()->json($ret);
-  } // emd of public function updateajax
+  } // emd of public function update_laboratory_norm_ajax
 
 
   public function template_show(Request $request,Int $id_lrt)
   {
+    if (!Auth::user()->hasRoleCode('technicians'))
+      return back()->withErrors('błąd wywołania funkcji template_show kontrolera LaboratoryNorm. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+
     $lab_order_template=LabOrderTemplate::where('id',$id_lrt)->first();
     $lab_order_template_results=LabResultTemplate::where('lab_order_template_id',$lab_order_template->id)->get();
     $result_type=LabResultTemplate::array_of_types();
@@ -157,8 +170,11 @@ class LaboratoryNormController extends Controller
     return view('laboratorynorms.template',compact('lab_order_template'),['lab_order_template_results' => $lab_order_template_results, 'result_type' => $result_type, 'actor_id' => $actor_id]);    
   }
 
-  public function templateupdateajax(Request $request)
-  {
+  public function update_laboratory_norm_template_ajax(Request $request)
+  { 
+    if (!Auth::user()->hasRoleCode('technicians'))
+      return response()->json(['errors' => 'Nie można zaktualizować szablonu badań. Błąd uprawnień!']);
+
         $request->lrtr_sort = 1;
         $ret = $request->toArray();
 
@@ -203,6 +219,8 @@ class LaboratoryNormController extends Controller
 
   public function templateupdate(Request $request)
   {
+    if (!Auth::user()->hasRoleCode('technicians'))
+      return back()->withErrors('błąd wywołania funkcji templateupdate kontrolera LaboratoryNorm. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
     
     if ($request->id==0)
      LabOrderTemplate::create($request->post())->save();

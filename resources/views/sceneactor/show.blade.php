@@ -17,21 +17,29 @@
 <!-- clock code part I -->
 <div class="row mb-3">
   <div class="col-2">
-    <div class="bg-primary btn w-100 text-center text-truncate" disabled id="zegar">
+    <div class="bg-primary btn w-100 h-100 text-center text-truncate" disabled id="zegar">
       {{date("Y-m-d",strtotime($sceneactor->scene->scene_date))}}
       <h1>{{date("H:i",strtotime($sceneactor->scene->scene_date))}}</h1>
     </div>
   </div>
   <div class="col-2">
-  <button class="btn w-100 h-100 btn-success text-truncate" id="change_relative_time" onClick="javascript:change_relative_time({{$sceneactor->scene->id}})"> <h1><span id="min_step">{{$sceneactor->scene->scene_step_minutes}}</span> min.<br><i class="bi bi-fast-forward-fill"></i></h1> </button>
-  </div>
-  <div class="col-7">
-    <h2>{{$sceneactor->scene->scene_code}}: {{$sceneactor->scene->scene_name}}</h2>
-  </div>
-  <div class="col-1">
-    @if (is_null($sceneactor->scene->scene_relative_date))
-      <button class="btn w-100 h-100 btn-danger" onClick="javascript:start_scene({{$sceneactor->scene->id}})"> <h1><span id="status_txt"><i class="bi bi-play-btn-fill"></i></span></h1> </button>
+    @if (!(is_null($sceneactor->scene->scene_relative_date)))
+      <button class="btn w-100 h-100 btn-success text-truncate" id="change_relative_time" onClick="javascript:change_relative_time({{$sceneactor->scene->id}})"> <h1><span id="min_step">{{$sceneactor->scene->scene_step_minutes}}</span> min.<br><i class="bi bi-fast-forward-fill"></i></h1> </button>
     @endif
+  </div>
+  <div class="col-6">
+    <p class="h3"><span class="h1 text-warning">{{$sceneactor->scene->scene_code}} <i class="bi bi-arrow-bar-right"></i></span> {{$sceneactor->scene->scene_name}}</p>  </div>
+  <div class="col-2">
+
+      <a class="text-decoration-none" href="{{ route('scene.show',$sceneactor->scene->id) }}">
+        <div class="card bg-primary text-white text-truncate">
+          <div class="card-body text-center">
+            <h1 class="card-title"><i class="bi bi-hospital"></i> {{$sceneactor->scene->scene_code}}</h5>
+            <p class="card-text">{{$sceneactor->scene->scene_name}}</p>
+          </div>
+        </div>
+      </a>
+
   </div>
 </div>
 
@@ -50,7 +58,6 @@
         <label>wiek:</label> {{$sceneactor->sa_age_txt}}<br>
         <label>PESEL:</label> {{$sceneactor->sa_PESEL}}<br>
         <label>data prz.:</label> {{$sceneactor->sa_incoming_date}}<br>
-        <i class="bi bi-hospital"></i> <a href="{{ route('scene.show',$sceneactor->scene->id) }}">{{$sceneactor->scene->scene_code}}: {{$sceneactor->scene->scene_name}} </a>
 
       </p>
     </div>
@@ -169,7 +176,7 @@
   {
     $.ajax({
       type:'GET',
-      url:"{{ route('scene.getajax') }}",
+      url:"{{ route('scene.get_scene_ajax') }}",
       data:{idvalue:idvalue,what:'relative_time'},
       success:function(data){
           if($.isEmptyObject(data.error)){

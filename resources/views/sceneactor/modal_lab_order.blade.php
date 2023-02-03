@@ -83,7 +83,7 @@
   {
     $.ajax({
             type:'GET',
-            url:"{{ route('scene.getajax') }}",
+            url:"{{ route('scene.get_scene_ajax') }}",
             data:{actor_sex:$('#sa_actor_sex').val(),
               birth_date:$('#sa_birth_date').val(),
               what:'actor_propose'},

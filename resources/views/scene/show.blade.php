@@ -22,15 +22,20 @@
     </div>
   </div>
   <div class="col-2">
+  @if (!(is_null($scene->scene_relative_date)))
   <button class="btn w-100 h-100 btn-success text-truncate" id="change_relative_time" onClick="javascript:change_relative_time({{$scene->id}})"> <h1><span id="min_step">{{$scene->scene_step_minutes}}</span> min.<br><i class="bi bi-fast-forward-fill"></i></h1> </button>
+  @endif
   </div>
-  <div class="col-7">
-    <h2>{{$scene->scene_code}}: {{$scene->scene_name}}</h2>
+  <div class="col-6">
+    <p class="h3"><span class="h1 text-warning">{{$scene->scene_code}} <i class="bi bi-arrow-bar-right"></i></span> {{$scene->scene_name}}</p>
   </div>
-  <div class="col-1">
-    @if (is_null($scene->scene_relative_date))
-      <button class="btn w-100 h-100 btn-danger" onClick="javascript:start_scene({{$scene->id}})"> <h1><span id="status_txt"><i class="bi bi-play-btn-fill"></i></span></h1> </button>
+  <div class="col-2">
+    @if (Auth::user()->hasRoleCode('technicians')) 
+      @if (is_null($scene->scene_relative_date))
+        <button class="btn w-100 btn-danger" onClick="javascript:start_scene({{$scene->id}})"> <h1><span id="status_txt"><i class="bi bi-play-btn-fill"></i></span></h1> </button>
+      @endif
     @endif
+      <a href="{{ route('scene.index') }}" class="button btn w-100 h-100 btn-primary text-truncate" > <h1><i class="bi bi-hospital"></i>...<i class="bi bi-hospital"></i></h1> </a>
   </div>
 </div>
 
@@ -45,6 +50,7 @@
             <li class="nav-item">
                 <a href="#descript" class="nav-link active" data-bs-toggle="tab">Opis</a>
             </li>
+            @if (Auth::user()->hasRoleCode('technicians'))
             @if ($scene->scenario_id>0)
             <li class="nav-item">
                 <a href="#base_scenario" class="nav-link" data-bs-toggle="tab">Scenariusz bazowy</a>
@@ -53,6 +59,7 @@
             <li class="nav-item">
                 <a href="#admin" class="nav-link" data-bs-toggle="tab">Administracja</a>
             </li>
+            @endif
             <li class="nav-item">
                 <a href="#nothing" class="nav-link" data-bs-toggle="tab">Zwiń</a>
             </li>
@@ -62,10 +69,13 @@
         <div class="tab-content">
             <div class="tab-pane fade show active" id="descript">
               <p>
+              @if (Auth::user()->hasRoleCode('technicians'))
               <label>opis:</label> {!!$scene->scene_scenario_description!!}<br>
+              @endif
               <label>opis dla studentów:</label> {!!$scene->scene_scenario_for_students!!}
               </p>
             </div>
+            @if (Auth::user()->hasRoleCode('technicians'))
             @if ($scene->scenario_id>0)
             <div class="tab-pane fade" id="base_scenario">
               <p>
@@ -120,7 +130,8 @@
               <button class="btn btn-warning btn-lg" onClick="javascript:showPersonelModal(0)"> <h1><i class="bi bi-mortarboard-fill"></i> Dodaj personel</h1> </button>
               @endif
             </div>
-
+            @endif
+            
             <div class="tab-pane fade" id="nothing">
             </div>
 
@@ -133,6 +144,7 @@
 <div class="row">
   <div class="col-2">
     @foreach ($actors as $actor)
+    @if ((Auth::user()->hasRoleCode('technicians')) || (!is_null($actor->sa_incoming_date)))
       <div class="card mb-3">
         <div class="card-header">
           <i class="bi bi-file-person"></i>
@@ -151,8 +163,11 @@
           </form>
         @endif
       </div>
+    @endif
     @endforeach
   </div>  <!-- col-2 -->
+  
+  @if (Auth::user()->hasRoleCode('technicians'))
   <div class="col-2">
     <div class="card">
       <div class="card-header">
@@ -186,11 +201,14 @@
   <div id="extra_body" class="col-8 border border-2 rounded">
 
   </div>  <!-- extra_body col-8 -->
-
+  @endif
 </div>
 
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+
+@if (Auth::user()->hasRoleCode('technicians'))
 
 @include('scene.modal_scene_actor')
 
@@ -209,7 +227,7 @@
   {
     $.ajax({
             type:'GET',
-            url:"{{ route('scene.getajax') }}",
+            url:"{{ route('scene.get_scene_ajax') }}",
             data:{idvalue:idvalue,what:what},
             success:function(data){
                 if($.isEmptyObject(data.error))
@@ -226,6 +244,7 @@
   }
 </script>
 
+@endif
 
 @if (!is_null($scene->scene_relative_date))
 <!-- clock code part II -->
@@ -267,7 +286,7 @@
   {
     $.ajax({
       type:'GET',
-      url:"{{ route('scene.getajax') }}",
+      url:"{{ route('scene.get_scene_ajax') }}",
       data:{idvalue:idvalue,what:'relative_time'},
       success:function(data){
           if($.isEmptyObject(data.error)){
@@ -375,11 +394,14 @@
               id: idvalue
             },
         success:function(data){
-            if($.isEmptyObject(data.error)){
+            if($.isEmptyObject(data.errors)){
                 // alert(JSON.stringify(data, null, 4));
                 location.reload();
             }else{
-                printErrorMsg(data.error);
+                // printErrorMsg(data.error);
+                // alert(data.errors);
+                alert('coś poszło nie tak: scene: show - start_scene');
+                // alert(JSON.stringify(data, null, 4));
             }
         }
     });

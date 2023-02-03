@@ -79,7 +79,7 @@ class ScenariosSeeder extends Seeder
       $actor->actor_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
       $actor->actor_sex           = 3;  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
       $actor->actor_role_plan_id  = \App\Models\ActorRolePlan::where('short','pierwszoplanowa')->first()->id;
-      $actor->actor_role_name     = 'Konieta z niedokrwistością';
+      $actor->actor_role_name     = 'Kobieta z niedokrwistością';
       $actor->actor_type_id       = \App\Models\ActorType::where('short','SYM WW')->first()->id;
       $actor->history_for_actor   = 'Zgłaszasz utratę przytomności, duszność, zawroty głowy, zwiększoną męczliwość. Nie miałaś wcześniej problemów z sercem.';
       $actor->actor_simulation = "Starsza kobieta";

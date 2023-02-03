@@ -45,7 +45,10 @@ class User extends Authenticatable   // 8 checked - except update_avatar functio
     }
     public function scenarios() {
       return $this->hasMany(Scenario::class);
-  }
+    }
+    public function personel_scenes() {
+      return $this->hasMany(ScenePersonel::class);
+    }
 
     public function title() {
         return $this->belongsTo(UserTitle::class, 'user_title_id');//->first();

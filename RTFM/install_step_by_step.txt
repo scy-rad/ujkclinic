@@ -159,3 +159,4 @@ Edit SceneActor LaboratoryTests Results (advanced):
   testing scenaros, scenes and lab results on true simulation data 
   apply sort to lab orders...
   add personel to scene
+  add check user privileges

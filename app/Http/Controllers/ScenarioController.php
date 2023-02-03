@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Scenario;
+use Illuminate\Support\Facades\Auth;
 
 class ScenarioController extends Controller
 {
@@ -14,6 +15,11 @@ class ScenarioController extends Controller
      */
     public function index()
     {
+      if ((!Auth::user()->hasRoleCode('technicians'))
+      // && (!Auth::user()->hasRoleCode('coordinators'))
+      )
+      return back()->withErrors('błąd wywołania funkcji index kontrolera Scenario. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+
       $ret['scenarios'] = Scenario::all();
       return view('scenario.index', $ret);
     }
@@ -25,6 +31,8 @@ class ScenarioController extends Controller
      */
     public function create()
     {
+      if (!Auth::user()->hasRoleCode('technicians'))
+        return back()->withErrors('błąd wywołania funkcji create kontrolera Scenario. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
       return view('scenario.create',['scenario' => null]);
     }
 
@@ -36,6 +44,8 @@ class ScenarioController extends Controller
      */
     public function store(Request $request)
     {
+      if (!Auth::user()->hasRoleCode('technicians'))
+        return back()->withErrors('błąd wywołania funkcji store kontrolera Scenario. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
       $request->validate([
         'scenario_code' => 'required',
         'scenario_name' => 'required',
@@ -60,6 +70,9 @@ class ScenarioController extends Controller
      */
     public function show(Scenario $scenario)
     {
+      if (!Auth::user()->hasRoleCode('technicians'))
+        return back()->withErrors('błąd wywołania funkcji show kontrolera Scenario. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+
       $ret['actors']    =  $scenario->actors;
 
       return view('scenario.show',compact('scenario'),$ret);
@@ -73,6 +86,9 @@ class ScenarioController extends Controller
      */
     public function edit(Scenario $scenario)
     {
+      if (!Auth::user()->hasRoleCode('technicians'))
+        return back()->withErrors('błąd wywołania funkcji edit kontrolera Scenario. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+
       return view('scenario.edit',compact('scenario'));
     }
 
@@ -85,6 +101,9 @@ class ScenarioController extends Controller
      */
     public function update(Request $request, Scenario $scenario)
     {
+      if (!Auth::user()->hasRoleCode('technicians'))
+        return back()->withErrors('błąd wywołania funkcji update kontrolera Scenario. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+
       $request->validate([
         'scenario_code' => 'required',
         'scenario_name' => 'required',
@@ -110,6 +129,9 @@ class ScenarioController extends Controller
      */
     public function destroy(Scenario $scenario)
     {
+      if (!Auth::user()->hasRoleCode('technicians'))
+        return back()->withErrors('błąd wywołania funkcji destroy kontrolera Scenario. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+
       $scenario->delete();
 
       \Illuminate\Support\Facades\Session::flash('success', 'Scenario has been deleted successfully'); 
