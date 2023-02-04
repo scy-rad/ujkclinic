@@ -47,6 +47,9 @@ class LaboratoryTestNorm extends Model
 
   function write_range()
   {
+    if ( ($this->ltn_days_from==0) && ($this->ltn_days_to==(120*365.25)) )
+      return '---';
+
     $lang="pl";
 
     if ($lang=="pl")

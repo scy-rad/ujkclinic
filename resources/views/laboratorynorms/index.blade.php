@@ -70,12 +70,13 @@
                 {!!$next!!}
                 
                   <td>
-                  @if ($normy->count()>1)
                     {{$test_three->write_range()}}
-                  @endif
                   </td>
                   <td>
                     {{$test_three->write_norm()}}
+                  </td>
+                  <td>
+                    <label class="badge rounded-pill bg-secondary text-end text-right pull-right pull-end">{{$test_three->ltn_source}}</label>
                   </td>
                   <td>
                     <span class="btn btn-outline-success" onClick="javascript:showLTNmodal({{$test_three->id}},{{$test_two->id}})"> Edit Norm</span>

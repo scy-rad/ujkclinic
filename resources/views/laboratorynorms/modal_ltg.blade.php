@@ -156,12 +156,12 @@
             </div>
             <div class="row mb-3">
               <div class="col-6">
-                <label for="ltn_days_from" class="form-label">wiek:norma od (dni) (max 180):</label>
-                <input type="number" step="1" min="0" max="180" id="ltn_days_from" name="ltn_days_from" class="form-control" placeholder="dni (0-180)" required="required">
+                <label for="ltn_days_from" class="form-label">wiek: od (dni):</label>
+                <input type="number" step="1" min="0" id="ltn_days_from" name="ltn_days_from" class="form-control" placeholder="dni (0-180)" required="required">
               </div>
               <div class="col-6">
-              <label for="ltn_days_to" class="form-label">wiek:norma do (dni) (1r=365d):</label>
-                <input type="number" step="1" min="0" max="{{120*365}}" id="ltn_days_to" name="ltn_days_to" class="form-control" placeholder="dni (max: {{120*365}})" required="required">
+              <label for="ltn_days_to" class="form-label">wiek: do (dni) (1r=365,25d):</label>
+                <input type="number" step="1" min="0" max="{{120*365.25}}" id="ltn_days_to" name="ltn_days_to" class="form-control" placeholder="dni (max: {{120*365}})" required="required">
               </div>
             </div>
             <div class="row mb-3">
