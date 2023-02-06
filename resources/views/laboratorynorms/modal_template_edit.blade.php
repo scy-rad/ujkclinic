@@ -11,9 +11,10 @@
             <div class="alert alert-danger print-error-msg" style="display:none">
                 <ul></ul>
             </div>
-            <div class="mb-3">
+
               <input type="hidden" name="id" required="required" value="{{$lab_order_template->id}}">
               <input type="hidden" name="actor_id" required="required" value="{{$actor_id}}">
+
             <div class="row mb-3">
               <div class="col-5">
                 <label for="lrt_type" class="form-label">rodzaj szablonu:</label>
@@ -24,11 +25,11 @@
               </div>
               <div class="col-4">
                 <label for="lrt_minutes_before" class="form-label">ilość minut wstecz:</label>
-                <input type="number" step="1" min="1" name="lrt_minutes_before" class="form-control" placeholder="Ilośc minut wstecz" value="{{$lab_order_template->lrt_minutes_before}}">
+                <input type="number" step="1" min="0" name="lrt_minutes_before" class="form-control" placeholder="Ilośc minut wstecz" value="{{$lab_order_template->lrt_minutes_before}}">
               </div>
               <div class="col-3">
                 <label for="lrt_sort" class="form-label">kolejność:</label>
-                <input type="number" step="1" min="1" max="50" name="lrt_sort" class="form-control" placeholder="kolejność" value="{{$lab_order_template->lrt_sort}}">
+                <input type="number" step="1" min="1" max="50" name="lrt_sort" class="form-control" placeholder="kolejność" value="{{$lab_order_template->lrt_sort*1}}">
               </div>
             </div>
             <div class="row mb-3">

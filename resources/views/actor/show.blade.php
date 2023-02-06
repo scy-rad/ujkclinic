@@ -51,7 +51,7 @@
 
 
   
-  <div class="col-4 p-2">
+  <div class="col-3 p-2">
     <div class="card">
       <div class="card-header">
         Szablony badań laboratoryjnych
@@ -69,19 +69,20 @@
     </div>
   </div>
 
-  <div class="col-4 p-2">
+  <div class="col-3 p-2">
     <div class="card">
       <div class="card-header">
-        Badania diagnostyczne
+        Konsultacje/Diagnostyka
       </div>
       <div class="card-body">
         <ul>
-          <li><label class="small text-primary fw-bold">wykaz wykonanych badań diagnostycznych:</label><br> </li>
-          <li><label class="small text-primary fw-bold">wykaz przygotowanych badań diagnostycznych:</label><br> </li>
+        @foreach ($actor->consultation_templates as $consultation_one)
+          <li onClick="javascript:showConsultationTemplateModal({{$consultation_one->id}})">{{$consultation_one->consultation_type->sctt_name}} {{$consultation_one->sct_type_details}} </li>
+        @endforeach
         </ul>
       </div>
       <div class="card-footer">
-      <a class="btn btn-info m-1" href="#">szczegóły</a>
+      <span class="btn btn-primary" onClick="javascript:showConsultationTemplateModal()">dodaj szablon</span>
       </div>
     </div>
   </div>
@@ -111,6 +112,9 @@
 $lab_order_template=new App\Models\LabOrderTemplate();
 $actor_id=$actor->id;
 ?>
+
+@include('actor.modal_consultation_template')
+
 @include('laboratorynorms.modal_template_edit')
 
 

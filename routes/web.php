@@ -44,6 +44,10 @@ Route::resource('/sceneactor', App\Http\Controllers\SceneActorController::class)
 Route::resource('/salaborder', App\Http\Controllers\SceneActorLabOrderController::class);
 
 
+
+Route::post('/update_scenario_ajax', [App\Http\Controllers\ActorController::class, 'scenario_actor_save_ajax'])->name('actor.scenario_actor_save_ajax');
+Route::get('/get_scenario_ajax', [App\Http\Controllers\ActorController::class, 'scenario_actor_get_ajax'])->name('actor.scenario_actor_get_ajax');
+
 Route::get('/scenegetajax', [App\Http\Controllers\SceneController::class, 'get_scene_ajax'])->name('scene.get_scene_ajax');
 Route::post('/sceneupdateajax', [App\Http\Controllers\SceneController::class, 'update_scene_ajax'])->name('scene.update_scene_ajax');
 

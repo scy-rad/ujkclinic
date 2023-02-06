@@ -160,3 +160,11 @@ Edit SceneActor LaboratoryTests Results (advanced):
   apply sort to lab orders...
   add personel to scene
   add check user privileges
+
+###################################################
+
+php artisan make:model ScenarioConsultationTemplateType -m
+php artisan make:model ScenarioConsultationTemplate -m
+php artisan make:model ScenarioConsultationTemplateAttachment -m
+
+Create & Edit Consultation/Diagnostic Test Template (for Scenario Character) - without attachments yet 

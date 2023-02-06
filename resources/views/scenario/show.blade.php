@@ -69,34 +69,37 @@
       </div>
       <div class="card-body">
 
-          <h4><label>nazwa roli:</label><br>{{$actor_one->actor_role_name}}</h4>
+        <h4><label>nazwa roli:</label><br>{{$actor_one->actor_role_name}}</h4>
 
-          <p><label>rola:</label><br>
-            {{$actor_one->actor_role_plan->short}}
-          </p>
-          <p><label>rodzaj aktora:</label><br>
-            {{$actor_one->actor_type->name}}
-          </p>
-          <p><label>wiek:</label><br>
-            {{$actor_one->actor_age_from}} - {{$actor_one->actor_age_to}} {{$actor_one->age_interval_name()}}
-          </p>
-          <p><label>płeć:</label><br>
-            {{$actor_one->sex_name()}}
-          </p>
-          <p><label>historia dla aktora:</label><br>
-            {!! $actor_one->history_for_actor !!}
-          </p>
-          <p><label>opis pozoracji:</label><br>
-            {!! $actor_one->actor_simulation !!}
-          </p>
-        <ul>DODATKI:
+        <p><label>rola:</label><br>
+          {{$actor_one->actor_role_plan->short}}
+        </p>
+        <p><label>rodzaj aktora:</label><br>
+          {{$actor_one->actor_type->name}}
+        </p>
+        <p><label>wiek:</label><br>
+          {{$actor_one->actor_age_from}} - {{$actor_one->actor_age_to}} {{$actor_one->age_interval_name()}}
+        </p>
+        <p><label>płeć:</label><br>
+          {{$actor_one->sex_name()}}
+        </p>
+        <p><label>historia dla aktora:</label><br>
+          {!! $actor_one->history_for_actor !!}
+        </p>
+        <p><label>opis pozoracji:</label><br>
+          {!! $actor_one->actor_simulation !!}
+        </p>
+        <label>szablony:</label>
+        <ul>
           @if ($actor_one->lab_order_templates->count()>0)
-          <li><label class="small text-primary fw-bold">szablony badań laboratoryjnych:</label> {{$actor_one->lab_order_templates->count()}} </li>
+            <li><label class="small text-primary fw-bold">badań laboratoryjnych:</label> {{$actor_one->lab_order_templates->count()}} </li>
+          @endif
+          @if ($actor_one->consultation_templates->count()>0)
+            <li><label class="small text-primary fw-bold">konsultacji/diagnostyki:</label> {{$actor_one->consultation_templates->count()}} </li>
           @endif
         </ul>
 
-        <ul>DODATKI DO ZROBIENIA:
-          <li><label class="small text-primary fw-bold">wykaz szablonów badań laboratoryjnych:</label><br> </li>
+        <ul><label>DODATKI DO ZROBIENIA:</label>
           <li><label class="small text-primary fw-bold">wykaz załączników:</label><br> (np. szablon do LEEAPa, zdjęcia pozoracji, pliki do druku itp) </li>
         </ul>
       </div>

@@ -42,6 +42,10 @@ class Actor extends Model
     {
       return $this->hasMany(LabOrderTemplate::class);
     }
+  public function consultation_templates() 
+    {
+      return $this->hasMany(ScenarioConsultationTemplate::class);
+    }
 
 
 
