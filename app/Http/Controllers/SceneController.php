@@ -193,7 +193,9 @@ class SceneController extends Controller
       switch ($request->what)
       {
         case 'relative_time':
-          $ret = SceneMaster::select('scene_date','scene_relative_date','scene_relative_id','scene_step_minutes')->where('id',$request->idvalue)->first()->toArray();
+          $ret = SceneMaster::select('scene_date','scene_relative_date','scene_relative_id','scene_step_minutes')->where('id',$request->idvalue)->first();
+          if (!(is_null($ret)))
+            $ret = $ret->toArray();
           $ret['diff_sec'] = (strtotime($ret['scene_date']) - strtotime($ret['scene_relative_date']));
           $ret = ['success' => 'Dane raczej pobrane prawidłowo :) .','scene_data' => $ret];
         break;

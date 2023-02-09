@@ -63,6 +63,7 @@ Route::post('/laboratorynormajx', [App\Http\Controllers\LaboratoryNormController
 Route::post('/laboratorytemplateajx', [App\Http\Controllers\LaboratoryNormController::class, 'update_laboratory_norm_template_ajax'])->name('laboratorytemplate.update_laboratory_norm_ajax');
 Route::post('/laboratorytemplate', [App\Http\Controllers\LaboratoryNormController::class, 'templateupdate'])->name('laboratorytemplate.update');
 
+Route::get('filemanager', [App\Http\Controllers\FileManagerController::class, 'index']);
 
 /////////////////////////////////////////////////////////
 //   U S E R

@@ -1,0 +1,1 @@
+mklink /D storage "..\storage\app\medujk"

@@ -175,3 +175,7 @@ testing flmngr https://pluginza.com/plugins/file-manager
 
 remove flmngr
 
+install alexusmai/laravel-file-manager:
+https://www.itsolutionstuff.com/post/laravel-file-manager-tutorial-step-by-stepexample.html
+
+php artisan make:controller FileManagerController
