@@ -28,11 +28,9 @@ class TestController extends Controller
 
 
 
-      dump($all_list);
 
       $ret='<table>';
 
-      dump($ret);
       return view('tests.test',['wynik' => $ret]);
 
     }

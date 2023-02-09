@@ -173,4 +173,5 @@ CHANGE ACTOR TO CHARACTER (models, controller, datatables)
 
 testing flmngr https://pluginza.com/plugins/file-manager
 
+remove flmngr
 
