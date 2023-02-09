@@ -34,8 +34,8 @@ class Scenario extends Model
   {
     return $this->hasOne(ScenarioType::class, 'id', 'scenario_type_id');
   }
-  public function actors() {
-      return $this->hasMany(Actor::class);
+  public function characters() {
+      return $this->hasMany(Character::class);
   }
 
 }

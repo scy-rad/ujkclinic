@@ -1,13 +1,13 @@
 <?php
-//php artisan db:seed --class=ActorTypesSeeder
+//php artisan db:seed --class=CharacterTypesSeeder
 
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\ActorType;
+use App\Models\CharacterType;
 
-class ActorTypesSeeder extends Seeder
+class CharacterTypesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,25 +16,25 @@ class ActorTypesSeeder extends Seeder
      */
     public function run()
     {
-      $acttype = new ActorType();
+      $acttype = new CharacterType();
       $acttype->short = "PAC STAND";
       $acttype->name = "pacjent standaryzowany";
       $acttype->descript = "człowiek - najczęściej aktor, ale też może student lub inna osoba";
       $acttype->save();
 
-      $acttype = new ActorType();
+      $acttype = new CharacterType();
       $acttype->short = "SYM WW";
       $acttype->name = "symulator WW";
       $acttype->descript = "symulator pozwalający na monitorowanie i ustawianie parametrów";
       $acttype->save();
 
-      $acttype = new ActorType();
+      $acttype = new CharacterType();
       $acttype->short = "MAN";
       $acttype->name = "manekin";
       $acttype->descript = "manekin pełnopostaciowy bez konieczności monitorowania";
       $acttype->save();
 
-      $acttype = new ActorType();
+      $acttype = new CharacterType();
       $acttype->short = "TREN";
       $acttype->name = "trenażer";
       $acttype->descript = "trenażer do ćwiczenia konkretnych czynności";

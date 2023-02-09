@@ -1,22 +1,22 @@
 @extends('layouts.master')
 
 @section('content')
-   Edit actor:
+   Edit character:
     <div class="p-6 text-gray-900 dark:text-gray-100">
     </div>
 
-<form action="{{ route('actor.update',$actor->id) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('character.update',$character->id) }}" method="POST" enctype="multipart/form-data">
 @csrf
 @method('PUT')
-@include('actor.formCrUd')
+@include('character.formCrUd')
 <div class="row mt-2">
   <div class="col-4">
     <button type="submit" class="btn btn-primary ml-3">Zapisz</button>
     </form>
   </div>
   <div class="col-4">
-    <form action="{{ route('actor.destroy',$actor->id) }}" method="Post">
-      <!-- <a class="btn btn-primary m-1" href="{{ route('actor.edit',$actor->id) }}">Edytuj</a> -->
+    <form action="{{ route('character.destroy',$character->id) }}" method="Post">
+      <!-- <a class="btn btn-primary m-1" href="{{ route('character.edit',$character->id) }}">Edytuj</a> -->
       @csrf
       @method('DELETE')
       <button type="submit" class="btn btn-danger m-1">Usuń</button>

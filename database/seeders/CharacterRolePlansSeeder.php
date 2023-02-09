@@ -1,13 +1,13 @@
 <?php
-//php artisan db:seed --class=ActorRolePlansSeeder
+//php artisan db:seed --class=CharacterRolePlansSeeder
 
 namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\ActorRolePlan;
+use App\Models\CharacterRolePlan;
 
-class ActorRolePlansSeeder extends Seeder
+class CharacterRolePlansSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,13 +16,13 @@ class ActorRolePlansSeeder extends Seeder
      */
     public function run()
     {
-      $actroleplane = new ActorRolePlan();
+      $actroleplane = new CharacterRolePlan();
       $actroleplane->short = "pierwszoplanowa";
       $actroleplane->name = "aktor pierwszego planu";
       $actroleplane->descript = "postać najistotniejsza z punktu widzenia scenariusza symulacji";
       $actroleplane->save();
 
-      $actroleplane = new ActorRolePlan();
+      $actroleplane = new CharacterRolePlan();
       $actroleplane->short = "drugoplanowa";
       $actroleplane->name = "mistrz drugiego planu";
       $actroleplane->descript = "postać wzbogacająca przebieg symulacji";

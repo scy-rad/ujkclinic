@@ -33,9 +33,9 @@ class DatabaseSeeder extends Seeder
 
           ScenarioTypesSeeder::class,
           ScenarioConsultationTemplateTypesSeeder::class,
-          ActorTypesSeeder::class,
-          ActorRolePlansSeeder::class,
-          ActorNamesSeeder::class,
+          CharacterTypesSeeder::class,
+          CharacterRolePlansSeeder::class,
+          CharacterNamesSeeder::class,
           
           ScenariosSeeder::class,
 

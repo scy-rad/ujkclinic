@@ -1,14 +1,14 @@
 <?php
-//php artisan db:seed --class=ActorNamesSeeder
+//php artisan db:seed --class=CharacterNamesSeeder
 
 namespace Database\Seeders;
 
-use App\Models\ActorFirstname;
-use App\Models\ActorLastname;
+use App\Models\CharacterFirstname;
+use App\Models\CharacterLastname;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ActorNamesSeeder extends Seeder
+class CharacterNamesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,7 +19,7 @@ class ActorNamesSeeder extends Seeder
     {
       function dodaj_imie($firstname_woman,$firstname_man,$count_woman,$count_man)
       {
-        $table = new ActorFirstname();
+        $table = new CharacterFirstname();
         $table->firstname_man=$firstname_man;
         $table->firstname_woman=$firstname_woman;
         $table->count_man=$count_man;
@@ -28,7 +28,7 @@ class ActorNamesSeeder extends Seeder
       }
       function dodaj_nazwisko($lastname_woman,$lastname_man,$count_woman,$count_man)
       {
-        $table = new ActorLastname();
+        $table = new CharacterLastname();
         $table->lastname_man=$lastname_man;
         $table->lastname_woman=$lastname_woman;
         $table->count_man=$count_man;

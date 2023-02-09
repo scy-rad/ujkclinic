@@ -40,15 +40,15 @@ php artisan make:controller ScenarioController --resource
 apply CRUD functionality for Scenarios (create, read, update, delete)
 ###################################################
 
-php artisan make:model actor -cr
-php artisan make:model actor_type -m
-php artisan make:model ActorRolePlan -m
+php artisan make:model character -cr
+php artisan make:model character_type -m
+php artisan make:model CharacterRolePlan -m
 php artisan make:migration create_actors
 
-php artisan make:seeder ActorsSeeder
-php artisan make:seeder ActorTypesSeeder
+php artisan make:seeder CharactersSeeder
+php artisan make:seeder CharacterTypesSeeder
 
-apply CRUD functionality for Actors (create, read, update, delete) - without index view
+apply CRUD functionality for Characters (create, read, update, delete) - without index view
 ###################################################
 
 php artisan make:model LaboratoryTestGroup -m
@@ -96,12 +96,12 @@ add Clock Functionality for scene
 Now scene can be started, add time by declared step with automatic apply changes, stopped
 ###################################################
 
-Add firstnames and lastnames table for actors names generator:
-php artisan make:migration create_actor_firstnames_table
-php artisan make:migration create_actor_lastnames_table
-php artisan make:model ActorFirstname
-php artisan make:model ActorLastname
-php artisan make:seeder ActorNamesSeeder
+Add firstnames and lastnames table for characters names generator:
+php artisan make:migration create_character_firstnames_table
+php artisan make:migration create_character_lastnames_table
+php artisan make:model CharacterFirstname
+php artisan make:model CharacterLastname
+php artisan make:seeder CharacterNamesSeeder
 
 ###################################################
 
@@ -119,7 +119,7 @@ Automatic ADD & EDIT actor on scene
 
 php artisan make:controller SceneActorController --resource
 
-Add ScenaActor controller (+ basic view with scene clock)
+Add ScenaCharacter controller (+ basic view with scene clock)
 
 ###################################################
 
@@ -168,3 +168,9 @@ php artisan make:model ScenarioConsultationTemplate -m
 php artisan make:model ScenarioConsultationTemplateAttachment -m
 
 Create & Edit Consultation/Diagnostic Test Template (for Scenario Character) - without attachments yet 
+
+CHANGE ACTOR TO CHARACTER (models, controller, datatables)
+
+testing flmngr https://pluginza.com/plugins/file-manager
+
+

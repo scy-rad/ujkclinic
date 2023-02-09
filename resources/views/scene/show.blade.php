@@ -125,7 +125,7 @@
               </div>
 
               <button class="btn btn-warning btn-lg" onClick="javascript:showSceneModal()"> <h1><i class="bi bi-hospital"></i> Edytuj scenę</h1> </button>
-              <button class="btn btn-warning btn-lg" onClick="javascript:showActorModal(0)"> <h1><i class="bi bi-incognito"></i> Dodaj aktora</h1> </button>
+              <button class="btn btn-warning btn-lg" onClick="javascript:showCharacterModal(0)"> <h1><i class="bi bi-incognito"></i> Dodaj aktora</h1> </button>
               @if ($free_personels->count()>0)
               <button class="btn btn-warning btn-lg" onClick="javascript:showPersonelModal(0)"> <h1><i class="bi bi-mortarboard-fill"></i> Dodaj personel</h1> </button>
               @endif
@@ -143,19 +143,19 @@
 
 <div class="row">
   <div class="col-2">
-    @foreach ($actors as $actor)
-    @if ((Auth::user()->hasRoleCode('technicians')) || (!is_null($actor->sa_incoming_date)))
+    @foreach ($scene_actors as $sa_one)
+    @if ((Auth::user()->hasRoleCode('technicians')) || (!is_null($sa_one->sa_incoming_date)))
       <div class="card mb-3">
         <div class="card-header">
           <i class="bi bi-file-person"></i>
-          {{$actor->sa_name}}
+          {{$sa_one->sa_name}}
         </div>
-        {{$actor->sa_actor_role_name}}
-        @if (!is_null($actor->sa_incoming_date))
-          <a href="{{ route('sceneactor.show',$actor->id) }}" class="btn btn-success btn-sm" > <i class="bi bi-incognito"></i> wybierz </a>
+        {{$sa_one->sa_role_name}}
+        @if (!is_null($sa_one->sa_incoming_date))
+          <a href="{{ route('sceneactor.show',$sa_one->id) }}" class="btn btn-success btn-sm" > <i class="bi bi-incognito"></i> wybierz </a>
         @else
-          <button class="btn btn-warning btn-sm" onClick="javascript:showActorModal({{$actor->id}})"> <i class="bi bi-incognito"></i> edytuj </button>
-          <form action="{{ route('sceneactor.update',$actor->id) }}" method="POST" enctype="multipart/form-data">
+          <button class="btn btn-warning btn-sm" onClick="javascript:showCharacterModal({{$sa_one->id}})"> <i class="bi bi-incognito"></i> edytuj </button>
+          <form action="{{ route('sceneactor.update',$sa_one->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <input type="hidden" name="action" value="registry">

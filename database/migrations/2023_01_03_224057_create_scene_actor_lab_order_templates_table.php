@@ -17,7 +17,7 @@ return new class extends Migration
           $table->id();
           $table->unsignedBigInteger('scene_actor_id');
           $table->unsignedBigInteger('lab_order_template_id')->nullable();
-          $table->Integer('salot_lrt_minutes_before')->default(0);
+          $table->Integer('salot_lrt_minutes_before')->nullable();
           $table->string('salo_descript')->nullable();
           $table->timestamps();
       });

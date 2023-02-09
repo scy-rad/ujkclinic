@@ -1,17 +1,17 @@
 <?php
   // scene_master_id
-  // actor_id
+  // character_id
   // sa_incoming_date
   // sa_incoming_recalculate
   // sa_main_book
   // sa_name
   // sa_birth_date
   // sa_PESEL
-  // sa_actor_sex  // 2 - mężczyzna,  3 - kobieta
-  // sa_actor_nn
-  // sa_actor_role_name
+  // sa_sex  // 2 - mężczyzna,  3 - kobieta
+  // sa_nn
+  // sa_role_name
   // sa_history_for_actor
-  // sa_actor_simulation
+  // sa_simulation
 ?>
 
 
@@ -26,7 +26,7 @@
 
         </div>
         <div class="float-end">
-          <button class="btn btn-outline-success ms-10 float-end" onClick="javascript:proposeActor()">generuj</button>
+          <button class="btn btn-outline-success ms-10 float-end" onClick="javascript:proposeCharacter()">generuj</button>
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -40,7 +40,7 @@
             </div>
 
             <input type="hidden" name="scene_master_id" value="{{$scene->id}}">
-            <input type="hidden" id="actor_id" name="id" value="">
+            <input type="hidden" id="character_id" name="id" value="">
             
 
             <div class="row mb-3">
@@ -60,9 +60,9 @@
             </div>
             <div class="row mb-3">
               <div class="col-4">
-              <input type="hidden" id="sa_actor_sex_start" value="0">
-              <label for="sa_actor_sex" class="form-label">płeć:</label>
-                <select id="sa_actor_sex" name="sa_actor_sex" class="form-select">
+              <input type="hidden" id="sa_sex_start" value="0">
+              <label for="sa_sex" class="form-label">płeć:</label>
+                <select id="sa_sex" name="sa_sex" class="form-select">
                   <option value="2">mężczyzna</option>
                   <option value="3">kobieta</option>
                 </select>
@@ -83,14 +83,14 @@
                 <input type="text" id="sa_PESEL" name="sa_PESEL" class="form-control" placeholder="nr PESEL" value="">
               </div>
               <div class="col-2">
-                <label for="sa_actor_nn" class="form-label">czy NN:</label>
-                <input type="text" id="sa_actor_nn" name="sa_actor_nn" class="form-control" placeholder="czy NN" value="0">
+                <label for="sa_nn" class="form-label">czy NN:</label>
+                <input type="text" id="sa_nn" name="sa_nn" class="form-control" placeholder="czy NN" value="0">
               </div>
             </div>
             <div class="row mb-3">
               <div class="col-12">
-                <label for="sa_actor_role_name" class="form-label">nazwa roli:</label>
-                <input type="text" id="sa_actor_role_name" name="sa_actor_role_name" class="form-control" placeholder="nazwa roli" value="">
+                <label for="sa_role_name" class="form-label">nazwa roli:</label>
+                <input type="text" id="sa_role_name" name="sa_role_name" class="form-control" placeholder="nazwa roli" value="">
               </div>
             </div>
             <div class="row mb-3">
@@ -101,8 +101,8 @@
             </div>
             <div class="row mb-3">
               <div class="col-12">
-                <label for="sa_actor_simulation" class="form-label">charakteryzacja aktora:</label>
-                <textarea id="sa_actor_simulation" name="sa_actor_simulation" class="form-control"></textarea>
+                <label for="sa_simulation" class="form-label">charakteryzacja aktora:</label>
+                <textarea id="sa_simulation" name="sa_simulation" class="form-control"></textarea>
               </div>
             </div>
             <div class="mb-3 text-center">
@@ -116,20 +116,20 @@
 </div>
 
 <script type="text/javascript">
-  function showActorModal(idvalue)
+  function showCharacterModal(idvalue)
   {
     $.ajax({
             type:'GET',
             url:"{{ route('scene.get_scene_ajax') }}",
-            data:{idvalue:idvalue,what:'actor'},
+            data:{idvalue:idvalue,what:'character'},
             success:function(data){
                 if($.isEmptyObject(data.error))
                 {
                   // alert(JSON.stringify(data, null, 4));
-                  if (data.scene_data.sa_actor_sex>0)
+                  if (data.scene_data.sa_sex>0)
                   {
                     $('#SceneActorTitle').html('Edycja aktora: '+data.scene_data.id);
-                    $('#actor_id').val(data.scene_data.id);
+                    $('#character_id').val(data.scene_data.id);
                     $('#sa_incoming_date').val(data.scene_data.sa_incoming_date);
                     $('#sa_incoming_recalculate').val(data.scene_data.sa_incoming_recalculate);
                     $('#sa_main_book').val(data.scene_data.sa_main_book);
@@ -137,17 +137,17 @@
                     $('#sa_birth_date').val(data.scene_data.sa_birth_date);
                     $('#sa_birth_date_start').val(data.scene_data.sa_birth_date);
                     $('#sa_PESEL').val(data.scene_data.sa_PESEL);
-                    $('#sa_actor_sex').val(data.scene_data.sa_actor_sex);
-                    $('#sa_actor_sex_start').val(data.scene_data.sa_actor_sex);
-                    $('#sa_actor_nn').val(data.scene_data.sa_actor_nn);                  
-                    $('#sa_actor_role_name').val(data.scene_data.sa_actor_role_name);
+                    $('#sa_sex').val(data.scene_data.sa_sex);
+                    $('#sa_sex_start').val(data.scene_data.sa_sex);
+                    $('#sa_nn').val(data.scene_data.sa_nn);                  
+                    $('#sa_role_name').val(data.scene_data.sa_role_name);
                     $('#sa_history_for_actor').val(data.scene_data.sa_history_for_actor);
-                    $('#sa_actor_simulation').val(data.scene_data.sa_actor_simulation);
+                    $('#sa_simulation').val(data.scene_data.sa_simulation);
                   }
                   else
                   {
                     $('#SceneActorTitle').html('Dodawanie aktora');
-                    $('#actor_id').val(data.scene_data.id);
+                    $('#character_id').val(data.scene_data.id);
                     $('#sa_incoming_date').val(data.scene_data.sa_incoming_date);
                     $('#sa_incoming_recalculate').val(0);
                     $('#sa_main_book').val(data.scene_data.sa_main_book);
@@ -155,12 +155,12 @@
                     $('#sa_birth_date').val(data.scene_data.sa_birth_date);
                     $('#sa_birth_date_start').val(data.scene_data.sa_birth_date);
                     $('#sa_PESEL').val(data.scene_data.sa_PESEL);
-                    // $('#sa_actor_sex').val(data.scene_data.sa_actor_sex);
-                    $('#sa_actor_sex_start').val(data.scene_data.sa_actor_sex);
-                    $('#sa_actor_nn').val(0);                  
-                    $('#sa_actor_role_name').val(data.scene_data.sa_actor_role_name);
+                    // $('#sa_sex').val(data.scene_data.sa_sex);
+                    $('#sa_sex_start').val(data.scene_data.sa_sex);
+                    $('#sa_nn').val(0);                  
+                    $('#sa_role_name').val(data.scene_data.sa_role_name);
                     $('#sa_history_for_actor').val(data.scene_data.sa_history_for_actor);
-                    $('#sa_actor_simulation').val(data.scene_data.sa_actor_simulation);
+                    $('#sa_simulation').val(data.scene_data.sa_simulation);
                   }
                 }
                 else
@@ -173,14 +173,14 @@
     $('#SceneActor').modal('show');
   }
 
-  function proposeActor()
+  function proposeCharacter()
   {
     $.ajax({
             type:'GET',
             url:"{{ route('scene.get_scene_ajax') }}",
-            data:{actor_sex:$('#sa_actor_sex').val(),
+            data:{character_sex:$('#sa_sex').val(),
               birth_date:$('#sa_birth_date').val(),
-              what:'actor_propose'},
+              what:'character_propose'},
             success:function(data){
                 if($.isEmptyObject(data.error)){
                   // alert(JSON.stringify(data, null, 4));

@@ -3,15 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\ActorFirstname;
-use App\Models\ActorLastname;
+use App\Models\CharacterFirstname;
+use App\Models\CharacterLastname;
 use DateTime;
 
 class SceneActor extends Model
 {
   protected $fillable = [
     'scene_master_id',
-    'actor_id',
+    'character_id',
     'sa_incoming_date',
     'sa_incoming_recalculate',
     'sa_main_book',
@@ -20,20 +20,20 @@ class SceneActor extends Model
     'sa_age',
     'sa_age_txt',
     'sa_PESEL',
-    'sa_actor_sex',
-    'sa_actor_nn',
-    'sa_actor_role_name',
+    'sa_sex',
+    'sa_nn',
+    'sa_role_name',
     'sa_history_for_actor',
-    'sa_actor_simulation'
+    'sa_simulation'
   ];
   
   public function scene()
   {
     return $this->hasOne(SceneMaster::class, 'id', 'scene_master_id');
   }
-  public function actor_template()
+  public function character_template()
   {
-    return $this->hasOne(Actor::class, 'id', 'actor_id');
+    return $this->hasOne(Character::class, 'id', 'character_id');
   }
   public function scene_actor_lab_order_templates() 
   {
@@ -43,7 +43,7 @@ class SceneActor extends Model
 
   public function sex_name()
   {
-    switch ($this->sa_actor_sex)
+    switch ($this->sa_sex)
       {
         case 2 : $ret_txt = 'mężczyzna'; break;
         case 3 : $ret_txt = 'kobieta'; break;
@@ -59,7 +59,7 @@ class SceneActor extends Model
         return $obj;
   }
 
-  public static function random_actor($birthDate,$actor_sex)
+  public static function random_actor($birthDate,$character_sex)
   {
     if((strtotime(date('Y-m-d H:i:s'))-strtotime($birthDate))/(60*60*24)<14)  //dni
       $is_child=true;
@@ -67,28 +67,28 @@ class SceneActor extends Model
       $is_child=false;
 
   $sex=rand(0,4)*2;
-  if ($actor_sex==1)        // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
-    $actor_sex=rand(2,3);
-  if ($actor_sex==2)
+  if ($character_sex==1)        // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
+    $character_sex=rand(2,3);
+  if ($character_sex==2)
     {
     $sex++; // for right sex digit in PESEL
     if ($is_child)
     {
-      $mother=ActorFirstname::inRandomOrder()->first()->firstname_woman;
-      $ret['name']=ActorLastname::inRandomOrder()->first()->lastname_man.' "syn" '.substr($mother,0,strlen($mother)-1).'y';
+      $mother=CharacterFirstname::inRandomOrder()->first()->firstname_woman;
+      $ret['name']=CharacterLastname::inRandomOrder()->first()->lastname_man.' "syn" '.substr($mother,0,strlen($mother)-1).'y';
     }
     else
-      $ret['name']=ActorFirstname::inRandomOrder()->first()->firstname_man.' '.ActorLastname::inRandomOrder()->first()->lastname_man;
+      $ret['name']=CharacterFirstname::inRandomOrder()->first()->firstname_man.' '.CharacterLastname::inRandomOrder()->first()->lastname_man;
     }
   else
     {
       if ($is_child)
       {
-        $mother=ActorFirstname::inRandomOrder()->first()->firstname_woman;
-        $ret['name']=ActorLastname::inRandomOrder()->first()->lastname_woman.' "córka" '.substr($mother,0,strlen($mother)-1).'y';
+        $mother=CharacterFirstname::inRandomOrder()->first()->firstname_woman;
+        $ret['name']=CharacterLastname::inRandomOrder()->first()->lastname_woman.' "córka" '.substr($mother,0,strlen($mother)-1).'y';
       }
     else
-      $ret['name']=ActorFirstname::inRandomOrder()->first()->firstname_woman.' '.ActorLastname::inRandomOrder()->first()->lastname_woman;
+      $ret['name']=CharacterFirstname::inRandomOrder()->first()->firstname_woman.' '.CharacterLastname::inRandomOrder()->first()->lastname_woman;
     }
 
   $birthTime=strtotime($birthDate);
@@ -115,8 +115,8 @@ class SceneActor extends Model
     $ret['PESEL'] = '00000000000';
   else
     $ret['PESEL'] = $digits_number.$checksum;
-  $ret['actor_sex'] = $actor_sex;
-  $ret['actor_birth'] = $birthDate;
+  $ret['character_sex'] = $character_sex;
+  $ret['character_birth'] = $birthDate;
   
 
 
@@ -127,16 +127,16 @@ class SceneActor extends Model
 }
 
 
-public static function create_actor($scene_id,$actor_id,$actor_birth_date,$actor_PESEL,$actor_name,$actor_sex,$actor_incoming_date,$actor_incoming_recalculate,$actor_nn,$actor_role_name,$actor_history_for_actor,$actor_simulation)
+public static function create_actor($scene_id,$character_id,$character_birth_date,$character_PESEL,$character_name,$character_sex,$character_incoming_date,$character_incoming_recalculate,$character_nn,$character_role_name,$character_history_for_actor,$character_simulation)
   {
     $SceneActor = new SceneActor();
 
     $SceneActor->scene_master_id = $scene_id;
 
     $secondDate = new DateTime(date('Y-m-d 00:00:00'));
-    $firstDate = new DateTime(date('Y-m-d H:i:s',strtotime($actor_birth_date)));
+    $firstDate = new DateTime(date('Y-m-d H:i:s',strtotime($character_birth_date)));
 
-    $ret['losowanie']=json_decode(SceneActor::random_actor($firstDate->format('Y-m-d'),$actor_sex),true);
+    $ret['losowanie']=json_decode(SceneActor::random_actor($firstDate->format('Y-m-d'),$character_sex),true);
 
     // $ret['diff'] = $firstDate->diff($secondDate);
     $ret['years'] = $firstDate->diff($secondDate)->y;
@@ -154,31 +154,31 @@ public static function create_actor($scene_id,$actor_id,$actor_birth_date,$actor
     else
       $SceneActor->sa_age_txt= $ret['days'].' d.';
 
-    $SceneActor->actor_id = $actor_id;
-    $SceneActor->sa_incoming_date = $actor_incoming_date;
-    $SceneActor->sa_incoming_recalculate = $actor_incoming_recalculate;
+    $SceneActor->character_id = $character_id;
+    $SceneActor->sa_incoming_date = $character_incoming_date;
+    $SceneActor->sa_incoming_recalculate = $character_incoming_recalculate;
     do
     {
       $SceneActor->sa_main_book = str_pad(rand(date('z')*30,date('z')*35), 5, 0, STR_PAD_LEFT).'/medUJK/'.date('y');
     }
     while (SceneActor::where('sa_main_book',$SceneActor->sa_main_book)->count() > 0);
 
-    if ($actor_name=="")
+    if ($character_name=="")
       $SceneActor->sa_name = $ret['losowanie']['name'];
     else
-      $SceneActor->sa_name = $actor_name;
+      $SceneActor->sa_name = $character_name;
     $SceneActor->sa_birth_date = $firstDate->format('Y-m-d H:i:s');
-    $SceneActor->sa_age = (strtotime(date('Y-m-d H:i:s')) - strtotime($actor_birth_date))/(60*60*24);
+    $SceneActor->sa_age = (strtotime(date('Y-m-d H:i:s')) - strtotime($character_birth_date))/(60*60*24);
     // sa_age_txt
-    if ($actor_PESEL=="")
+    if ($character_PESEL=="")
       $SceneActor->sa_PESEL = $ret['losowanie']['PESEL'];
     else
-      $SceneActor->sa_PESEL = $actor_PESEL;
-    $SceneActor->sa_actor_sex = $ret['losowanie']['actor_sex'];
-    $SceneActor->sa_actor_nn = $actor_nn;
-    $SceneActor->sa_actor_role_name = $actor_role_name;
-    $SceneActor->sa_history_for_actor = $actor_history_for_actor;
-    $SceneActor->sa_actor_simulation = $actor_simulation;
+      $SceneActor->sa_PESEL = $character_PESEL;
+    $SceneActor->sa_sex = $ret['losowanie']['character_sex'];
+    $SceneActor->sa_nn = $character_nn;
+    $SceneActor->sa_role_name = $character_role_name;
+    $SceneActor->sa_history_for_actor = $character_history_for_actor;
+    $SceneActor->sa_simulation = $character_simulation;
 
     $SceneActor->save();
 

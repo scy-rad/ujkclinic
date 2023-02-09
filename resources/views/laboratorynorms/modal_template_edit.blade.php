@@ -13,7 +13,7 @@
             </div>
 
               <input type="hidden" name="id" required="required" value="{{$lab_order_template->id}}">
-              <input type="hidden" name="actor_id" required="required" value="{{$actor_id}}">
+              <input type="hidden" name="character_id" required="required" value="{{$character_id}}">
 
             <div class="row mb-3">
               <div class="col-5">

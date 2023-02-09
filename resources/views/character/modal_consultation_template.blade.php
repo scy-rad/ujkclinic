@@ -6,14 +6,14 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>  <!-- modal-header -->
       <div class="modal-body">
-        <form action="{{ route('actor.scenario_actor_save_ajax')}}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('character.scenario_character_save_ajax')}}" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="alert alert-danger print-error-msg" style="display:none">
                 <ul></ul>
             </div>
 
               <input type="hidden" name="id" id="cons_id" value="">
-              <input type="hidden" name="actor_id" value="{{$actor_id}}">
+              <input type="hidden" name="character_id" value="{{$character_id}}">
               <input type="hidden" name="action" value="consultation_template">
 
             <div class="row mb-3">
@@ -73,7 +73,7 @@
 
     $.ajax({
             type:'GET',
-            url:"{{ route('actor.scenario_actor_get_ajax') }}",
+            url:"{{ route('character.scenario_character_get_ajax') }}",
             data:{idvalue:idvalue,what:'consultation'},
             success:function(data){
                 if($.isEmptyObject(data.error))

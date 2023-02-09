@@ -20,17 +20,17 @@ return new class extends Migration
 
         Schema::create('lab_order_templates', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('actor_id')->nullable();
+            $table->unsignedBigInteger('character_id')->nullable();
             $table->string('description_for_leader');
-            $table->Integer('lrt_minutes_before')->default(0);
+            $table->Integer('lrt_minutes_before')->nullable();
             $table->smallInteger('lrt_type')->default(2);
             $table->smallInteger('lrt_sort')->default(1);
             $table->timestamps();
         });
         Schema::table('lab_order_templates', function (Blueprint $table) {
-          $table->foreign('actor_id')
+          $table->foreign('character_id')
               ->references('id')
-              ->on('actors');
+              ->on('characters');
         });
 
     }
@@ -43,7 +43,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('lab_order_templates', function (Blueprint $table) {
-          $table->dropForeign(['actor_id']);
+          $table->dropForeign(['character_id']);
           });
         Schema::dropIfExists('lab_order_templates');
     }

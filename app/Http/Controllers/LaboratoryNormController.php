@@ -165,9 +165,9 @@ class LaboratoryNormController extends Controller
     $lab_order_template=LabOrderTemplate::where('id',$id_lrt)->first();
     $lab_order_template_results=LabResultTemplate::where('lab_order_template_id',$lab_order_template->id)->get();
     $result_type=LabResultTemplate::array_of_types();
-    $actor_id=$lab_order_template->actor->id;
+    $character_id=$lab_order_template->character->id;
 
-    return view('laboratorynorms.template',compact('lab_order_template'),['lab_order_template_results' => $lab_order_template_results, 'result_type' => $result_type, 'actor_id' => $actor_id]);    
+    return view('laboratorynorms.template',compact('lab_order_template'),['lab_order_template_results' => $lab_order_template_results, 'result_type' => $result_type, 'character_id' => $character_id]);    
   }
 
   public function update_laboratory_norm_template_ajax(Request $request)

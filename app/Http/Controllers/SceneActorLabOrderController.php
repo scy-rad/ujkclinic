@@ -42,7 +42,7 @@ class SceneActorLabOrderController extends Controller
     public function store(Request $request)
     {
 
-      // $actor=SceneActor::where('id',$request->scene_actor_id)->first();
+      // $character=SceneActor::where('id',$request->scene_actor_id)->first();
       $scene=SceneActor::where('id',$request->scene_actor_id)->first()->scene()->first();
       
       // dump($scene);
@@ -73,8 +73,8 @@ class SceneActorLabOrderController extends Controller
                   $new_result->salr_lo_sort = $lab_one->laboratory_order->lo_sort;
                   $new_result->salr_log_sort = $lab_one->laboratory_order->laboratory_order_group->log_sort;
                   // $new_result->laboratory_test_norm_id = LaboratoryTestNorm::where('laboratory_test_id',$lab_one->id)
-                  // ->where('ltn_days_from','<=',$actor=>sa_age)
-                  // ->where('ltn_days_to','<=',$actor=<sa_age)
+                  // ->where('ltn_days_from','<=',$character=>sa_age)
+                  // ->where('ltn_days_to','<=',$character=<sa_age)
                   // ->first()->id;
                   // ; 
                   // $new_result->salr_result

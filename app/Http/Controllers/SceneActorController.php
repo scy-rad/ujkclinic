@@ -112,12 +112,12 @@ dd('nic');
 
 
 
-    public function actor_scene_save_ajax(Request $request)
+    public function character_scene_save_ajax(Request $request)
     {
       if ((!Auth::user()->hasRoleCode('technicians'))
       // && (!Auth::user()->hasRoleCode('coordinators'))
       )
-      return back()->withErrors('błąd wywołania funkcji actor_scene_ajax_update kontrolera Scene. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+      return back()->withErrors('błąd wywołania funkcji character_scene_ajax_update kontrolera Scene. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
 
       $request->validate([
         'scene_master_id' => 'required',
@@ -132,7 +132,7 @@ dd('nic');
       }
       else
       {
-          $retSA = SceneActor::create_actor($request->scene_master_id,null,$request->sa_birth_date,$request->sa_PESEL,$request->sa_name,$request->sa_actor_sex,$request->sa_incoming_date,$request->sa_incoming_recalculate,$request->sa_actor_nn,$request->sa_actor_role_name,$request->sa_history_for_actor,$request->sa_actor_simulation);
+          $retSA = SceneActor::create_actor($request->scene_master_id,null,$request->sa_birth_date,$request->sa_PESEL,$request->sa_name,$request->sa_sex,$request->sa_incoming_date,$request->sa_incoming_recalculate,$request->sa_nn,$request->sa_role_name,$request->sa_history_for_actor,$request->sa_simulation);
 
       // SceneActor::create($request->post());
       \Illuminate\Support\Facades\Session::flash('success', 'Scene actor has been created probably successfully :) ');

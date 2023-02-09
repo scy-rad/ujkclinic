@@ -1,17 +1,17 @@
 <?php
   // scene_master_id
-  // actor_id
+  // character_id
   // sa_incoming_date
   // sa_incoming_recalculate
   // sa_main_book
   // sa_name
   // sa_birth_date
   // sa_PESEL
-  // sa_actor_sex  // 2 - mężczyzna,  3 - kobieta
-  // sa_actor_nn
-  // sa_actor_role_name
+  // sa_sex  // 2 - mężczyzna,  3 - kobieta
+  // sa_nn
+  // sa_role_name
   // sa_history_for_actor
-  // sa_actor_simulation
+  // sa_simulation
 ?>
 
 
@@ -31,7 +31,7 @@
                 <ul></ul>
             </div>
 
-            <input type="hidden" id="actor_id" name="scene_actor_id" value="{{$sceneactor->id}}">
+            <input type="hidden" id="character_id" name="scene_actor_id" value="{{$sceneactor->id}}">
 
             <div class="row mb-3">
               <div class="col col-auto">
@@ -79,14 +79,14 @@
     $('#LabOrder').modal('show');
   }
 
-  function proposeActor()
+  function proposeCharacter()
   {
     $.ajax({
             type:'GET',
             url:"{{ route('scene.get_scene_ajax') }}",
-            data:{actor_sex:$('#sa_actor_sex').val(),
+            data:{character_sex:$('#sa_sex').val(),
               birth_date:$('#sa_birth_date').val(),
-              what:'actor_propose'},
+              what:'character_propose'},
             success:function(data){
                 if($.isEmptyObject(data.error)){
                   // alert(JSON.stringify(data, null, 4));

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ScenarioConsultationTemplate extends Model
 {
   protected $fillable = [
-    'actor_id',
+    'character_id',
     'sctt_id',
     'sct_type_details',
     'sct_reason',

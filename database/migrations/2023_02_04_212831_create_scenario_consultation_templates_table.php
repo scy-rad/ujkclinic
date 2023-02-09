@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('scenario_consultation_templates', function (Blueprint $table) {
           $table->id();
-          $table->unsignedBigInteger('actor_id')->nullable();
+          $table->unsignedBigInteger('character_id')->nullable();
           $table->unsignedBigInteger('sctt_id');
           $table->string('sct_type_details');
           $table->string('sct_reason');
@@ -26,9 +26,9 @@ return new class extends Migration
           $table->timestamps();
       });
       Schema::table('scenario_consultation_templates', function (Blueprint $table) {
-        $table->foreign('actor_id')
+        $table->foreign('character_id')
             ->references('id')
-            ->on('actors');
+            ->on('characters');
       });
       Schema::table('scenario_consultation_templates', function (Blueprint $table) {
         $table->foreign('sctt_id')
@@ -49,7 +49,7 @@ return new class extends Migration
       $table->dropForeign(['sctt_id']);
       });
     Schema::table('scenario_consultation_templates', function (Blueprint $table) {
-      $table->dropForeign(['actor_id']);
+      $table->dropForeign(['character_id']);
       });
     Schema::dropIfExists('scenario_consultation_templates');
   }

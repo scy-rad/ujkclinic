@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class LabOrderTemplate extends Model
 {
   protected $fillable = [
-    'actor_id',
+    'character_id',
     'description_for_leader',	
     'lrt_minutes_before',
     'lrt_type',	
@@ -18,9 +18,9 @@ class LabOrderTemplate extends Model
     {
       return $this->hasMany(LabResultTemplate::class);
     }
-    public function actor()
+    public function character()
     {
-      return $this->hasOne(actor::class, 'id', 'actor_id');
+      return $this->hasOne(character::class, 'id', 'character_id');
     }
     public function name_of_type()
     {

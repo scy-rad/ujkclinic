@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Actor;
+use App\Models\Character;
 use App\Models\ScenarioConsultationTemplate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
-class ActorController extends Controller
+class CharacterController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class ActorController extends Controller
      */
     public function create(Request $request)
     {
-      return view('actor.create',['scenario_id' => $request->scenario_id]);
+      return view('character.create',['scenario_id' => $request->scenario_id]);
     }
 
     /**
@@ -39,100 +39,100 @@ class ActorController extends Controller
     public function store(Request $request)
     {
       $request->validate([
-        'actor_age_from' => 'required',
-        'actor_age_to' => 'required',
-        'actor_age_interval' => 'required',
-        'actor_sex' => 'required',
-        'actor_role_plan_id' => 'required',
-        'actor_role_name' => 'required',
-        'actor_type_id' => 'required',
+        'character_age_from' => 'required',
+        'character_age_to' => 'required',
+        'character_age_interval' => 'required',
+        'character_sex' => 'required',
+        'character_role_plan_id' => 'required',
+        'character_role_name' => 'required',
+        'character_type_id' => 'required',
         'history_for_actor' => 'required',
-        'actor_simulation' => 'required'
+        'character_simulation' => 'required'
         ]);
 
-      $actor=Actor::create($request->post());
+      $character=Character::create($request->post());
 
-      \Illuminate\Support\Facades\Session::flash('success', 'Actor has been created successfully.'); 
+      \Illuminate\Support\Facades\Session::flash('success', 'Character has been created successfully.'); 
 
-      return view('actor.show',compact('actor'));
+      return view('character.show',compact('character'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\actor  $actor
+     * @param  \App\Models\character  $character
      * @return \Illuminate\Http\Response
      */
-    public function show(actor $actor)
+    public function show(character $character)
     {
-      return view('actor.show',compact('actor'));
+      return view('character.show',compact('character'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\actor  $actor
+     * @param  \App\Models\character  $character
      * @return \Illuminate\Http\Response
      */
-    public function edit(actor $actor)
+    public function edit(character $character)
     {
-      $ret['scenario_id']=$actor->scenario_id;
-      return view('actor.edit',compact('actor'),$ret);
+      $ret['scenario_id']=$character->scenario_id;
+      return view('character.edit',compact('character'),$ret);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\actor  $actor
+     * @param  \App\Models\character  $character
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, actor $actor)
+    public function update(Request $request, character $character)
     {
       $request->validate([
-        'actor_age_from' => 'required',
-        'actor_age_to' => 'required',
-        'actor_age_interval' => 'required',
-        'actor_sex' => 'required',
-        'actor_role_plan_id' => 'required',
-        'actor_role_name' => 'required',
-        'actor_type_id' => 'required',
+        'character_age_from' => 'required',
+        'character_age_to' => 'required',
+        'character_age_interval' => 'required',
+        'character_sex' => 'required',
+        'character_role_plan_id' => 'required',
+        'character_role_name' => 'required',
+        'character_type_id' => 'required',
         'history_for_actor' => 'required',
-        'actor_simulation' => 'required'
+        'character_simulation' => 'required'
         ]);
 
-      $actor->fill($request->post())->save();
+      $character->fill($request->post())->save();
 
-      \Illuminate\Support\Facades\Session::flash('success', 'Actor has been updated successfully.'); 
+      \Illuminate\Support\Facades\Session::flash('success', 'Character has been updated successfully.'); 
 
-      return view('actor.show',compact('actor'));
+      return view('character.show',compact('character'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\actor  $actor
+     * @param  \App\Models\character  $character
      * @return \Illuminate\Http\Response
      */
-    public function destroy(actor $actor)
+    public function destroy(character $character)
     {
-      $toback=$actor->scenario_id;
-      $actor->delete();
+      $toback=$character->scenario_id;
+      $character->delete();
 
-      \Illuminate\Support\Facades\Session::flash('success', 'Actor has been deleted successfully'); 
+      \Illuminate\Support\Facades\Session::flash('success', 'Character has been deleted successfully'); 
 
       return redirect()->route('scenario.show',$toback);
     }
 
 
 
-    public function scenario_actor_get_ajax(Request $request)
+    public function scenario_character_get_ajax(Request $request)
     {
       if ((!Auth::user()->hasRoleCode('technicians'))
       )
-      return response()->json('błąd wywołania funkcji scenario_actor_get_ajax kontrolera Actor. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)')  ;
+      return response()->json('błąd wywołania funkcji scenario_character_get_ajax kontrolera Character. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)')  ;
 
-      $ret = 'coś nie poszło w scenario_actor_get_ajax: '.$request->what;
+      $ret = 'coś nie poszło w scenario_character_get_ajax: '.$request->what;
 
       switch ($request->what)
       {
@@ -155,11 +155,11 @@ class ActorController extends Controller
 
     }
 
-    public function scenario_actor_save_ajax(Request $request)
+    public function scenario_character_save_ajax(Request $request)
     {
       if ((!Auth::user()->hasRoleCode('technicians'))
       )
-      return back()->withErrors('błąd wywołania funkcji scenario_actorsave_ajax kontrolera Actor. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+      return back()->withErrors('błąd wywołania funkcji scenario_character_save_ajax kontrolera Character. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
 
 
       switch ($request->action)
@@ -184,7 +184,7 @@ class ActorController extends Controller
               $tab=new ScenarioConsultationTemplate;
               $tab->fill($request->post())->save();  
               
-                // $retSA = SceneActor::create_actor($request->scene_master_id,null,$request->sa_birth_date,$request->sa_PESEL,$request->sa_name,$request->sa_actor_sex,$request->sa_incoming_date,$request->sa_incoming_recalculate,$request->sa_actor_nn,$request->sa_actor_role_name,$request->sa_history_for_actor,$request->sa_actor_simulation);
+                // $retSA = SceneActor::create_actor($request->scene_master_id,null,$request->sa_birth_date,$request->sa_PESEL,$request->sa_name,$request->sa_sex,$request->sa_incoming_date,$request->sa_incoming_recalculate,$request->sa_nn,$request->sa_role_name,$request->sa_history_for_actor,$request->sa_simulation);
       
             // SceneActor::create($request->post());
             \Illuminate\Support\Facades\Session::flash('success', 'Scenario Consultation Template has been created probably successfully :) ');
@@ -192,9 +192,9 @@ class ActorController extends Controller
         break;
         
         default:
-        \Illuminate\Support\Facades\Session::flash('error', 'Save somthing about Actor not done... Sorry... :D ');
+        \Illuminate\Support\Facades\Session::flash('error', 'Save somthing about Character not done... Sorry... :D ');
       }
-      return Redirect::route('actor.show',$request->actor_id);
+      return Redirect::route('character.show',$request->character_id);
     }
 
 

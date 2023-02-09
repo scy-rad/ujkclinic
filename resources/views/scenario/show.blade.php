@@ -54,48 +54,48 @@
               <a class="btn btn-primary m-1" href="{{ route('scenario.edit',$scenario->id) }}"><i class="bi bi-camera-reels"></i> Edytuj</a>
           </div>
           <div class="col-auto">
-            <a class="btn btn-success m-1" href="{{ route('actor.create',['scenario_id' => $scenario->id]) }}"><i class="bi bi-incognito"></i> Dodaj aktora</a>
+            <a class="btn btn-success m-1" href="{{ route('character.create',['scenario_id' => $scenario->id]) }}"><i class="bi bi-incognito"></i> Dodaj aktora</a>
           </div>
         </div>
       </div>
     </div>
   </div>
-  @if (!(is_null($actors)))
-  @foreach ($actors as $actor_one)
+  @if (!(is_null($characters)))
+  @foreach ($characters as $character_one)
   <div class="col-4 p-2">
     <div class="card">
       <div class="card-header">
-      <i class="bi bi-incognito"></i> Aktor dla scenariusza <strong>{{$scenario->scenario_code}}</strong>
+      <i class="bi bi-incognito"></i> Postać dla scenariusza <strong>{{$scenario->scenario_code}}</strong>
       </div>
       <div class="card-body">
 
-        <h4><label>nazwa roli:</label><br>{{$actor_one->actor_role_name}}</h4>
+        <h4><label>nazwa roli:</label><br>{{$character_one->character_role_name}}</h4>
 
         <p><label>rola:</label><br>
-          {{$actor_one->actor_role_plan->short}}
+          {{$character_one->character_role_plan->short}}
         </p>
-        <p><label>rodzaj aktora:</label><br>
-          {{$actor_one->actor_type->name}}
+        <p><label>rodzaj postaci:</label><br>
+          {{$character_one->character_type->name}}
         </p>
         <p><label>wiek:</label><br>
-          {{$actor_one->actor_age_from}} - {{$actor_one->actor_age_to}} {{$actor_one->age_interval_name()}}
+          {{$character_one->character_age_from}} - {{$character_one->character_age_to}} {{$character_one->age_interval_name()}}
         </p>
         <p><label>płeć:</label><br>
-          {{$actor_one->sex_name()}}
+          {{$character_one->sex_name()}}
         </p>
         <p><label>historia dla aktora:</label><br>
-          {!! $actor_one->history_for_actor !!}
+          {!! $character_one->history_for_actor !!}
         </p>
         <p><label>opis pozoracji:</label><br>
-          {!! $actor_one->actor_simulation !!}
+          {!! $character_one->character_simulation !!}
         </p>
         <label>szablony:</label>
         <ul>
-          @if ($actor_one->lab_order_templates->count()>0)
-            <li><label class="small text-primary fw-bold">badań laboratoryjnych:</label> {{$actor_one->lab_order_templates->count()}} </li>
+          @if ($character_one->lab_order_templates->count()>0)
+            <li><label class="small text-primary fw-bold">badań laboratoryjnych:</label> {{$character_one->lab_order_templates->count()}} </li>
           @endif
-          @if ($actor_one->consultation_templates->count()>0)
-            <li><label class="small text-primary fw-bold">konsultacji/diagnostyki:</label> {{$actor_one->consultation_templates->count()}} </li>
+          @if ($character_one->consultation_templates->count()>0)
+            <li><label class="small text-primary fw-bold">konsultacji/diagnostyki:</label> {{$character_one->consultation_templates->count()}} </li>
           @endif
         </ul>
 
@@ -104,7 +104,7 @@
         </ul>
       </div>
       <div class="card-footer">
-      <a class="btn btn-info m-1" href="{{ route('actor.show',$actor_one->id) }}"><i class="bi bi-incognito"></i> Pokaż</a>
+      <a class="btn btn-info m-1" href="{{ route('character.show',$character_one->id) }}"><i class="bi bi-incognito"></i> Pokaż</a>
       </div>
     </div>
   </div>

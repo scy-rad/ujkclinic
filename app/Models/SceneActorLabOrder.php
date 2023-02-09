@@ -52,11 +52,11 @@ class SceneActorLabOrder extends Model
 
     $rety = $rety->select('ltg_name', 'log_name', 'lo_name', 'lt_name', 'lt_short', 'lt_unit', 'lt_decimal_prec', 'ltn_norm_type', 'salr_date', 'salr_result', 'salr_resulttxt', 'salr_addedtext', 'salr_type');
 
-    if ($scene_actor->sa_actor_sex==2)
+    if ($scene_actor->sa_sex==2)
     {
       $rety = $rety->addSelect(DB::raw('ltn_norm_m_min AS norm_min, ltn_norm_m_max AS norm_max'));
     }
-    if ($scene_actor->sa_actor_sex==3)
+    if ($scene_actor->sa_sex==3)
     {
       if ($order->is_pregnant)
         $rety = $rety->addSelect(DB::raw('ltn_norm_p_min AS norm_min, ltn_norm_p_max AS norm_max'));

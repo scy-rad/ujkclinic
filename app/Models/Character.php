@@ -5,34 +5,34 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Actor extends Model
+class Character extends Model
 {
     use HasFactory;
 
     protected $fillable = [
       'scenario_id',
-      'actor_incoming_recalculate', // ile minut przed rozpoczęciem scenariusza pacjent ma być przyjęty do Szpital/Przychodni
-      'actor_age_from',
-      'actor_age_to',
-      'actor_age_interval',
-      'actor_sex',
-      'actor_nn',
-      'actor_role_plan_id',
-      'actor_role_name',
-      'actor_type_id',
+      'character_incoming_recalculate', // ile minut przed rozpoczęciem scenariusza pacjent ma być przyjęty do Szpital/Przychodni
+      'character_age_from',
+      'character_age_to',
+      'character_age_interval',
+      'character_sex',
+      'character_nn',
+      'character_role_plan_id',
+      'character_role_name',
+      'character_type_id',
       'history_for_actor',
-      'actor_simulation',
-      'actor_status'
+      'character_simulation',
+      'character_status'
     ];
 
     
-  public function actor_role_plan()
+  public function character_role_plan()
   {
-    return $this->hasOne(ActorRolePlan::class, 'id', 'actor_role_plan_id');
+    return $this->hasOne(CharacterRolePlan::class, 'id', 'character_role_plan_id');
   }
-  public function actor_type()
+  public function character_type()
   {
-    return $this->hasOne(ActorType::class, 'id', 'actor_type_id');
+    return $this->hasOne(CharacterType::class, 'id', 'character_type_id');
   }
   public function scenario()
   {
@@ -51,7 +51,7 @@ class Actor extends Model
 
   public function age_interval_name()
   {
-    switch ($this->actor_age_interval)
+    switch ($this->character_age_interval)
       {
         case 1 : $ret_txt = 'lat'; break;
         case 2 : $ret_txt = 'miesięcy'; break;
@@ -74,29 +74,29 @@ class Actor extends Model
     );
         return $obj;
   }
-  public function actor_days_from()
+  public function character_days_from()
   {
-    switch ($this->actor_age_interval)
+    switch ($this->character_age_interval)
       {
-        case 1 : $ret_txt = $this->actor_age_from * 365; break;
-        case 2 : $ret_txt = $this->actor_age_from * 30; break;
-        case 3 : $ret_txt = $this->actor_age_from * 7; break;
-        case 4 : $ret_txt = $this->actor_age_from; break;
-        case 5 : $ret_txt = round((24/$this->actor_age_from),0); break;
-        case 6 : $ret_txt = round(((24*60)/$this->actor_age_from),0); break;
+        case 1 : $ret_txt = $this->character_age_from * 365; break;
+        case 2 : $ret_txt = $this->character_age_from * 30; break;
+        case 3 : $ret_txt = $this->character_age_from * 7; break;
+        case 4 : $ret_txt = $this->character_age_from; break;
+        case 5 : $ret_txt = round((24/$this->character_age_from),0); break;
+        case 6 : $ret_txt = round(((24*60)/$this->character_age_from),0); break;
       }
     return $ret_txt;
   }
-  public function actor_days_to()
+  public function character_days_to()
   {
-    switch ($this->actor_age_interval)
+    switch ($this->character_age_interval)
       {
-        case 1 : $ret_txt = $this->actor_age_to * 365; break;
-        case 2 : $ret_txt = $this->actor_age_to * 30; break;
-        case 3 : $ret_txt = $this->actor_age_to * 7; break;
-        case 4 : $ret_txt = $this->actor_age_to; break;
-        case 5 : $ret_txt = round((24/$this->actor_age_to),0); break;
-        case 6 : $ret_txt = round(((24*60)/$this->actor_age_to),0); break;
+        case 1 : $ret_txt = $this->character_age_to * 365; break;
+        case 2 : $ret_txt = $this->character_age_to * 30; break;
+        case 3 : $ret_txt = $this->character_age_to * 7; break;
+        case 4 : $ret_txt = $this->character_age_to; break;
+        case 5 : $ret_txt = round((24/$this->character_age_to),0); break;
+        case 6 : $ret_txt = round(((24*60)/$this->character_age_to),0); break;
 
       }
     return $ret_txt;
@@ -105,7 +105,7 @@ class Actor extends Model
  
   public function sex_name()
   {
-    switch ($this->actor_sex)
+    switch ($this->character_sex)
       {
         case 1 : $ret_txt = 'nieistotne'; break;
         case 2 : $ret_txt = 'mężczyzna'; break;

@@ -39,12 +39,12 @@ class SceneActorLabResult extends Model
           return $ret;
           }
 
-      if ($this->lab_order->scene_actor->sa_actor_sex==2) // man
+      if ($this->lab_order->scene_actor->sa_sex==2) // man
         {
           $norm_min=$ret->ltn_norm_m_min;
           $norm_max=$ret->ltn_norm_m_max;
         }
-      if ($this->lab_order->scene_actor->sa_actor_sex==3) // woman
+      if ($this->lab_order->scene_actor->sa_sex==3) // woman
         if ($this->lab_order->is_pregnant)
           {
             $norm_min=$ret->ltn_norm_p_min;

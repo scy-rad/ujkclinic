@@ -23,12 +23,12 @@
 
     <h1></h1>
 
-    <h4><label>dla scenariusza:</label> {{$lab_order_template->actor->scenario->scenario_name}}<br>
-    <label>dla aktora:</label><a class="text-decoration-none" href="{{ route('actor.show',$lab_order_template->actor->id) }}"> <i class="bi bi-incognito"></i> {{$lab_order_template->actor->actor_role_name}} </a> </h4>
+    <h4><label>dla scenariusza:</label> {{$lab_order_template->character->scenario->scenario_name}}<br>
+    <label>dla aktora:</label><a class="text-decoration-none" href="{{ route('character.show',$lab_order_template->character->id) }}"> <i class="bi bi-incognito"></i> {{$lab_order_template->character->character_role_name}} </a> </h4>
     <span class="btn btn-outline-success" onClick="javascript:showTemplateEditModal()">Edytuj szablon badań laboratoryjnych</span>
     <p>
-    <label>płeć:</label> {{$lab_order_template->actor->sex_name()}} <br>
-    <label>wiek:</label> {{$lab_order_template->actor->actor_age_from}} - {{$lab_order_template->actor->actor_age_to}} {{$lab_order_template->actor->age_interval_name()}}<br>
+    <label>płeć:</label> {{$lab_order_template->character->sex_name()}} <br>
+    <label>wiek:</label> {{$lab_order_template->character->character_age_from}} - {{$lab_order_template->character->character_age_to}} {{$lab_order_template->character->age_interval_name()}}<br>
     <label>rodzaj szablonu:</label> {{$lab_order_template->name_of_type()}}<br>
     <label>cofnięcie w czasie badań o min.:</label> {{$lab_order_template->calculate_time()}}<br>
     <label>kolejność:</label> {{$lab_order_template->lrt_sort}}<br>
@@ -53,7 +53,7 @@
 
         @foreach(App\Models\LaboratoryTest::where('laboratory_test_group_id',$test_one->id)->get() as $lab_test_row)
             <?php 
-            $normy=App\Models\LaboratoryTestNorm::where('laboratory_test_id',$lab_test_row->id)->where('ltn_days_from','<=',$lab_order_template->actor->actor_days_to())->Where('ltn_days_to','>=',$lab_order_template->actor->actor_days_from())->get();
+            $normy=App\Models\LaboratoryTestNorm::where('laboratory_test_id',$lab_test_row->id)->where('ltn_days_from','<=',$lab_order_template->character->character_days_to())->Where('ltn_days_to','>=',$lab_order_template->character->character_days_from())->get();
             $count=$normy->count();
             // dump($lab_test_row);
             $next=""; ?>

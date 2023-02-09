@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Actor;
+use App\Models\Character;
 use App\Models\Scenario;
 use App\Models\SceneMaster;
 use App\Models\SceneActor;
@@ -67,30 +67,30 @@ class SceneController extends Controller
 
       if ($request->scenario_id>0)
       {
-        foreach (Actor::where('scenario_id',$request->scenario_id)->get() as $actor)
+        foreach (Character::where('scenario_id',$request->scenario_id)->get() as $character)
         {
-          $sa_age=rand($actor->actor_days_from(),$actor->actor_days_to());
+          $sa_age=rand($character->character_days_from(),$character->character_days_to());
 
-          if ($actor->actor_age_interval==6)  //minutes
-            $sa_age = rand($actor->actor_age_from,$actor->actor_age_to).' minutes';
-          elseif ($actor->actor_age_interval==5)  //hours
-            $sa_age = rand($actor->actor_age_from,$actor->alrt_typector_age_to).' hours';
+          if ($character->character_age_interval==6)  //minutes
+            $sa_age = rand($character->character_age_from,$character->character_age_to).' minutes';
+          elseif ($character->character_age_interval==5)  //hours
+            $sa_age = rand($character->character_age_from,$character->alrt_typector_age_to).' hours';
           else
-            $sa_age = rand($actor->actor_days_from(),$actor->actor_days_to()).' days';
+            $sa_age = rand($character->character_days_from(),$character->character_days_to()).' days';
           
-          if ($actor->actor_age_interval>3)
+          if ($character->character_age_interval>3)
             $secondDate = new DateTime(date('Y-m-d H:i:s',strtotime($scene->scene_date)));
           else
             $secondDate = new DateTime(date('Y-m-d',strtotime($scene->scene_date)));
           
           $firstDate = new DateTime(date('Y-m-d H:i:s',strtotime($secondDate->format('Y-m-d H:i:s').' - '.$sa_age)));
 
-          $actor_birth_date = $firstDate->format('Y-m-d H:i:s'); 
+          $character_birth_date = $firstDate->format('Y-m-d H:i:s'); 
 
-          $new_SA = SceneActor::create_actor($scene->id,$actor->id,$actor_birth_date,"","",$actor->actor_sex,$actor->actor_incoming_date,$actor->actor_incoming_recalculate,$actor->actor_nn,$actor->actor_role_name,$actor->history_for_actor,$actor->actor_simulation);
+          $new_SA = SceneActor::create_actor($scene->id,$character->id,$character_birth_date,"","",$character->character_sex,$character->character_incoming_date,$character->character_incoming_recalculate,$character->character_nn,$character->character_role_name,$character->history_for_actor,$character->character_simulation);
 
-          // adding Lab Results for Scene Actor
-          foreach ($actor->lab_order_templates as $order_one)
+          // adding Lab Results for Scene Character
+          foreach ($character->lab_order_templates as $order_one)
           {
             $new_order = new SceneActorLabOrderTemplate();
             $new_order->scene_actor_id            = $new_SA->id;	
@@ -131,7 +131,7 @@ class SceneController extends Controller
       $ret['scene']=SceneMaster::where('id',$id)->first();
       $ret['base_scenario']=Scenario::where('id',$ret['scene']->scenario_id)->first();
       $ret['diff_sec'] = (strtotime($ret['scene']->scene_date) - strtotime($ret['scene']->scene_relative_date));
-      $ret['actors']=SceneActor::where('scene_master_id',$id)->get();
+      $ret['scene_actors']=SceneActor::where('scene_master_id',$id)->get();
       $ret['free_personels']=ScenePersonel::free_personel($ret['scene']);
 
       return view('scene.show',$ret);
@@ -198,7 +198,7 @@ class SceneController extends Controller
           $ret = ['success' => 'Dane raczej pobrane prawidłowo :) .','scene_data' => $ret];
         break;
         
-        case 'actor':
+        case 'character':
           if ($request->idvalue==0)
             {
               $ret = new SceneActor();
@@ -210,8 +210,8 @@ class SceneController extends Controller
           $ret = ['success' => 'Dane raczej pobrane prawidłowo :) .','scene_data' => $ret];
         break;
 
-        case 'actor_propose':
-          $ret=json_decode(SceneActor::random_actor($request->birth_date,$request->actor_sex),true);
+        case 'character_propose':
+          $ret=json_decode(SceneActor::random_actor($request->birth_date,$request->character_sex),true);
           // $ret = ['success' => 'Dane raczej wygenerowane prawidłowo :) .','scene_data' => $ret];  
         break;
 

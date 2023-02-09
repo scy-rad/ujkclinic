@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('scene_actors', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('scene_master_id');
-            $table->unsignedBigInteger('actor_id')->nullable();
+            $table->unsignedBigInteger('character_id')->nullable();
             $table->dateTime('sa_incoming_date')->nullable();
             $table->integer('sa_incoming_recalculate')->default(0);
             $table->string('sa_main_book')->nullable();;
@@ -25,11 +25,11 @@ return new class extends Migration
             $table->integer('sa_age');
             $table->string('sa_age_txt');
             $table->string('sa_PESEL',11)->nullable();
-            $table->smallInteger('sa_actor_sex');  // 2 - mężczyzna,  3 - kobieta
-            $table->smallInteger('sa_actor_nn')->default(0);  // 1 - NN, 0 - knowlny
-            $table->string('sa_actor_role_name')->nullable();
+            $table->smallInteger('sa_sex');  // 2 - mężczyzna,  3 - kobieta
+            $table->smallInteger('sa_nn')->default(0);  // 1 - NN, 0 - knowlny
+            $table->string('sa_role_name')->nullable();
             $table->text('sa_history_for_actor')->nullable();
-            $table->text('sa_actor_simulation')->nullable();
+            $table->text('sa_simulation')->nullable();
             $table->timestamps();
         });
         Schema::table('scene_actors', function (Blueprint $table) {
@@ -38,9 +38,9 @@ return new class extends Migration
               ->on('scene_masters');
         });
         Schema::table('scene_actors', function (Blueprint $table) {
-          $table->foreign('actor_id')
+          $table->foreign('character_id')
               ->references('id')
-              ->on('actors');
+              ->on('characters');
         });
     }
 
@@ -55,7 +55,7 @@ return new class extends Migration
         $table->dropForeign(['scene_master_id']);
         });
       Schema::table('scene_actors', function (Blueprint $table) {
-        $table->dropForeign(['actor_id']);
+        $table->dropForeign(['character_id']);
         });
       Schema::dropIfExists('scene_actors');
     }

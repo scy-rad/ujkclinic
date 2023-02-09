@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Actor;
+use App\Models\Character;
 use App\Models\LaboratoryOrder;
 use App\Models\LaboratoryOrderGroup;
 use App\Models\SceneActor;
@@ -41,14 +41,14 @@ class TestController extends Controller
       $requestidvalue = 1;
       dump(SceneActorLabOrder::where('id',$requestidvalue)->get());
 
-      $actor=SceneActorLabOrder::where('id',$requestidvalue)->first()->scene_actor;
+      $character=SceneActorLabOrder::where('id',$requestidvalue)->first()->scene_actor;
       foreach (SceneActorLabResult::where('scene_actor_lab_order_id',$requestidvalue)->get() as $lo_one)
       {
         // $lo_one->
         dump($lo_one->lab_order->salo_date_order);
       //   dump($lo_one->laboratory_test->laboratory_test_norms()
-      //   ->where('ltn_days_from','<=',$actor->sa_age)
-      //   ->where('ltn_days_to','>=',$actor->sa_age)
+      //   ->where('ltn_days_from','<=',$character->sa_age)
+      //   ->where('ltn_days_to','>=',$character->sa_age)
       //   ->first()
       // );
       }

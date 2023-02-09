@@ -73,7 +73,7 @@ class ScenarioController extends Controller
       if (!Auth::user()->hasRoleCode('technicians'))
         return back()->withErrors('błąd wywołania funkcji show kontrolera Scenario. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
 
-      $ret['actors']    =  $scenario->actors;
+      $ret['characters']    =  $scenario->characters;
 
       return view('scenario.show',compact('scenario'),$ret);
     }
@@ -117,7 +117,7 @@ class ScenarioController extends Controller
 
       \Illuminate\Support\Facades\Session::flash('success', 'Scenario has been updated successfully'); 
 
-      $ret['actors']    =  $scenario->actors;
+      $ret['characters']    =  $scenario->characters;
       return view('scenario.show',compact('scenario'),$ret);
     }
 

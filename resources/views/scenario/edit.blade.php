@@ -19,7 +19,7 @@
     </form>
   </div>
   <div class="col-4">
-    @if ($scenario->actors->count()==0)
+    @if ($scenario->characters->count()==0)
     <form action="{{ route('scenario.destroy',$scenario->id) }}" method="Post">
       <!-- <a class="btn btn-primary m-1" href="{{ route('scenario.edit',$scenario->id) }}">Edytuj</a> -->
       @csrf
