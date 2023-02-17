@@ -1,6 +1,11 @@
 @extends('layouts.master')
 
+@section('add_styles')
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 <link href="{{ asset('css/scenarios.css') }}" rel="stylesheet">
+@endsection
+
+
 
 @section('content')
 

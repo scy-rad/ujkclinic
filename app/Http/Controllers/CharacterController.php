@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Character;
 use App\Models\ScenarioConsultationTemplate;
+use App\Models\ScenarioConsultationTemplateAttachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -144,11 +145,14 @@ class CharacterController extends Controller
             $ret=$ret->toArray();
           }
           else
+          {
           $ret = ScenarioConsultationTemplate::where('id',$request->idvalue)->first()->toArray();
+          foreach (ScenarioConsultationTemplateAttachment::where('sct_id',$request->idvalue)->get() as $attach_one)
+            $ret['attachments'][]=$attach_one->toArray();
+          }
           
           $ret = ['success' => 'Dane raczej pobrane prawidłowo :) .','ret_data' => $ret];
         break;
-        
       }
       return response()->json($ret);
 
@@ -168,7 +172,6 @@ class CharacterController extends Controller
           $request->validate([
             'sct_type_details' => 'required',
             'sct_seconds_description' => 'required',
-            'sct_reason' => 'required',
             // 'sct_verbal_attach' => 'required',
             'sct_description' => 'required',
             ]);
@@ -190,7 +193,46 @@ class CharacterController extends Controller
             \Illuminate\Support\Facades\Session::flash('success', 'Scenario Consultation Template has been created probably successfully :) ');
             }
         break;
-        
+
+        case 'pic_file_save':
+          if ($request->id > 0)
+            $tab=ScenarioConsultationTemplateAttachment::where('id',$request->id)->first();
+          else
+            $tab=new ScenarioConsultationTemplateAttachment;
+
+          // $request->merge(['scta_file' => $request->scta_file_full]);
+          // $tab->fill($request->post())->save();
+          $tab->sct_id=$request->sct_id;
+          $tab->scta_file=str_replace(env('APP_URL'),'',$request->scta_file_full);
+          $tab->save();
+
+          return ['code' => 1, 'success' => 'Dane załącznika raczej zmienione prawidłowo :) .'];
+          break;
+
+        case 'pic_descript_save':
+          if ($request->id > 0)
+            {
+            $tab=ScenarioConsultationTemplateAttachment::where('id',$request->id)->first();
+            $tab->fill($request->post())->save();  
+            return ['code' => 1, 'success' => 'Dane załącznika raczej zmienione prawidłowo :) .'];
+            }
+          else
+          return ['code' => 0, 'success' => 'Dane załącznika NIE zmienione :) .'];
+            
+          break;
+        case 'pic_delete':
+          if ($request->id > 0)
+            {
+            $tab=ScenarioConsultationTemplateAttachment::where('id',$request->id)->first();
+            if ($request->delete_approve == 'TAK')
+              $tab->delete();  
+            return ['code' => 1, 'success' => 'Dane załącznika raczej USUNIĘTE prawidłowo :) .'];
+            }
+          else
+          return ['code' => 0, 'success' => 'Dane załącznika NIE zmienione :) .'];
+          
+          break;
+          
         default:
         \Illuminate\Support\Facades\Session::flash('error', 'Save somthing about Character not done... Sorry... :D ');
       }

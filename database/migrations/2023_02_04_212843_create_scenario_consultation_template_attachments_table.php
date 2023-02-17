@@ -19,8 +19,8 @@ return new class extends Migration
           $table->id();
           $table->unsignedBigInteger('sct_id')->nullable();
           $table->string('scta_file');
-          $table->string('scta_type');
-          $table->string('scta_name');
+          $table->string('scta_type')->default('typ');
+          $table->string('scta_name')->default('')->nullable();
           $table->Integer('scta_seconds_attachments')->default(0);
           $table->timestamps();
       });

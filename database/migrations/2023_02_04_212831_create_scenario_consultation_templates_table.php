@@ -18,7 +18,6 @@ return new class extends Migration
           $table->unsignedBigInteger('character_id')->nullable();
           $table->unsignedBigInteger('sctt_id');
           $table->string('sct_type_details');
-          $table->string('sct_reason');
           $table->Integer('sct_minutes_before')->nullable();
           $table->Integer('sct_seconds_description')->default(0);
           $table->string('sct_verbal_attach')->nullable();

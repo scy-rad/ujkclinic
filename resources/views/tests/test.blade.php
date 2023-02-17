@@ -5,27 +5,52 @@
 
 @section('title', " TESTY" )
 
-@section('content')
+@section('add_styles')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+<meta name="csrf-token" content="{{ csrf_token() }}">
+@endsection
+
+@section('content')
+
+<?php //phpinfo(); ?>
+
+<img id="preview" src="{{ asset('storage/csm_zyczenia.jpg') }}" alt="avatar" title="avatar title" width="100px">
 
 
-<img src="{{ asset('storage/avatars/avatar_k1.jpg') }}" alt="avatar" title="avatar title" width="100px">
 
 
-<div id="froala-editor">
-    This is illustration for file manager in froala editor. In this sample we can upload multiple files of any type.
+
+
+<div class="input-group">
+    <input type="text" id="image_label" class="form-control" name="image"
+           aria-label="Image" aria-describedby="button-image">
+    <div class="input-group-append">
+        <button class="btn btn-outline-secondary" type="button" id="button-image" onClick="javascript:window.open('/file-manager/fm-button?leftPath=look', 'fm', 'width=1400,height=800')">Select</button>
+    </div>
 </div>
 
-
-<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-<script type="text/javascript" src="https://editor-latest.s3.amazonaws.com/v3/js/froala_editor.pkgd.min.js"></script>
-<!-- <script src="https://unpkg.com/flmngr"></script> -->
-
 <script>
-  new FroalaEditor('div#froala-editor', {
-    // Define new image styles.
-    toolbarButtons: ['insertFiles']
-  })
+// document.addEventListener("DOMContentLoaded", function() {
+
+// document.getElementById('button-image').addEventListener('click', (event) => {
+//   event.preventDefault();
+
+//   window.open('/file-manager/fm-button?leftPath=look', 'fm', 'width=1400,height=800');
+// });
+// });
+
+// set file link
+function fmSetLink($url) {
+document.getElementById('image_label').value = $url;
+document.getElementById('preview').src = $url;
+}
 </script>
+
+
+
+
+
+
+
 
 @endsection

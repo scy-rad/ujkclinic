@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <!-- container-fluid -->
 @else
-          <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <nav class="navbar navbar-expand-lg navbar-light border border-dark rounded">
             <div class="container-fluid">
               <!-- container-fluid -->
 @endguest

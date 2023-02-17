@@ -11,7 +11,6 @@ class ScenarioConsultationTemplate extends Model
     'character_id',
     'sctt_id',
     'sct_type_details',
-    'sct_reason',
     'sct_minutes_before',
     'sct_seconds_description',
     'sct_verbal_attach',

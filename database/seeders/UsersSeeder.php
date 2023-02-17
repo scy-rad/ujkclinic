@@ -93,6 +93,7 @@ class UsersSeeder extends Seeder
       $user->add_role($storeoperator_role);
       $user->add_role($simoperator_role);
       $user->add_role($itemoperator_role);
+      $user->add_role($technician_role);
       $user->add_phone('41 349-69-24', $ph_sta_slu, $phone_for_all);
       $user->add_phone('73-73-337-55', $ph_kom_prv, $phone_for_coor);
 
