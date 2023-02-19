@@ -187,3 +187,9 @@ Create & Edit Consultation/Diagnostic Test Template (for Scenario Character) - w
         !!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ADD attachments for Consultation/DiagnosticTest Template (for Scenario Character)
+
+ADD delete:
+ - Consultation/DiagnosticTest Template;
+ - Laboratory Results Template;
+ - Characters
+ - Scenarios

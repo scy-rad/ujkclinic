@@ -127,15 +127,19 @@ class ScenarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Scenario $scenario)
+    public function destroy(Request $request)
     {
       if (!Auth::user()->hasRoleCode('technicians'))
         return back()->withErrors('błąd wywołania funkcji destroy kontrolera Scenario. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
 
-      $scenario->delete();
-
-      \Illuminate\Support\Facades\Session::flash('success', 'Scenario has been deleted successfully'); 
-
+      if ($request->delete_approve == 'TAK')
+        {
+          Scenario::where('id',$request->id)->delete();
+          return ['code' => 1, 'success' => 'Scenariusz USUNIĘTY raczej prawidłowo :) .'];
+        }
+      else
+        return ['code' => 0, 'success' => 'Scenariusz NIE USUNIĘTY :( .'];
+      
       return redirect()->route('scenario.index');
     }
 }

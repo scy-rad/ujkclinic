@@ -119,9 +119,9 @@ $lab_order_template->lrt_sort=1;
 $character_id=$character->id;
 ?>
 
-@include('character.modal_consultation_template')
-
 @include('laboratorynorms.modal_template_edit')
+
+@include('character.modal_consultation_template')
 
 
 @endsection

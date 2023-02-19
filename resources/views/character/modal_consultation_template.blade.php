@@ -35,7 +35,7 @@
               </div>
               <div class="col-2">
                 <label for="sct_seconds_description" class="form-label">ilość sekund od <abbr title="ostatniego załącznika do zrobienia opisu">...</abbr>:</label>
-                <input type="number" step="1" min="0" name="sct_seconds_description" id="sct_seconds_description" class="form-control" placeholder="Ilośc sekund do opisu" value="">
+                <input type="number" step="1" min="0" name="sct_seconds_description" id="sct_seconds_description" class="form-control" placeholder="Ilość sekund do opisu" value="">
               </div>
             </div>
             <div class="row mb-0">
@@ -52,9 +52,15 @@
                 <textarea name="sct_description" id="sct_description" class="form-control"></textarea>
               </div>
             </div>
-            <div class="mb-3 text-center">
-              <button type="submit" class="btn btn-success btn-submit btn-tmpl-save">Potwierdź</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">zamknij</button>
+            <div class="row mb-3">
+              <div class="col-4">
+                <button type="submit" class="btn btn-success btn-submit btn-tmpl-save">Potwierdź</button>
+              </div>
+              <div class="col-4 text-center">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">zamknij</button>
+              </div>
+              <div class="col-4 text-end" id="for_delete">
+              </div>
             </div>
         </form>
       </div> <!-- modal-body -->
@@ -94,12 +100,12 @@
 </div> <!-- modal fade -->
 
 
-<div class="modal fade" id="FotDeleteModal" tabindex="-1" aria-labelledby="FotDeleteModalLabel" aria-hidden="true">
+<div class="modal fade" id="IncDeleteModal" tabindex="-1" aria-labelledby="IncDeleteModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="FotDeleteModalTitle">Usuń zdjęcie</h5>
-        <button type="button" class="btn-close" onClick="javascript:$('#FotDeleteModal').modal('hide')" aria-label="Close"></button>
+        <h5 class="modal-title" id="IncDeleteModalTitle">Usuń coś tam...</h5>
+        <button type="button" class="btn-close" onClick="javascript:$('#IncDeleteModal').modal('hide')" aria-label="Close"></button>
       </div>  <!-- modal-header -->
       <div class="modal-body">
         <form action="{{ route('character.scenario_character_save_ajax')}}" method="post" enctype="multipart/form-data">
@@ -107,16 +113,17 @@
             <div class="alert alert-danger print-error-msg" style="display:none">
                 <ul></ul>
             </div>
-              <input type="hidden" name="id" id="id_fotdelete" value="">
+              <input type="hidden" name="id" id="id_inc_delete" value="">
+              <input type="hidden" name="target" id="target_inc_delete" value="">
             <div class="row mb-3">
               <div class="col-12">
-                <label for="fot_delete_yes" class="form-label">na pewno chcesz usunąć? [TAK]</label>
-                <input type="text" name="fot_delete_yes" id="fot_delete_yes" class="form-control" placeholder="napisz TAK, żeby usunąć..." value="">
+                <label for="inc_delete_yes" class="form-label">na pewno chcesz usunąć? [TAK]</label>
+                <input type="text" name="inc_delete_yes" id="inc_delete_yes" class="form-control" placeholder="napisz TAK, żeby usunąć..." value="">
               </div>
             </div>
             <div class="mb-3 text-center">
-              <button type="button" class="btn btn-success" onClick="javascript:pic_delete_save()">Potwierdź</button>
-              <button type="button" class="btn btn-secondary" onClick="javascript:$('#FotDeleteModal').modal('hide')">zamknij</button>
+              <button type="button" class="btn btn-success" onClick="javascript:do_delete_inc()">Potwierdź</button>
+              <button type="button" class="btn btn-secondary" onClick="javascript:$('#IncDeleteModal').modal('hide')">zamknij</button>
             </div>
         </form>
       </div> <!-- modal-body -->
@@ -134,7 +141,7 @@
     $.ajax({
             type:'GET',
             url:"{{ route('character.scenario_character_get_ajax') }}",
-            data:{idvalue:idvalue,what:'consultation'},
+            data:{idvalue:idvalue,what:'get_consultation'},
             success:function(data){
                 if($.isEmptyObject(data.error))
                 {
@@ -152,18 +159,22 @@
 
                   valueX='';
                   value_last='';
+                  if (idvalue>0)
+                    del_button='<button type="button" class="btn btn-danger text-end" onClick="javascript:inc_delete('+data.ret_data.id+',\'character_consultation\')"><i class="bi bi-trash"></i> usuń</button>';
+                  else
+                    del_button='';
 
                   if (data.ret_data.id>0)
                   {
                     $.each(data.ret_data.attachments, function(index, value) {
-                      
+                      del_button='';
                       valueX = valueX+'<div class="card col-3">';
                       valueX = valueX+'<img class="card-img-top" id="scta_file_'+value.id+'" src="'+value.scta_file+'" alt="'+value.scta_name+'">';
                       valueX = valueX+'<div class="card-body p-0">';
                       valueX = valueX+'<p class="card-text" id="scta_name_'+value.id+'">'+value.scta_name+'</p>';
                       valueX = valueX+'<span class="btn btn-sm btn-primary" onClick="javascript:open_flmngr('+value.id+',\''+value.scta_file+'\',\''+value.scta_name+'\')"><i class="bi bi-pencil-square"></i> fot</span> ';
                       valueX = valueX+'<span class="btn btn-sm btn-primary" onClick="javascript:pic_descrip('+value.id+')"><i class="bi bi-pencil-square"></i> txt</span> ';
-                      valueX = valueX+'<span class="btn btn-sm btn-danger" onClick="javascript:pic_delete('+value.id+')"><i class="bi bi-trash"></i></span>';
+                      valueX = valueX+'<span class="btn btn-sm btn-danger" onClick="javascript:inc_delete('+value.id+',\'character_attachment\')"><i class="bi bi-trash"></i></span>';
                       valueX = valueX+'</div>';
                       valueX = valueX+'</div>';
                       
@@ -180,12 +191,14 @@
 
                   }
                   $('#ConsultationAttachments').html(valueX);
+                  $('#for_delete').html(del_button);
+              
 
                   if (data.ret_data.id>0)
-                    $('#ConsultationTemplateModalTitle').html('Edycja zlecenia: '+data.ret_data.id);
+                    $('#ConsultationTemplateModalTitle').html('Edycja konsultacji/diagnostyki: '+data.ret_data.id);
                   else
                   {
-                    $('#ConsultationTemplateModalTitle').html('Nowe zlecenie.');
+                    $('#ConsultationTemplateModalTitle').html('Nowa konsultacja/diagnostyka.');
                     $('#ConsultationAttachments').html('najpierw należy zapisać zlecenie, aby móc dodawać załączniki...');
 
                   }
@@ -280,34 +293,46 @@
     
   }
 
-  function pic_delete(id)
+  function inc_delete(id,what)
   {
-    document.getElementById('id_fotdelete').value = id;
-    document.getElementById('fot_delete_yes').value = '';
+    document.getElementById('id_inc_delete').value = id;
+    document.getElementById('target_inc_delete').value = what;
     
-    $('#FotDeleteModal').modal('show');
+    document.getElementById('inc_delete_yes').value = '';
+    if (what =='character_attachment')
+        $('#IncDeleteModalTitle').html('Usuń załącznik: '+id);
+    else if (what =='character_consultation')
+      $('#IncDeleteModalTitle').html('Usuń konsultację/diagnostykę: '+id);
+    else
+      $('#IncDeleteModalTitle').html('Mogę źle zrozumieć o co Ci chodzi... : '+id);
+
+    $('#IncDeleteModal').modal('show');
   }
   
-  function pic_delete_save()
+  function do_delete_inc()
   {
-    id = document.getElementById('id_fotdelete').value;
-    descript = document.getElementById('fot_delete_yes').value;
+    id = document.getElementById('id_inc_delete').value;
+    descript = document.getElementById('inc_delete_yes').value;
 
-    if (document.getElementById('fot_delete_yes').value == 'TAK')
+    if (document.getElementById('inc_delete_yes').value == 'TAK')
     {
       $.ajax({
           type:'POST',
           url:"{{ route('character.scenario_character_save_ajax') }}",
           data:{
-                action: 'pic_delete',
-                id: document.getElementById('id_fotdelete').value,
-                delete_approve: document.getElementById('fot_delete_yes').value          
+                action: 'inc_delete',
+                target: document.getElementById('target_inc_delete').value,
+                id: document.getElementById('id_inc_delete').value,
+                delete_approve: document.getElementById('inc_delete_yes').value          
               },
           success:function(data){
             if(data.code==1)
               {
-                $('#FotDeleteModal').modal('hide');
-                showConsultationTemplateModal(document.getElementById('cons_id').value);
+                $('#IncDeleteModal').modal('hide');
+                if (document.getElementById('target_inc_delete').value == 'character_attachment')
+                  showConsultationTemplateModal(document.getElementById('cons_id').value);
+                else
+                  location.reload();
               }
             else
               {

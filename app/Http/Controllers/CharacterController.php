@@ -120,9 +120,11 @@ class CharacterController extends Controller
       $toback=$character->scenario_id;
       $character->delete();
 
-      \Illuminate\Support\Facades\Session::flash('success', 'Character has been deleted successfully'); 
+      return ['code' => 1, 'success' => 'Postać usunięta... :) .'];
+          
+      // \Illuminate\Support\Facades\Session::flash('success', 'Character has been deleted successfully'); 
 
-      return redirect()->route('scenario.show',$toback);
+      // return redirect()->route('scenario.show',$toback);
     }
 
 
@@ -137,7 +139,7 @@ class CharacterController extends Controller
 
       switch ($request->what)
       {
-        case 'consultation':
+        case 'get_consultation':
           if ($request->idvalue==0)
           {
             $ret = new ScenarioConsultationTemplate;
@@ -220,16 +222,28 @@ class CharacterController extends Controller
           return ['code' => 0, 'success' => 'Dane załącznika NIE zmienione :) .'];
             
           break;
-        case 'pic_delete':
+        case 'inc_delete':
           if ($request->id > 0)
             {
-            $tab=ScenarioConsultationTemplateAttachment::where('id',$request->id)->first();
-            if ($request->delete_approve == 'TAK')
-              $tab->delete();  
-            return ['code' => 1, 'success' => 'Dane załącznika raczej USUNIĘTE prawidłowo :) .'];
+              if ($request->target == 'character_attachment')
+                {
+                $tab=ScenarioConsultationTemplateAttachment::where('id',$request->id)->first();
+                if ($request->delete_approve == 'TAK')
+                  $tab->delete();
+                return ['code' => 1, 'success' => 'Załącznik konsultacji raczej USUNIĘTE prawidłowo :) .'];
+                }
+              elseif ($request->target == 'character_consultation')
+                {
+                $tab=ScenarioConsultationTemplate::where('id',$request->id)->first();
+                if ($request->delete_approve == 'TAK')
+                  $tab->delete();
+                return ['code' => 1, 'success' => 'Konsultacja raczej USUNIĘTA prawidłowo :) .'];
+                }
+              else
+                return ['code' => 0, 'success' => 'Błędny kod usunięcia :( .'];    
             }
           else
-          return ['code' => 0, 'success' => 'Dane załącznika NIE zmienione :) .'];
+          return ['code' => 0, 'success' => 'Dane załącznika NIE zmienione :( .'];
           
           break;
           

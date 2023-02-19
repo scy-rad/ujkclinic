@@ -229,5 +229,23 @@ class LaboratoryNormController extends Controller
 
     return back()->with('success', 'Edycja bądź dodawanie szablonu powiodło się... Możliwe, że tak... Chyba tak... Prawdopodobnie może...');    
   }
+
   
+  public function destroy(Request $request)
+  {
+    if (!Auth::user()->hasRoleCode('technicians'))
+      return back()->withErrors('błąd wywołania funkcji templateupdate kontrolera LaboratoryNorm. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+    
+
+      if ($request->delete_approve == 'TAK')
+      {
+        LabResultTemplate::where('lab_order_template_id',$request->id)->delete();
+        LabOrderTemplate::where('id',$request->id)->delete();
+
+        return ['code' => 1, 'success' => 'Usuwanie szablonu powiodło się... Możliwe, że tak... Chyba tak... Prawdopodobnie może...'];    
+      }
+      else
+        return ['code' => 0, 'success' => 'Błędny kod usunięcia :( .'];
+  }
+
 }

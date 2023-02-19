@@ -25,7 +25,8 @@
 
     <h4><label>dla scenariusza:</label> {{$lab_order_template->character->scenario->scenario_name}}<br>
     <label>dla aktora:</label><a class="text-decoration-none" href="{{ route('character.show',$lab_order_template->character->id) }}"> <i class="bi bi-incognito"></i> {{$lab_order_template->character->character_role_name}} </a> </h4>
-    <span class="btn btn-outline-success" onClick="javascript:showTemplateEditModal()">Edytuj szablon badań laboratoryjnych</span>
+    <span class="btn btn-outline-success" onClick="javascript:showTemplateEditModal()"><i class="bi bi-pencil-square"></i> Edytuj szablon badań laboratoryjnych</span>
+    <span class="btn btn-outline-danger" onClick="javascript:showTemplateDeleteModal()"><i class="bi bi-trash"></i> Usuń szablon badań laboratoryjnych</span>
     <p>
     <label>płeć:</label> {{$lab_order_template->character->sex_name()}} <br>
     <label>wiek:</label> {{$lab_order_template->character->character_age_from}} - {{$lab_order_template->character->character_age_to}} {{$lab_order_template->character->age_interval_name()}}<br>
@@ -138,6 +139,7 @@
 
 @include('laboratorynorms.modal_template_result')
 @include('laboratorynorms.modal_template_edit')
+@include('laboratorynorms.modal_template_delete')
 
 
 @endsection

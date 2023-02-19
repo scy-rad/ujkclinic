@@ -24,8 +24,8 @@ return new class extends Migration
             $table->text('scenario_description');
             $table->text('scenario_for_students');
             $table->text('scenario_for_leader');
-            $table->text('scenario_helpers_for_students');
-            $table->text('scenario_logs_for_students');
+            $table->text('scenario_helpers_for_students')->nullable();
+            $table->text('scenario_logs_for_students')->nullable();
             $table->smallInteger('scenario_status')->default(1);	
             $table->timestamps();
         });
