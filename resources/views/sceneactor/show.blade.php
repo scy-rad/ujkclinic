@@ -69,7 +69,7 @@
       Badania Laboratoryjne
       </div>
         <ul>
-          @foreach ($laborders as $order_one)
+          @foreach ($sceneactor->scene_actor_lab_orders as $order_one)
             <li onClick="javascript:showLabResultModal({{$order_one->id}})">{{$order_one->id}}: {{$order_one->salo_date_order}}
 
             @if (is_null($order_one->salo_date_take))
@@ -101,12 +101,17 @@
     <div class="card">
       <div class="card-header">
       <i class="bi bi-camera-video"></i> 
-      Badania Diagnostyczne
+      Konsultacje/diagnostyka
       </div>
-      xyz
+      <ul>
+          @foreach ($sceneactor->scene_actor_consultations as $conultation_one)
+            <li onClick="javascript:showConsultationShowModal({{$conultation_one->id}})">{{$conultation_one->id}}: {{$conultation_one->sac_type_details}}
+
+            </li>
+          @endforeach
+      </ul>
       <div class="card-footer">
-      <i class="bi bi-camera-video"></i> 
-      Dodaj
+        <button class="btn btn-warning btn-sm col-12" onClick="javascript:showConsultationOrderModal()"> <i class="bi bi-camera-video"></i> dodaj </button>
       </div>
     </div>
   </div>
@@ -136,9 +141,12 @@
 @include('sceneactor.modal_lab_order')
 @include('sceneactor.modal_lab_results')
 
+@include('sceneactor.modal_consultation')
+
 @if (!is_null($sceneactor->scene->scene_relative_date))
 <!-- clock code part II -->
 <script>
+
   function zegarek()
   {
     var zmienna = $('#relative_sec').val();

@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('scenario_consultation_template_types', function (Blueprint $table) {
+        Schema::create('consultation_types', function (Blueprint $table) {
             $table->id();
-            $table->string('sctt_name')->nullable();
-            $table->string('sctt_head')->nullable();
+            $table->string('cont_name')->nullable();
+            $table->string('cont_head')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('scenario_consultation_template_types');
+        Schema::dropIfExists('consultation_types');
     }
 };

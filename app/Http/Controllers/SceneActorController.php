@@ -50,7 +50,6 @@ class SceneActorController extends Controller
     public function show($id)
     {
       $ret['sceneactor']=SceneActor::where('id',$id)->first();
-      $ret['laborders']=SceneActorLabOrder::where('scene_actor_id',$id)->get();
       $ret['diff_sec'] = (strtotime($ret['sceneactor']->scene->scene_date) - strtotime($ret['sceneactor']->scene->scene_relative_date));
       return view('sceneactor.show',$ret);
     }

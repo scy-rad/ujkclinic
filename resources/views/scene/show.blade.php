@@ -142,66 +142,93 @@
 
 
 <div class="row">
-  <div class="col-2">
-    @foreach ($scene_actors as $sa_one)
-    @if ((Auth::user()->hasRoleCode('technicians')) || (!is_null($sa_one->sa_incoming_date)))
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="bi bi-file-person"></i>
-          {{$sa_one->sa_name}}
-        </div>
-        {{$sa_one->sa_role_name}}
-        @if (!is_null($sa_one->sa_incoming_date))
-          <a href="{{ route('sceneactor.show',$sa_one->id) }}" class="btn btn-success btn-sm" > <i class="bi bi-incognito"></i> wybierz </a>
-        @else
-          <button class="btn btn-warning btn-sm" onClick="javascript:showCharacterModal({{$sa_one->id}})"> <i class="bi bi-incognito"></i> edytuj </button>
-          <form action="{{ route('sceneactor.update',$sa_one->id) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
-            <input type="hidden" name="action" value="registry">
-            <button type="submit" class="btn btn-primary btn-sm col-12" > <i class="bi bi-pin-map"></i> rejestruj </button>
-          </form>
-        @endif
-      </div>
-    @endif
-    @endforeach
-  </div>  <!-- col-2 -->
-  
-  @if (Auth::user()->hasRoleCode('technicians'))
-  <div class="col-2">
-    <div class="card">
-      <div class="card-header">
-      <i class="bi bi-eyedropper"></i> 
-      Badania Laboratoryjne
-      </div>
-        <ul>
-          @foreach($scene->laboratory_orders as $lab_order)
-          <li onClick="javascript:fill_extra_body({{$lab_order->id}},'lab_order')">{{$lab_order->scene_actor->sa_name}}: ({{$lab_order->id}}) {{$lab_order->salo_date_order}}</li>
-            @if (is_null($lab_order->salo_date_take))
-              <i class="bi bi-bookmark"></i>
-            @endif
-            @if (is_null($lab_order->salo_date_delivery))
-              <i class="bi bi-bookmark"></i>
-            @endif
-            @if (is_null($lab_order->salo_date_accept))
-              <i class="bi bi-bookmark"></i>
+  <div class="col-4"><div class="row">
+    <div class="col-6">
+      @foreach ($scene_actors as $sa_one)
+        @if ((Auth::user()->hasRoleCode('technicians')) || (!is_null($sa_one->sa_incoming_date)))
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="bi bi-file-person"></i>
+              {{$sa_one->sa_name}}
+            </div>
+            {{$sa_one->sa_role_name}}
+            @if (!is_null($sa_one->sa_incoming_date))
+              <a href="{{ route('sceneactor.show',$sa_one->id) }}" class="btn btn-success btn-sm" > <i class="bi bi-incognito"></i> wybierz </a>
             @else
-              @if ($lab_order->salo_date_accept>$scene->scene_current_time())
-                <i class="bi bi-bookmark-fill text-warning"></i>
-              @else
-                <i class="bi bi-bookmark-fill text-success"></i>
-              @endif
+              <button class="btn btn-warning btn-sm" onClick="javascript:showCharacterModal({{$sa_one->id}})"> <i class="bi bi-incognito"></i> edytuj </button>
+              <form action="{{ route('sceneactor.update',$sa_one->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <input type="hidden" name="action" value="registry">
+                <button type="submit" class="btn btn-primary btn-sm col-12" > <i class="bi bi-pin-map"></i> rejestruj </button>
+              </form>
             @endif
-          @endforeach
-        </ul>
-      <div class="card-footer">
-      </div>
-    </div>
-  </div>  <!-- col-2 -->
-  <div id="extra_body" class="col-8 border border-2 rounded">
+          </div>
+        @endif
+      @endforeach
+    </div>  <!-- col-6 -->
 
-  </div>  <!-- extra_body col-8 -->
+  @if (Auth::user()->hasRoleCode('technicians'))
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header">
+        <i class="bi bi-eyedropper"></i> 
+        Badania Laboratoryjne
+        </div>
+          <ul>
+            @foreach($scene->laboratory_orders as $lab_order)
+            <li onClick="javascript:fill_extra_body({{$lab_order->id}},'lab_order')">{{$lab_order->scene_actor->sa_name}}: ({{$lab_order->id}}) {{$lab_order->salo_date_order}}</li>
+              @if (is_null($lab_order->salo_date_take))
+                <i class="bi bi-bookmark"></i>
+              @endif
+              @if (is_null($lab_order->salo_date_delivery))
+                <i class="bi bi-bookmark"></i>
+              @endif
+              @if (is_null($lab_order->salo_date_accept))
+                <i class="bi bi-bookmark"></i>
+              @else
+                @if ($lab_order->salo_date_accept>$scene->scene_current_time())
+                  <i class="bi bi-bookmark-fill text-warning"></i>
+                @else
+                  <i class="bi bi-bookmark-fill text-success"></i>
+                @endif
+              @endif
+            @endforeach
+          </ul>
+        <div class="card-footer">
+        </div>
+      </div> <!-- card lab orders -->
+      <div class="card">
+        <div class="card-header">
+        <i class="bi bi-eyedropper"></i> 
+        Konsultacje
+        </div>
+          <ul>
+            @foreach($scene->consultations as $cons_one)
+            <li onClick="javascript:fill_extra_body({{$cons_one->id}},'consultation')">{{$cons_one->scene_actor->sa_name}}: {{$cons_one->consultation_type->cont_name}} {{$cons_one->sac_type_details}} ({{$cons_one->id}}) {{$cons_one->sac_date_order}}</li>
+              @if (is_null($cons_one->sac_date_visit))
+                <i class="bi bi-bookmark"></i>
+              @endif
+              @if (is_null($cons_one->sac_date_descript))
+                <i class="bi bi-bookmark"></i>
+              @else
+                @if ($cons_one->sac_date_descript>$scene->scene_current_time())
+                  <i class="bi bi-bookmark-fill text-warning"></i>
+                @else
+                  <i class="bi bi-bookmark-fill text-success"></i>
+                @endif
+              @endif
+            @endforeach
+          </ul>
+        <div class="card-footer">
+        </div>
+      </div> <!-- card Consultation -->
+    </div>  <!-- col-6 -->
+  </div></div>
+    <div id="extra_body" class="col-8 border border-2 rounded">
+
   @endif
+  </div>  <!-- extra_body col-8  OR col-4 -->
 </div>
 
 
@@ -209,6 +236,14 @@
 
 
 @if (Auth::user()->hasRoleCode('technicians'))
+
+<script>
+    $.ajaxSetup({
+    headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+</script>
 
 @include('scene.modal_scene_actor')
 
@@ -317,11 +352,7 @@
 
 
 <script type="text/javascript">
-  $.ajaxSetup({
-    headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-  });
+
   function change_relative_time(idvalue) 
   {
     $('#change_relative_time').hide();
@@ -350,11 +381,7 @@
 <!-- end of clock code part II -->
 
 <script type="text/javascript">
-  $.ajaxSetup({
-    headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-  });
+
   function stop_scene(idvalue) 
   {
     $.ajax({
@@ -379,11 +406,7 @@
 
 @else
 <script type="text/javascript">
-  $.ajaxSetup({
-    headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-  });
+
   function start_scene(idvalue) 
   {
     $.ajax({

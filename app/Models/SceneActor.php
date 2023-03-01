@@ -40,6 +40,15 @@ class SceneActor extends Model
     return $this->hasMany(SceneActorLabOrderTemplate::class);
   }
 
+  public function scene_actor_lab_orders() 
+  {
+    return $this->hasMany(SceneActorLabOrder::class);
+  }
+  public function scene_actor_consultations() 
+  {
+    return $this->hasMany(SceneActorConsultation::class);
+  }
+
 
   public function sex_name()
   {

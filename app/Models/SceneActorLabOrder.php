@@ -403,6 +403,10 @@ class SceneActorLabOrder extends Model
 
   public static function update_order_form(Request $request)
   {
+    if ((!Auth::user()->hasRoleCode('technicians'))
+    )
+    return back()->withErrors('błąd wywołania funkcji update_order_form modelu SceneActorLabOrder. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+
         $order=SceneActorLabOrder::where('id',$request->id)->first();
         $scene=$order->scene_actor->scene;
         $last_date=$scene->scene_date;

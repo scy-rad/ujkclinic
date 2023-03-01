@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('scenario_consultation_templates', function (Blueprint $table) {
           $table->id();
           $table->unsignedBigInteger('character_id')->nullable();
-          $table->unsignedBigInteger('sctt_id');
-          $table->string('sct_type_details');
+          $table->string('sct_name');
           $table->Integer('sct_minutes_before')->nullable();
           $table->Integer('sct_seconds_description')->default(0);
           $table->string('sct_verbal_attach')->nullable();
@@ -29,12 +28,6 @@ return new class extends Migration
             ->references('id')
             ->on('characters');
       });
-      Schema::table('scenario_consultation_templates', function (Blueprint $table) {
-        $table->foreign('sctt_id')
-            ->references('id')
-            ->on('scenario_consultation_template_types');
-      });
-
   }
 
   /**
@@ -44,9 +37,6 @@ return new class extends Migration
    */
   public function down()
   {
-    Schema::table('scenario_consultation_templates', function (Blueprint $table) {
-      $table->dropForeign(['sctt_id']);
-      });
     Schema::table('scenario_consultation_templates', function (Blueprint $table) {
       $table->dropForeign(['character_id']);
       });

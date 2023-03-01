@@ -82,7 +82,7 @@
       <div class="card-body">
         <ul>
         @foreach ($character->consultation_templates as $consultation_one)
-          <li onClick="javascript:showConsultationTemplateModal({{$consultation_one->id}})">{{$consultation_one->consultation_type->sctt_name}} {{$consultation_one->sct_type_details}} </li>
+          <li onClick="javascript:showConsultationTemplateModal({{$consultation_one->id}})">{{$consultation_one->sct_name}} </li>
         @endforeach
         </ul>
       </div>

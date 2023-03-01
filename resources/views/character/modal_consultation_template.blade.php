@@ -12,29 +12,22 @@
                 <ul></ul>
             </div>
 
-              <input type="hidden" name="id" id="cons_id" value="">
+              <input type="hidden" name="id" id="sct_id" value="">
               <input type="hidden" name="character_id" value="{{$character_id}}">
               <input type="hidden" name="action" value="consultation_template">
 
             <div class="row mb-3">
-              <div class="col-2">
-                <label for="sctt_id" class="form-label">Zlecenie na:</label>
-                <select name="sctt_id" id="sctt_id" class="form-select">
-                  @foreach (App\Models\ScenarioConsultationTemplateType::all() as $type_one)
-                    <option value="{{$type_one->id}}">{{$type_one->sctt_name}}</option>
-                  @endforeach
-                </select>
-              </div>
-              <div class="col-6">
-                <label for="sct_type_details" class="form-label">szczegóły (jaką/jakie-czego):</label>
-                <input type="text" name="sct_type_details" id="sct_type_details" class="form-control" placeholder="szczegóły rodzaju zlecenia" value="">
+              <div class="col-8">
+
+                <label for="sct_name" class="form-label">nazwa szablonu:</label>
+                <input type="text" name="sct_name" id="sct_name" class="form-control" placeholder="nazwa szablonu" value="">
               </div>
               <div class="col-2">
                 <label for="sct_minutes_before" class="form-label">ilość minut wstecz:</label>
                 <input type="number" step="1" min="0" name="sct_minutes_before" id="sct_minutes_before" class="form-control" placeholder="Ilośc minut wstecz" value="">
               </div>
               <div class="col-2">
-                <label for="sct_seconds_description" class="form-label">ilość sekund od <abbr title="ostatniego załącznika do zrobienia opisu">...</abbr>:</label>
+                <label for="sct_seconds_description" class="form-label">ilość sekund od <abbr title="wizyty do zrobienia opisu">...</abbr>:</label>
                 <input type="number" step="1" min="0" name="sct_seconds_description" id="sct_seconds_description" class="form-control" placeholder="Ilość sekund do opisu" value="">
               </div>
             </div>
@@ -145,17 +138,17 @@
             success:function(data){
                 if($.isEmptyObject(data.error))
                 {
-                  // alert(JSON.stringify(data.ret_data.attachments, null, 4));
+                  // alert(JSON.stringify(data.ret_data, null, 4));
   
-                  $('#cons_id').val(data.ret_data.id);
-                  $('#sct_type_details').val(data.ret_data.sct_type_details);
+                  $('#sct_id').val(data.ret_data.id);
+                  $('#sct_name').val(data.ret_data.sct_name);
                   $('#sct_minutes_before').val(data.ret_data.sct_minutes_before);
                   $('#sct_seconds_description').val(data.ret_data.sct_seconds_description);
                   $('#sct_verbal_attach').val(data.ret_data.sct_verbal_attach);
                   $('#sct_description').val(data.ret_data.sct_description);
 
-                  $('#sctt_id option:selected').removeAttr('selected');
-                  $("#sctt_id option[value=" + data.ret_data.sctt_id + "]").attr("selected","selected");
+                  $('#cont_id option:selected').removeAttr('selected');
+                  $("#cont_id option[value=" + data.ret_data.cont_id + "]").attr("selected","selected");
 
                   valueX='';
                   value_last='';
@@ -229,7 +222,7 @@
         data:{
               action: 'pic_file_save',
               id: document.getElementById('sub_id').value,
-              sct_id: document.getElementById('cons_id').value,
+              sct_id: document.getElementById('sct_id').value,
               scta_file_full: $url
             },
         success:function(data){
@@ -245,7 +238,7 @@
               }
               else
               {
-                showConsultationTemplateModal(document.getElementById('cons_id').value);
+                showConsultationTemplateModal(document.getElementById('sct_id').value);
               }
             }
           else
@@ -330,7 +323,7 @@
               {
                 $('#IncDeleteModal').modal('hide');
                 if (document.getElementById('target_inc_delete').value == 'character_attachment')
-                  showConsultationTemplateModal(document.getElementById('cons_id').value);
+                  showConsultationTemplateModal(document.getElementById('sct_id').value);
                 else
                   location.reload();
               }

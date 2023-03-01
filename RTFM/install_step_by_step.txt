@@ -1,3 +1,4 @@
+git clone https://github.com/scy-rad/klinika.git .
 git clone https://github.com/scy-rad/ujkclinic.git .
 (move .git)
 composer create-project laravel/laravel .
@@ -9,6 +10,9 @@ write database connection parameters to .env
 AUTHENTICATION INSTALL:
 composer require laravel/breeze
 php artisan breeze:install --dark
+
+npm install
+npm run-dev
 
 Change localization in /config/app.php from en to pl
 Write localization translate in /lang/pl.json (In future can get more from there: from: https://github.com/Laravel-Lang/lang/tree/main/locales/pl)
@@ -163,7 +167,7 @@ Edit SceneActor LaboratoryTests Results (advanced):
 
 ###################################################
 
-php artisan make:model ScenarioConsultationTemplateType -m
+php artisan make:model ConsultationType -m
 php artisan make:model ScenarioConsultationTemplate -m
 php artisan make:model ScenarioConsultationTemplateAttachment -m
 
@@ -193,3 +197,12 @@ ADD delete:
  - Laboratory Results Template;
  - Characters
  - Scenarios
+
+###################################################
+
+php artisan make:controller SceneActorConsultationController --resource
+php artisan make:model  SceneActorConsultation --migration
+php artisan make:model  SceneActorConsultationAttachment --migration
+
+ADD CONSULTATION TO SCENE ACTOR
+(without import from template)

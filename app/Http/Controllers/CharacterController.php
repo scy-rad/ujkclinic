@@ -172,7 +172,7 @@ class CharacterController extends Controller
       {
         case 'consultation_template':
           $request->validate([
-            'sct_type_details' => 'required',
+            'sct_name' => 'required',
             'sct_seconds_description' => 'required',
             // 'sct_verbal_attach' => 'required',
             'sct_description' => 'required',

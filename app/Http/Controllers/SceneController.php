@@ -6,6 +6,7 @@ use App\Models\Character;
 use App\Models\Scenario;
 use App\Models\SceneMaster;
 use App\Models\SceneActor;
+use App\Models\SceneActorConsultation;
 use App\Models\SceneActorLabOrder;
 use App\Models\SceneActorLabOrderTemplate;
 use App\Models\SceneActorLabResultTemplate;
@@ -13,6 +14,7 @@ use App\Models\ScenePersonel;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 
 class SceneController extends Controller
@@ -195,9 +197,19 @@ class SceneController extends Controller
         case 'relative_time':
           $ret = SceneMaster::select('scene_date','scene_relative_date','scene_relative_id','scene_step_minutes')->where('id',$request->idvalue)->first();
           if (!(is_null($ret)))
+            {
             $ret = $ret->toArray();
-          $ret['diff_sec'] = (strtotime($ret['scene_date']) - strtotime($ret['scene_relative_date']));
-          $ret = ['success' => 'Dane raczej pobrane prawidłowo :) .','scene_data' => $ret];
+
+            if ($ret['scene_relative_date']==null)
+              $ret['diff_sec'] = strtotime($ret['scene_date']);
+            else
+              $ret['diff_sec'] = (strtotime($ret['scene_date']) - strtotime($ret['scene_relative_date']));
+            $ret = ['success' => 'Dane raczej pobrane prawidłowo :) .','scene_data' => $ret];
+            }
+          else
+            {
+            Log::info('SceneController -> get_scene_ajax -> relative_time:  SOMETHING WRONG ACTION : ['.$request->idvalue.'].');
+            }
         break;
         
         case 'character':
@@ -219,6 +231,10 @@ class SceneController extends Controller
 
         case 'lab_order':
           $ret=['body' => SceneActorLabOrder::create_order_form($request->idvalue) ];
+          break;
+
+        case 'consultation':
+          $ret=['body' => SceneActorConsultation::create_consultation_form($request->idvalue) ];
           break;
 
         case 'order_from_template':
@@ -278,6 +294,23 @@ class SceneController extends Controller
           else
             return back()->withErrors('Aktualizacja wyników badań nie powiodła się...');    
         break;
+        case 'consultation':
+        case 'consultation_time':
+        case 'consultation_feel_time':
+        case 'consultation_current_time':
+        case 'consultation_file_save':
+        case 'consultation_fdescript_save':
+        case 'inc_delete':
+
+          // Log::info('Pułapka SceneController what  : ['.$request->what.'].');
+          if (Auth::user()->hasRoleCode('technicians'))
+          {
+            SceneActorConsultation::update_consultation_form($request);
+            return back()->with('success', 'Powinno się udać...');
+          }
+          else
+            return back()->withErrors('Aktualizacja wyników badań nie powiodła się...');    
+        break;
         case 'personel':
           if (Auth::user()->hasRoleCode('technicians'))
           {
@@ -288,7 +321,7 @@ class SceneController extends Controller
             return back()->withErrors('Aktualizacja personelu nie powiodła się...');    
         break;
         default:
-          dd('something wrong in updateajax Scene Controller function..: '.$request->what);
+          Log::info('something wrong in updateajax Scene Controller function.. - what = ['.$request->what.'].');
       }
 
       

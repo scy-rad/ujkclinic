@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
           LaboratoryNormsSeeder::class,
 
           ScenarioTypesSeeder::class,
-          ScenarioConsultationTemplateTypesSeeder::class,
+          ConsultationTypesSeeder::class,
           CharacterTypesSeeder::class,
           CharacterRolePlansSeeder::class,
           CharacterNamesSeeder::class,

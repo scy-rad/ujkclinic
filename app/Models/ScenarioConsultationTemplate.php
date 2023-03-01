@@ -9,8 +9,7 @@ class ScenarioConsultationTemplate extends Model
 {
   protected $fillable = [
     'character_id',
-    'sctt_id',
-    'sct_type_details',
+    'sct_name',
     'sct_minutes_before',
     'sct_seconds_description',
     'sct_verbal_attach',
@@ -19,10 +18,6 @@ class ScenarioConsultationTemplate extends Model
 
     use HasFactory;
   
-  public function consultation_type()
-  {
-    return $this->hasOne(ScenarioConsultationTemplateType::class, 'id', 'sctt_id');
-  }
   public function consultation_attachments()
   {
     return $this->hasMany(ScenarioConsultationTemplateAttachment::class);
