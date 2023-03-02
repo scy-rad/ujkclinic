@@ -206,3 +206,5 @@ php artisan make:model  SceneActorConsultationAttachment --migration
 
 ADD CONSULTATION TO SCENE ACTOR
 (without import from template)
+
+Hide Scene info (show Show button)

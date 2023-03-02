@@ -9,6 +9,8 @@ use App\Models\Scenario;
 use App\Models\Character;
 use App\Models\LabOrderTemplate;
 use App\Models\LabResultTemplate;
+use App\Models\ScenarioConsultationTemplate;
+use App\Models\ScenarioConsultationTemplateAttachment;
 use Illuminate\Support\Facades\Schema;
 
 class ScenariosSeeder extends Seeder
@@ -22,6 +24,8 @@ class ScenariosSeeder extends Seeder
     {
 
       Schema::disableForeignKeyConstraints();
+      ScenarioConsultationTemplateAttachment::truncate();
+      ScenarioConsultationTemplate::truncate();
       LabResultTemplate::truncate();
       LabOrderTemplate::truncate();
       Character::truncate();
@@ -95,11 +99,8 @@ class ScenariosSeeder extends Seeder
       $lr_template->lrt_sort    = 2;
       $lr_template->save();
 
-     
-      
 
-
-      add_test_result($lr_template->id,'RBC','33','','',1,1);
+add_test_result($lr_template->id,'RBC','33','','',1,1);
 add_test_result($lr_template->id,'RTC','700','','',1,1);
 add_test_result($lr_template->id,'MCV','730','','',1,1);
 add_test_result($lr_template->id,'MCH','240','','',1,1);
@@ -175,11 +176,6 @@ add_test_result($lr_template->id,'CK','201','','',1,1);
 
 
 
-
-
-
-
-
 add_test_result($lr_template->id,'pH (BOM)','55','','',1,1);
 add_test_result($lr_template->id,'ciężar_właściwy','1030','','',1,1);
 add_test_result($lr_template->id,'kolor','0','żółty','',1,1);
@@ -188,10 +184,6 @@ add_test_result($lr_template->id,'glukoza (BOM)','0','nieobecna','',1,1);
 add_test_result($lr_template->id,'ketony','0','nieobecne','',1,1);
 add_test_result($lr_template->id,'bilirubina','0','nieobecna','',1,1);
 add_test_result($lr_template->id,'urobilinogen','10','','',1,1);
-
-
-
-
 
 
 
@@ -220,9 +212,69 @@ add_test_result($lr_template->id,'AMYLAZA','270','','',1,1);
 add_test_result($lr_template->id,'CK','201','','',1,1);
 
 
+$sc_template = new ScenarioConsultationTemplate();
+$sc_template->character_id    = $character->id;
+$sc_template->sct_name = 'szablon wyników rtg klatki piersiowej';
+$sc_template->sct_seconds_description = 60*9+22;  //9 minut i 22 sekundy
+$sc_template->sct_verbal_attach    = 'Nic niepokojącego tu nie widać, ale to jeszcze musi lekarz to sprawdzić i opisać';
+$sc_template->sct_description    = 'Obraz płuc prawidłowy. W okolicy kręgu L5 widoczne niewielkie zacienienie, mogące sugerować obecność obcej masy litej. Wskazana dalsza diagnostyka.';
+$sc_template->save();
 
+$sct_attachment = new ScenarioConsultationTemplateAttachment();
+$sct_attachment->sct_id = $sc_template->id;
+$sct_attachment->scta_file = '/storage/simulations/character/rtg_001.jpg';
+$sct_attachment->scta_type = 'img';
+$sct_attachment->scta_name = 'RTG klatki piersiowej';
+$sct_attachment->scta_seconds_attachments = 0;
+$sct_attachment->save();
 
+$sc_template = new ScenarioConsultationTemplate();
+$sc_template->character_id    = $character->id;
+$sc_template->sct_name = 'szablon wyników rtg dłoni';
+$sc_template->sct_seconds_description = 60*10+2;  //10 minut i 2 sekundy
+$sc_template->sct_verbal_attach    = 'Ręce jak ręce - obie i to do pary';
+$sc_template->sct_description    = 'Na pierwszy rzut oka wydawać by się mogło, że obraz jest prawidłowy (bo tak jest), ale moje wprawne oko stwierdza, że do pracy to są to dwie lewe ręce.';
+$sc_template->save();
 
+$sct_attachment = new ScenarioConsultationTemplateAttachment();
+$sct_attachment->sct_id = $sc_template->id;
+$sct_attachment->scta_file = '/storage/simulations/character/rtg_002.jpg';
+$sct_attachment->scta_type = 'img';
+$sct_attachment->scta_name = 'RTG klatki piersiowej';
+$sct_attachment->scta_seconds_attachments = 0;
+$sct_attachment->save();
+
+$sc_template = new ScenarioConsultationTemplate();
+$sc_template->character_id    = $character->id;
+$sc_template->sct_name = 'szablon wyników USG jamy brzusznej';
+$sc_template->sct_seconds_description = 60*8+12;  //8 minut i 12 sekundy
+$sc_template->sct_verbal_attach    = 'Dokor musi to ocenić';
+$sc_template->sct_description    = 'Galia est omnis divisa in partes tres. Quarum unam incolunt Belgae aliam Aquitani.';
+$sc_template->save();
+
+$sct_attachment = new ScenarioConsultationTemplateAttachment();
+$sct_attachment->sct_id = $sc_template->id;
+$sct_attachment->scta_file = '/storage/simulations/character/usg_001.jpg';
+$sct_attachment->scta_type = 'img';
+$sct_attachment->scta_name = '';
+$sct_attachment->scta_seconds_attachments = 0;
+$sct_attachment->save();
+
+$sct_attachment = new ScenarioConsultationTemplateAttachment();
+$sct_attachment->sct_id = $sc_template->id;
+$sct_attachment->scta_file = '/storage/simulations/character/usg_002.jpg';
+$sct_attachment->scta_type = 'img';
+$sct_attachment->scta_name = '';
+$sct_attachment->scta_seconds_attachments = 0;
+$sct_attachment->save();
+
+$sct_attachment = new ScenarioConsultationTemplateAttachment();
+$sct_attachment->sct_id = $sc_template->id;
+$sct_attachment->scta_file = '/storage/simulations/character/usg_003.jpg';
+$sct_attachment->scta_type = 'img';
+$sct_attachment->scta_name = '';
+$sct_attachment->scta_seconds_attachments = 0;
+$sct_attachment->save();
 
 
       $scenario = new Scenario();

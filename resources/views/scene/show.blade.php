@@ -14,7 +14,7 @@
 @include('layouts.success_error')
 
 <!-- clock code part I -->
-<div class="row">
+<div class="row mb-2">
   <div class="col-2">
     <div class="bg-primary btn w-100 text-center text-truncate" disabled id="zegar">
       {{date("Y-m-d",strtotime($scene->scene_date))}}
@@ -44,7 +44,11 @@
 
 
 
-<div class="card mb-3">
+<div id="card_menu" class="card mb-2"
+  @if ($scene->scene_relative_date != null) 
+    style="display: none;"
+  @endif
+>
     <div class="card-header">
         <ul class="nav nav-pills card-header-pills">
             <li class="nav-item">
@@ -60,8 +64,10 @@
                 <a href="#admin" class="nav-link" data-bs-toggle="tab">Administracja</a>
             </li>
             @endif
-            <li class="nav-item">
-                <a href="#nothing" class="nav-link" data-bs-toggle="tab">Zwiń</a>
+            <li>
+              
+                <span class="nav-link btn btn-outline-primary btn-sm col-12 ms-2" onClick="javascript:ShowHide('#card_menu_button','#card_menu')"> <i class="bi bi-hospital"></i> ukryj</span>
+
             </li>
         </ul>
     </div>
@@ -132,9 +138,6 @@
             </div>
             @endif
             
-            <div class="tab-pane fade" id="nothing">
-            </div>
-
         </div>
     </div>
 </div> <!-- end of info cards -->
@@ -144,9 +147,14 @@
 <div class="row">
   <div class="col-4"><div class="row">
     <div class="col-6">
+      <button id="card_menu_button" class="btn btn-outline-success btn-sm col-12 mb-2" onClick="javascript:ShowHide('#card_menu','#card_menu_button')"
+      @if ($scene->scene_relative_date == null) 
+                  style="display: none;"
+                @endif
+      > <i class="bi bi-hospital"></i> info</button>
       @foreach ($scene_actors as $sa_one)
         @if ((Auth::user()->hasRoleCode('technicians')) || (!is_null($sa_one->sa_incoming_date)))
-          <div class="card mb-3">
+          <div class="card mb-2">
             <div class="card-header">
               <i class="bi bi-file-person"></i>
               {{$sa_one->sa_name}}
@@ -170,7 +178,7 @@
 
   @if (Auth::user()->hasRoleCode('technicians'))
     <div class="col-6">
-      <div class="card">
+      <div class="card mb-2">
         <div class="card-header">
         <i class="bi bi-eyedropper"></i> 
         Badania Laboratoryjne
@@ -234,6 +242,13 @@
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
+<script>
+  function ShowHide(x_show,x_hide)
+  {
+    $(x_show).show();
+    $(x_hide).hide();
+  }
+</script>
 
 @if (Auth::user()->hasRoleCode('technicians'))
 
