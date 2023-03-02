@@ -271,7 +271,7 @@ class SceneActorLabOrder extends Model
       }
     $ret.='</select>';
 
-    $ret.='<button class="btn btn-outline-secondary" type="button" id="button-feel" onClick="javascript:fill_results()">zastosuj</button>
+    $ret.='<button class="btn btn-outline-secondary" type="button" id="button-fill" onClick="javascript:fill_results()">zastosuj</button>
       </div>';
     $ret.='<form action="'.route('scene.update_scene_ajax').'" method="post" enctype="multipart/form-data">';
     $ret.='<input type="hidden" name="what" value="order">';

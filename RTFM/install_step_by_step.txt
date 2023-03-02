@@ -208,3 +208,7 @@ ADD CONSULTATION TO SCENE ACTOR
 (without import from template)
 
 Hide Scene info (show Show button)
+
+Add import consultation from template
+
+###################################################

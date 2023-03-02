@@ -21,7 +21,7 @@ return new class extends Migration
           $table->string('saca_file');
           $table->string('saca_type')->default('typ');
           $table->string('saca_name')->default('')->nullable();
-          $table->dateTime('saca_date');
+          $table->dateTime('saca_date')->nullable();
           $table->timestamps();
       });
       Schema::table('scene_actor_consultation_attachments', function (Blueprint $table) {

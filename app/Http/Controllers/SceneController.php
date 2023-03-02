@@ -296,11 +296,12 @@ class SceneController extends Controller
         break;
         case 'consultation':
         case 'consultation_time':
-        case 'consultation_feel_time':
+        case 'consultation_fill_time':
         case 'consultation_current_time':
         case 'consultation_file_save':
         case 'consultation_fdescript_save':
         case 'inc_delete':
+        case 'consultation_from_template':
 
           // Log::info('Pułapka SceneController what  : ['.$request->what.'].');
           if (Auth::user()->hasRoleCode('technicians'))

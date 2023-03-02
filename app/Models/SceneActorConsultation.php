@@ -36,6 +36,10 @@ public static function create_consultation_form($id_order)
 
     $ret.='<div class="row mb-3"><!-- row 1 -->';
     $ret.='<div class="col-8">';
+    // $ret.='<form action="'.route('scene.update_scene_ajax').'" method="post" enctype="multipart/form-data">';
+    $ret.=csrf_field();
+    $ret.='<input type="hidden" name="consultation_id" value="'.$consultation->id.'">';
+    $ret.='<input type="hidden" name="what" value="consultation_from_template">';
     $ret.=' <div class="input-group">';
     $ret.='<select id="template_id" class="form-select">'; 
             foreach ($scene_actor->character_template->consultation_templates as $template_one)
@@ -44,8 +48,9 @@ public static function create_consultation_form($id_order)
               $ret.='>'.$template_one->sct_name.'</option>';
             }
     $ret.='</select>
-            <button class="btn btn-outline-secondary" type="button" id="button-feel" onClick="javascript:fill_results()">wypełnij</button>
+            <button class="btn btn-outline-secondary" type="button" onClick="javascript:from_template()">wypełnij</button>
             </div>';
+    // $ret.='</form>';
     $ret.='</div>';
     $ret.='<div class="col-2">
           <button class="btn btn-outline-primary col-12" type="button" onClick="javascript:showTimeEditModal()">edytuj czasy</button>
@@ -57,7 +62,7 @@ public static function create_consultation_form($id_order)
       $ret.=csrf_field();
       $ret.='<input type="hidden" name="consultation_id" id="consultation_id" value="'.$consultation->id.'">';
       $ret.='<input type="hidden" name="scene_actor_id" id="scene_actor_id" value="'.$scene_actor->id.'">';
-      $ret.='<input type="hidden" name="what" value="consultation_feel_time">';
+      $ret.='<input type="hidden" name="what" value="consultation_fill_time">';
       $ret.='<button type="submit" class="btn btn-outline-success btn-submit col-12">wykonaj/ opisz</button>';
       $ret.='</form>';
       $ret.='</div>';
@@ -276,34 +281,7 @@ public static function create_consultation_form($id_order)
 
     $ret.='
     <script>
-    function fill_results()
-    {
-      var e = document.getElementById("template_id");
-      var template_id = e.value;
-      var text = e.options[e.selectedIndex].text;
-      var order_id = document.getElementById("order_id").value;
-      $.ajax({
-        type:"GET",
-        url:"'.route('scene.get_scene_ajax').'",
-        data:{template_id:template_id,what:"order_from_template",order_id:order_id},
-        success:function(data){
-          if($.isEmptyObject(data.error))
-          {
-            for (var row_one of data.body) 
-              {
-                document.getElementById("lt-"+row_one.laboratory_test_id).value=row_one.salr_result_dec*1;
-                document.getElementById("ltadd-"+row_one.laboratory_test_id).value=row_one.salr_addedtext;
-                document.getElementById("lttxt-"+row_one.laboratory_test_id).value=row_one.salr_resulttxt;
-                $("#lttyp-"+row_one.laboratory_test_id).val(row_one.salr_type);
-              }
-            }
-            else
-            {
-              printErrorMsg(data.error);
-            }
-          }
-        });
-    }
+
     function showTimeEditModal()
     {
       $(\'#ConsultationTimeEditModal\').modal(\'show\');
@@ -459,7 +437,32 @@ public static function create_consultation_form($id_order)
       }
     }
   
-      
+
+    
+    function from_template()
+    {
+        $.ajax({
+            type:\'POST\',
+            url:"'.route('scene.update_scene_ajax').'",
+            data:{
+                  what: \'consultation_from_template\',
+                  template_id: $(\'#template_id\').find(":selected").val(),
+                  consultation_id: '.$consultation->id.',
+                },
+            success:function(data){
+              // if(data.code==1)
+              //   {
+              //     fill_extra_body('.$consultation->id.',\'consultation\');
+              //   }
+              // else
+              //   {
+              //     alert(\'coś poszło nie tak z usuwaniem...\');
+              //   }
+              fill_extra_body('.$consultation->id.',\'consultation\');
+            }
+        });
+    }
+
     </script>
     
 
@@ -522,7 +525,7 @@ public static function create_consultation_form($id_order)
         
         return response()->json($ret);
       break;
-      case 'consultation_feel_time':
+      case 'consultation_fill_time':
   
         $tab=SceneActorConsultation::where('id',$request->consultation_id)->first();
         if ($tab->sac_date_visit == null)
@@ -616,6 +619,39 @@ public static function create_consultation_form($id_order)
           return ['code' => 0, 'success' => 'Dane załącznika NIE zmienione :( .'];
         
       break;
+
+      case 'consultation_from_template':
+
+        $from_fill = ScenarioConsultationTemplate::where('id',$request->template_id)->first();
+        $to_fill = SceneActorConsultation::where('id',$request->consultation_id)->first();
+        $to_fill->sac_verbal_attach = $from_fill->sct_verbal_attach;
+        $to_fill->sac_description   = $from_fill->sct_description;
+        if ($to_fill->sac_date_visit!=null)
+          $to_fill->sac_date_descript  = date('Y-m-d H:i:s',strtotime($to_fill->sac_date_visit.' + '.$from_fill->sct_seconds_description.' seconds'));
+        $to_fill->save();
+
+        SceneActorConsultationAttachment::where('sac_id',$request->consultation_id)->delete();
+        
+
+        $attach_from = ScenarioConsultationTemplateAttachment::where('sct_id',$request->template_id)->get();
+        
+        foreach ($attach_from as $attach_one)
+        {
+        $attach_to=new SceneActorConsultationAttachment();
+        $attach_to->sac_id = $to_fill->id;
+        $attach_to->saca_file = $attach_one->scta_file;
+        $attach_to->saca_name = $attach_one->scta_name;
+
+        if ($attach_to->saca_date == null)
+          $attach_to->saca_date=date('Y-m-d H:i:s',strtotime($to_fill->sac_date_visit.' + '.$attach_one->scta_seconds_attachment.' seconds'));
+        
+        $attach_to->save();
+    
+        }
+
+        return ['code' => 0, 'success' => 'Dane przepisane z szablonu (chyba)... .'];
+
+       break;
 
       default:
         dd($request);
