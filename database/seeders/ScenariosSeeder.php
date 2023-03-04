@@ -450,6 +450,70 @@ $sct_attachment->save();
       // ####################################################################################
 
       $scenario = new Scenario();
+      // $scenario->scenario_author_id = null;
+      $scenario->scenario_author_id = \App\Models\User::where('name','instruktor')->first()->id;
+      $scenario->center_id        =  \App\Models\Center::where('center_short','Lek')->first()->id;
+      $scenario->scenario_type_id =  \App\Models\ScenarioType::where('short','sym')->first()->id;
+      $scenario->scene_type_id    =  $medical_center_scene;
+      $scenario->scenario_name  = 'InsulinoODporność';
+      $scenario->scenario_code  = 'KP-RODZ-01';
+      $scenario->scenario_main_problem = 'Otyłość spowodowana inulinoopornością';
+      $scenario->scenario_description = '<p>Wizyta lekarska w POZ</p>';
+      $scenario->scenario_for_students = '<p>Jesteś internistą w Przychodni POZ</p>';
+      $scenario->scenario_for_leader  = '<p><strong>Istotne kwestie do omówienia w debriefingu:</strong>
+        Czym jest i czym nie jest insulinooporność, jak wygląda OGTT i do czego służy, do czego służy HOMA-IR, czy powinno się leczyć insulinooporność poza PCOS, kiedy PCOS szukać, jak leczyć ewentualnie, jak zachęcać do MSŻ.</p> 
+        <p><strong>Rzetelny artykuł:</strong> <a href="https://www.mp.pl/endokrynologia/ekspert/288739,insulinoopornosc-jako-pseudochoroba-powszechny-problem-w-gabinecie-diabetologa-i-endokrynologa,1">https://www.mp.pl/endokrynologia/ekspert/288739,insulinoopornosc-jako-pseudochoroba-powszechny-problem-w-gabinecie-diabetologa-i-endokrynologa,1</a>';
+      $scenario->scenario_helpers_for_students= '';
+      $scenario->scenario_logs_for_students   = '';
+      $scenario->scenario_status	= 1;
+      $scenario->save();
+
+      $character = new Character();
+      $character->scenario_id         = $scenario->id; //\App\Models\Scenario::where('scenario_code','PIEL-INT-PED-01')->first()->id;
+      $character->character_incoming_recalculate      = 0;
+      $character->character_age_from      = 33;
+      $character->character_age_to        = 39;
+      $character->character_age_interval  = 1;  // 1 - lata,  2 - miesiąca, 3 - tygodnie, 4 - dni,  5 - godziny,  6 - minuty
+      $character->character_sex           = 3;  // 1 - nieistotna,  2 - mężczyzna,  3 - kobieta
+      $character->character_role_plan_id  = \App\Models\CharacterRolePlan::where('short','pierwszoplanowa')->first()->id;
+      $character->character_role_name     = 'kobieta z insulinoopornością';
+      $character->character_type_id       = \App\Models\CharacterType::where('short','PAC STAND')->first()->id;
+      $character->history_for_actor   = '<p><strong>Główna dolegliwość:</strong> Zgłaszasz się, przejęta, do gabinetu lekarza rodzinnego, po tym jak na własną rękę (twój pomysł ginekolog określił jako bardzo dobry) wykonałaś sobie test tolerancji glukozy („krzywą cukrową i insulinową”) z oznaczeniami insuliny – wynik masz przy sobie. Sprawdzałaś już w internecie, konsultowałaś się z ginekologiem i rozpoznanie jest jedno – ciężka insulinoODporność (profesjonalnie ten stan nazywa się insulinoopornością, ale pacjentka, jaką chcę tutaj przedstawić celowo powinna to słowo przekręcać). Jesteś bardzo przejęta tym wynikiem, uważasz, że w końcu znalazłaś przyczynę, która nie pozwala Ci schudnąć (ważne!).</p>
+      <p><strong>Styl życia i otyłość:</strong> W swoim życiu kilkukrotnie próbowałaś chudnąć, z niewielkimi efektami. Obecna waga mieści się w kryterium nadwagi/otyłości I stopnia. Nie palisz i nigdy nie paliłaś. Alkohol pijesz sporadycznie. Nie uprawiasz żadnego sportu – jedynie spacery, zakupy, itp.</p>
+      <p><strong>Ginekologicznie:</strong> Rodziłaś 2x, masz dwójkę zdrowych dzieci, córkę 5 lat i syna 9 lat. Cykle są regularne, miesiączki umiarkowanie bolesne. W USG przezpochwowym ginekolog nie stwierdził odchyleń.</p>
+      <p><strong>Przewlekle:</strong> Nie leczysz się na stałe, okresowo bierzesz suplementy takie jak Novophane na włosy, selen, cynk, witamina D.</p>
+      <p><strong>W badaniu:</strong> Bez istotnych odchyleń, prócz nadwagi/otyłości (jakoś to zrobimy).</p>
+      <p><strong>Nastawienie:</strong> Jesteś przekonana, o tym, że insulinoodporność to poważna choroba. Jeśli student będzie zaczynał temat modyfikacji stylu życia jesteś niechętna „bo już tyle razy próbowałam, człowiek z dwójką dzieci, gdzie ja czas znajdę”. Nalegasz na wypisanie „jakichś tabletek”. Jeśli student jasno uargumentuje co to za choroba, że jest skutkiem otyłości a nie przyczyną, powoli zaczynasz się przekonywać do proponowanego leczenia.</p>';
+      $character->character_simulation = "Wskazana nadwaga/otyłość pacjenta";
+      $character->character_status = 1;
+      $character->save();	
+
+      $lr_template = new LabOrderTemplate();
+      $lr_template->character_id    = $character->id;
+      $lr_template->description_for_leader = 'wyniki badań sprzed 5 dni';
+      $lr_template->lrt_minutes_before = 5*60*24-66;  //24 godziny wczesniej bez 66 minut
+      $lr_template->lrt_type    = 1;
+      $lr_template->lrt_sort    = 1;
+      $lr_template->save();
+
+      add_test_result($lr_template->id,'Hb',113,'','',1,1);
+      add_test_result($lr_template->id,'HCT',38,'','',1,1);
+      add_test_result($lr_template->id,'RBC',49,'','',1,1);
+      add_test_result($lr_template->id,'MCV',72,'','',1,1);
+      add_test_result($lr_template->id,'MCH',39,'','',1,1);
+      add_test_result($lr_template->id,'Szybki',312,'','',1,1);
+      add_test_result($lr_template->id,'Średni',150,'','',1,1);
+      add_test_result($lr_template->id,'Wolny',150,'','',1,1);
+      add_test_result($lr_template->id,'Opis',null,'zielony','',1,1);
+      add_test_result($lr_template->id,'Minus',-21,'','',1,1);
+
+      // ####################################################################################
+
+
+
+      // ####################################################################################
+
+      $scenario = new Scenario();
       $scenario->scenario_author_id = null;
       // $scenario->scenario_author_id = \App\Models\User::where('name','instruktor')->first()->id;
       $character->character_incoming_recalculate      = 0;
