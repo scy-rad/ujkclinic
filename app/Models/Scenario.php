@@ -13,6 +13,7 @@ class Scenario extends Model
       'scenario_author_id',
       'center_id',
       'scenario_type_id',
+      'scene_type_id',
       'scenario_name',
       'scenario_code',
       'scenario_main_problem',
@@ -30,9 +31,13 @@ class Scenario extends Model
   {
     return $this->hasOne(Center::class, 'id', 'center_id');
   }
-  public function type()
+  public function scenario_type()
   {
     return $this->hasOne(ScenarioType::class, 'id', 'scenario_type_id');
+  }
+  public function scene_type()
+  {
+    return $this->hasOne(SceneType::class, 'id', 'scene_type_id');
   }
   public function characters() {
       return $this->hasMany(Character::class);

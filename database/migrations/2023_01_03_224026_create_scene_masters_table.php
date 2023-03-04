@@ -22,6 +22,7 @@ return new class extends Migration
         Schema::create('scene_masters', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('scenario_id')->nullable();
+            $table->unsignedBigInteger('scene_type_id');
             $table->unsignedBigInteger('scene_owner_id');
             $table->string('scene_code');
             $table->string('scene_name');
@@ -45,6 +46,11 @@ return new class extends Migration
               ->on('scenarios');
         });
         Schema::table('scene_masters', function (Blueprint $table) {
+          $table->foreign('scene_type_id')
+              ->references('id')
+              ->on('scene_types');
+        });
+        Schema::table('scene_masters', function (Blueprint $table) {
           $table->foreign('scene_owner_id')
               ->references('id')
               ->on('users');
@@ -60,6 +66,9 @@ return new class extends Migration
     {
       Schema::table('scene_masters', function (Blueprint $table) {
         $table->dropForeign(['scenario_id']);
+        });
+      Schema::table('scene_masters', function (Blueprint $table) {
+        $table->dropForeign(['scene_type_id']);
         });
       Schema::table('scene_masters', function (Blueprint $table) {
         $table->dropForeign(['scene_owner_id']);

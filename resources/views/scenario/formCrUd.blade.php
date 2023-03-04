@@ -56,6 +56,17 @@
 
   <div class="col-xs-12 col-sm-12 col-md-12">
     <div class="form-group">
+      <label for="scene_type_id">Miejsce scenariusza:</label><br>
+        <select class="form-select" id="scene_type_id" name="scene_type_id">
+          @foreach (App\Models\SceneType::all() as $row_one)
+            <option value="{{$row_one->id}}" @isset($scenario) @if ($row_one->id==$scenario->scene_type_id) selected="selected" @endif @endisset> {{$row_one->scene_type_name}} </option>
+          @endforeach
+        </select>      
+    </div>
+  </div>
+
+  <div class="col-xs-12 col-sm-12 col-md-12">
+    <div class="form-group">
       <label for="scenario_main_problem">Główny problem:</label><br>
       <input type="text" name="scenario_main_problem" value="@isset($scenario){{$scenario->scenario_main_problem}}@endisset" class="form-control" placeholder="Główny problem">
       @error('scenario_main_problem')

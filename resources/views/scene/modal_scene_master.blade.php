@@ -56,6 +56,15 @@
                   <option value="4" @if ($scene->scene_status==4) checked="checked" @endif>zakończona</option>
                 </select>
               </div>
+              <div class="col-12">
+              <label for="scene_type_id" class="form-label">miejsce sceny:</label>
+                <select name="scene_type_id" class="form-select">
+                  @foreach (App\Models\SceneType::all() as $row_one)
+                    <option value="{{$row_one->id}}" @if ($row_one->id==$scene->scene_type_id) selected="selected" @endif> {{$row_one->scene_type_name}} </option>
+                  @endforeach
+                </select>
+              </div>
+
             </div>
 
             <div class="row mb-3">

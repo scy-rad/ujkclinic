@@ -212,3 +212,5 @@ Hide Scene info (show Show button)
 Add import consultation from template
 
 ###################################################
+
+Add a scene template selection as a Scenario and Scene parameter

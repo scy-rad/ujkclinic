@@ -32,8 +32,8 @@
           <p><label>scenariusz dla kierunku:</label><br>
                 {{$scenario->center->center_direct}}
           </p>
-          <p><label>typ scenariusza:</label><br>
-                {{$scenario->type->name}}
+          <p><label>miejsce i typ scenariusza:</label><br>
+                {{$scenario->scene_type->scene_type_name}} / {{$scenario->scenario_type->name}}
           </p>
           <p><label>główny problem:</label><br>
                 {!!$scenario->scenario_main_problem!!}
@@ -135,6 +135,7 @@
 <?php
  $scene= new App\Models\SceneMaster();
  $scene->scenario_id=$scenario->id;
+ $scene->scene_type_id=$scenario->scene_type_id;
  $scene->scene_scenario_description=$scenario->scenario_description;
  $scene->scene_scenario_for_students=$scenario->scenario_for_students;
  $scene->scene_date=date("Y-m-d H:i");

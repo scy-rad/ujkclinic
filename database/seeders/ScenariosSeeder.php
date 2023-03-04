@@ -11,6 +11,7 @@ use App\Models\LabOrderTemplate;
 use App\Models\LabResultTemplate;
 use App\Models\ScenarioConsultationTemplate;
 use App\Models\ScenarioConsultationTemplateAttachment;
+use App\Models\SceneType;
 use Illuminate\Support\Facades\Schema;
 
 class ScenariosSeeder extends Seeder
@@ -46,7 +47,9 @@ class ScenariosSeeder extends Seeder
         return $lr_t_result->id;
       }
 
-      
+     
+      $hospital_scene = SceneType::where('scene_type_code','hospital')->first()->id;
+      $medical_center_scene = SceneType::where('scene_type_code','medical_center')->first()->id;
       
 
       $scenario = new Scenario();
@@ -54,6 +57,7 @@ class ScenariosSeeder extends Seeder
       $scenario->scenario_author_id = \App\Models\User::where('name','instruktor')->first()->id;
       $scenario->center_id        =  \App\Models\Center::where('center_short','Piel')->first()->id;
       $scenario->scenario_type_id =  \App\Models\ScenarioType::where('short','sym')->first()->id;
+      $scenario->scene_type_id    =  $hospital_scene;
       $scenario->scenario_name  = 'niedokrwistość';
       $scenario->scenario_code  = 'ZK-HEM-01';
       $scenario->scenario_main_problem = '';
@@ -282,6 +286,7 @@ $sct_attachment->save();
       $scenario->scenario_author_id = \App\Models\User::where('name','instruktor')->first()->id;
       $scenario->center_id        =  \App\Models\Center::where('center_short','Piel')->first()->id;
       $scenario->scenario_type_id =  \App\Models\ScenarioType::where('short','sym')->first()->id;
+      $scenario->scene_type_id    =  $hospital_scene;
       $scenario->scenario_name  = 'scenariusz testowy pierwszy';
       $scenario->scenario_code  = 'PIEL-INT-PED-01';
       $scenario->scenario_main_problem = 'Oddział pediatryczny';
@@ -450,6 +455,7 @@ $sct_attachment->save();
       $character->character_incoming_recalculate      = 0;
       $scenario->center_id        =  \App\Models\Center::where('center_short','Lek')->first()->id;
       $scenario->scenario_type_id =  \App\Models\ScenarioType::where('short','sym')->first()->id;
+      $scenario->scene_type_id    =  $hospital_scene;
       $scenario->scenario_name  = 'scenariusz testowy drugi';
       $scenario->scenario_code  = 'LEK-INT-PED-01';
       $scenario->scenario_main_problem = 'złamanie otwarte nogi, wstrząśnienie mózgu';

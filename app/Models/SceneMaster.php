@@ -8,6 +8,7 @@ class SceneMaster extends Model
 {
   protected $fillable = [
     'scenario_id',
+    'scene_type_id',
     'scene_owner_id',
     'scene_code',
     'scene_name',
@@ -32,6 +33,10 @@ class SceneMaster extends Model
   public function owner()
   {
     return $this->hasOne(User::class, 'id', 'scene_owner_id');
+  }
+  public function scene_type()
+  {
+    return $this->hasOne(SceneType::class, 'id', 'scene_type_id');
   }
   public function actors() 
   {

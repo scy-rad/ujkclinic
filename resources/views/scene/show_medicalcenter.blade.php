@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('module_info')
-<i class="bi bi-badge-8k"></i> Scene -> show <span class="text-danger">in progress...</span>
+<i class="bi bi-badge-8k"></i> Scene -> show <strong>Medical Center</strong> <span class="text-danger">in progress...</span>
 @endsection
 
 @section('add_styles')
@@ -88,6 +88,7 @@
               <label>scenario_author_id:</label> {{$base_scenario->scenario_author_id}}<br>
               <label>center_id:</label> {{$base_scenario->center_id}}<br>
               <label>scenario_type_id:</label> {{$base_scenario->scenario_type_id}}<br>
+              <label>scene_type_id:</label> {{$base_scenario->scene_type_id}}<br>
               <label>scenario_name:</label> {{$base_scenario->scenario_name}}<br>
               <label>scenario_code:</label> {{$base_scenario->scenario_code}}<br>
               <label>scenario_main_problem:</label> {{$base_scenario->scenario_main_problem}}<br>
@@ -106,6 +107,7 @@
                   <p><label>data początku:</label> {{$scene->scene_date}}<br>
                   <label>status:</label> {{$scene->status_name()}}<br>
                   <label>reżyser sceny:</label> {{$scene->owner->name}}<br>
+                  <label>miejsce sceny:</label> {{$scene->scene_type->scene_type_name}}<br>
                   </p>
                 </div>
                 <div class="col-6">
