@@ -136,7 +136,7 @@ class SceneController extends Controller
       $ret['scene_actors']=SceneActor::where('scene_master_id',$id)->get();
       $ret['free_personels']=ScenePersonel::free_personel($ret['scene']);
 
-      return view($ret['scene']->scene_type->scene_type_blade,$ret);
+      return view('scene.'.$ret['scene']->scene_type->scene_type_blade,$ret);
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MedicalForm;
+use App\Models\MedicalFormType;
 use App\Models\SceneActor;
 use App\Models\SceneActorLabOrder;
 use Illuminate\Http\Request;
@@ -51,7 +53,7 @@ class SceneActorController extends Controller
     {
       $ret['sceneactor']=SceneActor::where('id',$id)->first();
       $ret['diff_sec'] = (strtotime($ret['sceneactor']->scene->scene_date) - strtotime($ret['sceneactor']->scene->scene_relative_date));
-      return view('sceneactor.show',$ret);
+      return view('sceneactor.'.$ret['sceneactor']->scene->scene_type->scene_type_blade,$ret);
     }
 
     /**
@@ -140,6 +142,68 @@ dd('nic');
       return Redirect::route('scene.show',$request->scene_master_id);
     }
 
+
+    public function medical_form_get_ajax(Request $request)
+    {
+      if ((!Auth::user()->hasRoleCode('technicians'))
+      )
+      return response()->json('błąd wywołania funkcji medical_form_get_ajax kontrolera Character. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+
+      $curr_sceneactor=SceneActor::where('id',$request->scene_actor_id)->first();
+
+      if ($request->show_edit == 'edit')
+        {
+          $curr_form=new MedicalForm();
+          $curr_form_type=MedicalFormType::where('id',$request->medical_form_type_id)->first();
+
+          $curr_form->mf_date_1 = 'data bieżąca...';
+
+          $ret_form= file_get_contents('../resources/views/medicalforms/'.$curr_form_type->mft_edit_skeleton);
+
+        }
+      else
+        {
+          $curr_form=MedicalForm::where('id',$request->medical_form_id)->first();
+          $curr_form_type=$curr_form->form_type;
+
+          $ret_form= file_get_contents('../resources/views/medicalforms/'.$curr_form_type->mft_show_skeleton);
+        }
+
+        $ret_form=str_replace('#mf_date_1#',$curr_form->mf_date_1,$ret_form);
+        $ret_form=str_replace('#mf_string_1#',$curr_form->mf_string_1,$ret_form);
+        $ret_form=str_replace('#mf_text_1#',$curr_form->mf_text_1,$ret_form);
+        
+
+      $ret['head'] = $curr_form_type->form_familly->mff_name.' '.$curr_form_type->mft_name;
+
+      $ret = ['success' => 'Dane raczej pobrane prawidłowo :) .', 'ret_form' => $ret_form, 'ret_data' => $ret];
+
+      return response()->json($ret);
+    }
+
+
+    public function medical_form_save_ajax(Request $request)
+    {
+      if ((!Auth::user()->hasRoleCode('technicians'))
+      )
+      return back()->withErrors('błąd wywołania funkcji character_scene_ajax_update kontrolera Scene. Aby wykonać to działanie musisz być KIMŚ INNYM, niestety... :)');
+
+      if ($request->id > 0)
+      {
+        $medicalform=MedicalForm::where('id',$request->id)->first();
+        $medicalform->fill($request->post())->save();  
+        \Illuminate\Support\Facades\Session::flash('success', 'Medical Form has been updated probably successfully :) ');    
+      }
+      else
+      {
+        $request->merge(['mf_date_1' => SceneActor::where('id',$request->scene_actor_id)->first()->scene->scene_current_time()]);
+
+        MedicalForm::create($request->post());
+        \Illuminate\Support\Facades\Session::flash('success', 'Medical Form has been created probably successfully :) ');
+      }
+      
+      return back()->with('success', 'Medical Form zapisany poprawnie.');
+    }
 
 
 }

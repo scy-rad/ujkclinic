@@ -20,7 +20,7 @@ class SceneTypesSeeder extends Seeder
         $scetype->id = 1; 
         $scetype->scene_type_code = "hospital";
         $scetype->scene_type_name = "szpital";
-        $scetype->scene_type_blade = "scene.show_hospital";
+        $scetype->scene_type_blade = "show_hospital";
         $scetype->scene_type_descript = "Symulacja oddziału szpitalnego";
         $scetype->save();
 
@@ -28,7 +28,7 @@ class SceneTypesSeeder extends Seeder
         $scetype->id = 2; 
         $scetype->scene_type_code = "medical_center";
         $scetype->scene_type_name = "przychodnia";
-        $scetype->scene_type_blade = "scene.show_medicalcenter";
+        $scetype->scene_type_blade = "show_medicalcenter";
         $scetype->scene_type_descript = "Symulacja przychodni lekarskiej";
         $scetype->save();
 

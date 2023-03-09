@@ -43,22 +43,21 @@ Route::resource('/scene', App\Http\Controllers\SceneController::class);
 Route::resource('/sceneactor', App\Http\Controllers\SceneActorController::class);
 Route::resource('/salaborder', App\Http\Controllers\SceneActorLabOrderController::class);
 
-
-
 Route::post('/update_character_ajax', [App\Http\Controllers\CharacterController::class, 'scenario_character_save_ajax'])->name('character.scenario_character_save_ajax');
 Route::get('/get_character_ajax', [App\Http\Controllers\CharacterController::class, 'scenario_character_get_ajax'])->name('character.scenario_character_get_ajax');
 
 Route::get('/get_consultation_ajax', [App\Http\Controllers\SceneActorConsultationController::class, 'consultation_get_ajax'])->name('sceneactorconsultation.consultation_get_ajax');
 Route::post('/update_consultation_ajax', [App\Http\Controllers\SceneActorConsultationController::class, 'consultation_save_ajax'])->name('sceneactorconsultation.consultation_save_ajax');
 
-
 Route::get('/scenegetajax', [App\Http\Controllers\SceneController::class, 'get_scene_ajax'])->name('scene.get_scene_ajax');
 Route::post('/sceneupdateajax', [App\Http\Controllers\SceneController::class, 'update_scene_ajax'])->name('scene.update_scene_ajax');
 
 Route::post('/sceneactorsave', [App\Http\Controllers\SceneActorController::class, 'character_scene_save_ajax'])->name('sceneactor.scene_actor_save_ajax');
 
-Route::get('/saloajax', [App\Http\Controllers\SceneActorLabOrderController::class, 'get_salo_ajax'])->name('salaborder.get_salo_ajax');
+Route::get('/medicalformget',   [App\Http\Controllers\SceneActorController::class,  'medical_form_get_ajax'])->name('sceneactor.medical_form_get_ajax');
+Route::post('/medicalformsave', [App\Http\Controllers\SceneActorController::class, 'medical_form_save_ajax'])->name('sceneactor.medical_form_save_ajax');
 
+Route::get('/saloajax', [App\Http\Controllers\SceneActorLabOrderController::class, 'get_salo_ajax'])->name('salaborder.get_salo_ajax');
 
 Route::get('/laboratorynorms', [App\Http\Controllers\LaboratoryNormController::class, 'index'])->name('laboratorynorms.index');
 Route::get('/laboratorynormajx', [App\Http\Controllers\LaboratoryNormController::class, 'get_laboratory_normm_ajax'])->name('laboratorynorms.get_laboratory_normm_ajax');

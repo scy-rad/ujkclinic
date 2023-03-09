@@ -180,61 +180,25 @@
 
   @if (Auth::user()->hasRoleCode('technicians'))
     <div class="col-6">
+      @foreach (\App\Models\MedicalFormFamilly::all() as $mff_one)
       <div class="card mb-2">
-        <div class="card-header">
+        <div class="card-header" onClick="javascript:ShowHideDiv('TYP_{{$mff_one->mff_code}}','.hide_type')">
         <i class="bi bi-eyedropper"></i> 
-        Badania Laboratoryjne
+        {{$mff_one->mff_name}}
         </div>
+        <div class="hide_type" style="display: none" id="TYP_{{$mff_one->mff_code}}">
           <ul>
-            @foreach($scene->laboratory_orders as $lab_order)
-            <li onClick="javascript:fill_extra_body({{$lab_order->id}},'lab_order')">{{$lab_order->scene_actor->sa_name}}: ({{$lab_order->id}}) {{$lab_order->salo_date_order}}</li>
-              @if (is_null($lab_order->salo_date_take))
-                <i class="bi bi-bookmark"></i>
-              @endif
-              @if (is_null($lab_order->salo_date_delivery))
-                <i class="bi bi-bookmark"></i>
-              @endif
-              @if (is_null($lab_order->salo_date_accept))
-                <i class="bi bi-bookmark"></i>
-              @else
-                @if ($lab_order->salo_date_accept>$scene->scene_current_time())
-                  <i class="bi bi-bookmark-fill text-warning"></i>
-                @else
-                  <i class="bi bi-bookmark-fill text-success"></i>
-                @endif
-              @endif
+            @foreach($mff_one->form_types as $mft_one)
+            <li >{{$mft_one->mft_short}}</li>
             @endforeach
           </ul>
-        <div class="card-footer">
         </div>
-      </div> <!-- card lab orders -->
-      <div class="card">
-        <div class="card-header">
-        <i class="bi bi-eyedropper"></i> 
-        Konsultacje
-        </div>
-          <ul>
-            @foreach($scene->consultations as $cons_one)
-            <li onClick="javascript:fill_extra_body({{$cons_one->id}},'consultation')">{{$cons_one->scene_actor->sa_name}}: {{$cons_one->consultation_type->cont_name}} {{$cons_one->sac_type_details}} ({{$cons_one->id}}) {{$cons_one->sac_date_order}}</li>
-              @if (is_null($cons_one->sac_date_visit))
-                <i class="bi bi-bookmark"></i>
-              @endif
-              @if (is_null($cons_one->sac_date_descript))
-                <i class="bi bi-bookmark"></i>
-              @else
-                @if ($cons_one->sac_date_descript>$scene->scene_current_time())
-                  <i class="bi bi-bookmark-fill text-warning"></i>
-                @else
-                  <i class="bi bi-bookmark-fill text-success"></i>
-                @endif
-              @endif
-            @endforeach
-          </ul>
-        <div class="card-footer">
-        </div>
-      </div> <!-- card Consultation -->
+      </div> <!-- card -->
+      @endforeach
+
     </div>  <!-- col-6 -->
-  </div></div>
+  </div>
+</div>
     <div id="extra_body" class="col-8 border border-2 rounded">
 
   @endif
@@ -243,6 +207,18 @@
 
 
 <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+<script>
+  function ShowHideDiv(x_div,x_class)
+  {
+    for (let el of document.querySelectorAll(x_class)) el.style.display = 'none';
+    document.getElementById(x_div).style = 'display: block';
+    // elx = document.getElementById(x_div);
+    // elx.style = 'display: block';
+    
+
+  };
+</script>
 
 <script>
   function ShowHide(x_show,x_hide)

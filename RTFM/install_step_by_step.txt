@@ -214,3 +214,11 @@ Add import consultation from template
 ###################################################
 
 Add a scene template selection as a Scenario and Scene parameter
+
+Add Medical Forms for Medical Center Scene (begining...):
+
+php artisan make:model  MedicalFormFamilly --migration
+php artisan make:model  MedicalFormType --migration
+php artisan make:model  MedicalFormForCharacter --migration
+php artisan make:model  MedicalForm --migration
+php artisan make:controller MedicalFormController --resource

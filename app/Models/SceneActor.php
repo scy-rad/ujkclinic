@@ -48,6 +48,10 @@ class SceneActor extends Model
   {
     return $this->hasMany(SceneActorConsultation::class);
   }
+  public function scene_actor_forms() 
+  {
+    return $this->hasMany(MedicalForm::class);
+  }
 
 
   public function sex_name()
