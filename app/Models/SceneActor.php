@@ -48,12 +48,23 @@ class SceneActor extends Model
   {
     return $this->hasMany(SceneActorConsultation::class);
   }
+  public function mc_visit_cards() 
+  {
+    return $this->hasMany(MedicalCenterVisitCard::class);
+  }
   public function scene_actor_forms() 
   {
     return $this->hasMany(MedicalForm::class);
   }
 
-
+  public function mc_visit_time()
+  {
+    if ($this->mc_visit_cards->count() == 0)
+      return '';
+    else
+      $return = $this->mc_visit_cards->last()->mcvc_begin;
+    return $return;
+  }
   public function sex_name()
   {
     switch ($this->sa_sex)

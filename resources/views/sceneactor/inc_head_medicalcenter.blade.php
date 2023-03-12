@@ -12,7 +12,9 @@
     @endif
   </div>
   <div class="col-3">
-  
+    <div class="bg-info btn w-100 h-100 text-center text-truncate" disabled id="stopwatch">
+      <span >odliczanie <br>zatrzymane</span>
+    </div>
   </div>
   <div class="col-3">
       <a class="text-decoration-none" href="{{ route('scene.show',$sceneactor->scene->id) }}">
