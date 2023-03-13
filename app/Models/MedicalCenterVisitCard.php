@@ -14,7 +14,7 @@ class MedicalCenterVisitCard extends Model
     'mcvc_medical_orders',
     'mcvc_comments'];
 
-  public function SceneActor()
+  public function scene_actor()
   {
     return $this->hasOne(SceneActor::class, 'id', 'scene_actor_id');
   }

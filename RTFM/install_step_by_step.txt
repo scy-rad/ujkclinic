@@ -230,3 +230,5 @@ php artisan make:model  MedicalCenterVisitCard --migration
 Add possibility closing medical visit
 
 Change assignment medical forms from Scene Actor to Medical Visit
+
+Add history of visits in Medical Center

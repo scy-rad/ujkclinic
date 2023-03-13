@@ -78,7 +78,7 @@ class SceneActorController extends Controller
             $ret['mcvc_id']=$ret['sceneactor']->mc_visit_cards->last()->id; // make active last visit
           }
           $ret['visit_card']=MedicalCenterVisitCard::where('id',$ret['mcvc_id'])->first();
-          
+
         }
       }
 
@@ -225,6 +225,28 @@ dd('nic');
 
           break;
 
+        case 'get_history':
+          $visit_card=MedicalCenterVisitCard::where('id',$request->visit_id)->first();
+          
+          $ret['head'] = 'historia...';
+          $ret_txt = 'get historical visit cards done';
+          $ret_form='<h1>get_history</h1>';
+
+          $ret_form='<div class="col-12 border border-2 rounded text-center btn-outline-success mt-3"
+                        onClick="javascript:showMedicalFormDiv(\'show_visit\','.$request->visit_id.',0,0)">
+                        przebieg wizyty <br>'.$visit_card->mcvc_begin.'
+                      </div>
+                      <div class="col-12 border border-2 rounded mt-3">
+                        <ul>';
+          foreach ($visit_card->medical_forms as $form_one)
+            $ret_form.='<li onClick="javascript:showMedicalFormDiv(\'show_form\','.$request->visit_id.','.$form_one->id.','.$form_one->medical_form_type_id.')">'.$form_one->form_type->form_familly->mff_name.'
+                  '.$form_one->form_type->mft_name.'
+                  </li>';
+            $ret_form.='</ul>
+                  </div>';
+
+          break;
+
         case 'show_form':
           $curr_form=MedicalForm::where('id',$request->medical_form_id)->first();
           $curr_form_type=$curr_form->form_type;
@@ -290,7 +312,7 @@ dd('nic');
           $visit->mcvc_end = SceneActor::where('id',$request->scene_actor_id)->first()->scene->scene_current_time();
           $visit->save();
           $ret_txt = 'Zamknięto wizytę.';
-          
+          return Redirect::route('scene.show',$visit->scene_actor->scene_master_id);
           break;
 
         case 'edit_visit':
