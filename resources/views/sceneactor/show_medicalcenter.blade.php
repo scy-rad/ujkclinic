@@ -38,12 +38,14 @@
     </div>
     <div class="col-12 border border-2 rounded mt-3">
       <ul>
-        @foreach ($sceneactor->scene_actor_forms as $form_one)
+        @if (!(is_null($visit_card)))
+        @foreach ($visit_card->medical_forms as $form_one)
           <li onClick="javascript:showMedicalFormDiv('show_form',{{$form_one->id}},{{$form_one->medical_form_type_id}})">{{$form_one->form_type->form_familly->mff_name}}
               {{$form_one->form_type->mft_name}}
               <!-- {{$form_one->mf_string_1}} -->
           </li>
         @endforeach
+        @endif
       </ul>
     </div>
   </div>
@@ -115,7 +117,7 @@
     });
 </script>
 
-@else
+@endif
 
 @include('sceneactor.inc_modal_medical_center_form')
 
@@ -221,6 +223,5 @@
   });
 </script> 
 
-@endif
 
 @endsection

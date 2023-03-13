@@ -62,6 +62,7 @@ class SceneActorController extends Controller
           $ret['view_action']='start_visit_required';
           // $ret['view_action']='start_visit_optional';
           $ret['mcvc_id']="0";
+          $ret['visit_card']=null;
         }
         else
         {
@@ -72,9 +73,12 @@ class SceneActorController extends Controller
           }
           else
           {
-            $ret['view_action']='visit_ending';
+            // $ret['view_action']='visit_ending';
+            $ret['view_action']='start_visit_optional';
             $ret['mcvc_id']=$ret['sceneactor']->mc_visit_cards->last()->id; // make active last visit
           }
+          $ret['visit_card']=MedicalCenterVisitCard::where('id',$ret['mcvc_id'])->first();
+          
         }
       }
 
@@ -300,12 +304,15 @@ dd('nic');
           if ($request->id > 0)
           {
             $medicalform=MedicalForm::where('id',$request->id)->first();
+            $request->merge(['medical_center_visit_card_id' => $request->mcvc_id]);
+
             $medicalform->fill($request->post())->save();  
             $ret_txt = 'Medical Form has been updated probably successfully :) ';    
           }
           else
           {
             $request->merge(['mf_date_1' => SceneActor::where('id',$request->scene_actor_id)->first()->scene->scene_current_time()]);
+            $request->merge(['medical_center_visit_card_id' => $request->mcvc_id]);
 
             MedicalForm::create($request->post());
             $ret_txt = 'Medical Form has been created probably successfully :) ';

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('medical_forms', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('scene_actor_id');
+            $table->unsignedBigInteger('medical_center_visit_card_id');
             $table->unsignedBigInteger('medical_form_type_id');
             $table->dateTime('mf_date_1');
             $table->dateTime('mf_date_2')->nullable();
@@ -35,9 +35,9 @@ return new class extends Migration
             $table->timestamps();
         });
         Schema::table('medical_forms', function (Blueprint $table) {
-          $table->foreign('scene_actor_id')
+          $table->foreign('medical_center_visit_card_id')
               ->references('id')
-              ->on('scene_actors');
+              ->on('medical_center_visit_cards');
         });
         Schema::table('medical_forms', function (Blueprint $table) {
           $table->foreign('medical_form_type_id')
@@ -57,7 +57,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('medical_forms', function (Blueprint $table) {
-          $table->dropForeign(['scene_actor_id']);
+          $table->dropForeign(['medical_center_visit_card_id']);
           });
         Schema::table('medical_forms', function (Blueprint $table) {
           $table->dropForeign(['medical_form_type_id']);

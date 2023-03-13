@@ -228,3 +228,5 @@ Change JavaScript clock for Medical Center Scene
 php artisan make:model  MedicalCenterVisitCard --migration
 
 Add possibility closing medical visit
+
+Change assignment medical forms from Scene Actor to Medical Visit

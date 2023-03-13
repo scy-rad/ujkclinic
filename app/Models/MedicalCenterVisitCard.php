@@ -18,4 +18,8 @@ class MedicalCenterVisitCard extends Model
   {
     return $this->hasOne(SceneActor::class, 'id', 'scene_actor_id');
   }
+  public function medical_forms() 
+  {
+    return $this->hasMany(MedicalForm::class);
+  }
 }

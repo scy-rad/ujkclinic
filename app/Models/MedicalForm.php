@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class MedicalForm extends Model
 {
     protected $fillable = [
-      'scene_actor_id',
+      'medical_center_visit_card_id',
       'medical_form_type_id',
       'mf_date_1',
       'mf_date_2',
@@ -29,5 +29,10 @@ class MedicalForm extends Model
     public function form_type()
     {
       return $this->hasOne(MedicalFormType::class, 'id', 'medical_form_type_id');
+    }
+    
+    public function visit_card()
+    {
+      return $this->hasOne(MedicalCenterVisitCard::class, 'id', 'medical_center_visit_card_id');
     }
 }

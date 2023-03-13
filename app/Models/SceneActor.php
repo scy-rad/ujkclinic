@@ -52,10 +52,7 @@ class SceneActor extends Model
   {
     return $this->hasMany(MedicalCenterVisitCard::class);
   }
-  public function scene_actor_forms() 
-  {
-    return $this->hasMany(MedicalForm::class);
-  }
+
 
   public function mc_visit_time()
   {
